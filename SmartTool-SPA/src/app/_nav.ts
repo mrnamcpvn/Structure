@@ -12,10 +12,10 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Theme'
+    name: 'XuanTung'
   },
   {
-    name: 'Colors',
+    name: 'ColorTung',
     url: '/theme/colors',
     icon: 'icon-drop'
   },
