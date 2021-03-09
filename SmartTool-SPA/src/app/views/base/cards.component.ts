@@ -7,7 +7,5 @@ export class CardsComponent {
 
   constructor() { }
 
-  tung(){
-
-  }
+  ngOnInit() {}
 }

@@ -1,3 +1,4 @@
+import { MaintainModule } from './views/maintain/maintain.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -81,6 +82,10 @@ export const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
+      },
+      {
+        path: 'maintain',
+        loadChildren: () => import('./views/maintain/maintain.module').then(m => m.MaintainModule)
       }
     ]
   },
