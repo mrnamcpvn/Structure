@@ -7,6 +7,7 @@ namespace SmartTool_API.Data
     public class DataContext : DbContext
     {
         public DbSet<Model> Models { get; set; }
+        public DbSet<Defect_Reason> Defect_Reason { get; set; }
         public DbSet<Model_Operation> Model_Operations { get; set; }
         public DbSet<Kaizen> Kaizen { get; set; }
         public DbSet<Measurement_RFT> Measurement_RFT { get; set; }
