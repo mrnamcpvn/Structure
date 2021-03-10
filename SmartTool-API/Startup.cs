@@ -34,6 +34,8 @@ namespace SmartTool_API
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString(factoryConnection)));
             services.AddDbContext<SHCDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SHCConnection")));
 
+            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
