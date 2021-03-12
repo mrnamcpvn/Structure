@@ -4,27 +4,19 @@ import { ModelOperationAddComponent } from './model-operation/model-operation-ad
 import { ModelOperationRoutingModule } from './model-operation/model-operation-routing.module';
 import { ModelOperationModule } from './model-operation/model-operation.module';
 import { MaintainRoutingModule } from './maintain-routing.module';
-import { EditComponent } from './model/edit/edit.component';
-import { AddComponent } from './model/add/add.component';
-import { ModelListComponent } from './model/model-list/model-list.component';
 import { ModelModule } from './model/model.module';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     ModelModule,
     MaintainRoutingModule,
     ModelOperationModule,
-    ModelOperationRoutingModule
+    ModelOperationRoutingModule,
+    HttpClientModule
   ],
-  declarations: [
-    ModelListComponent,
-    AddComponent,
-    EditComponent,
-    ModelOperationAddComponent,
-    ModelOperationEditComponent,
-    ModelOperationListComponent
-  ]
+  declarations: [  ]
 })
 export class MaintainModule {}
 

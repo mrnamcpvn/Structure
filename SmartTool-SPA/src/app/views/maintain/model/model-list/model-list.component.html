@@ -55,11 +55,38 @@
                   <th>Volume Percent</th>
                 </tr>
               </thead>
+              <tbody>
+                <ng-container *ngIf="noData">
+                  <tr>
+                    <td colspan="9">
+                      <!-- <alert class="text-center" type='danger'>
+                        <strong>No Data matching!</strong>
+                      </alert> -->
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tbody>
+                <tr *ngFor="let item of models; let i = index">
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm ml-4" (click)="updateModel(item.model_no)" ><i
+                      class="fa fa-edit fa-lg"></i></button>
+                  </td>
+                  <td>{{item.model_no}}</td>
+                  <td>{{item.model_name}}</td>
+                  <td>{{item.upper_id}}</td>
+                  <td>{{item.model_type_id}}</td>
+                  <td>{{item.dev_season}}</td>
+                  <td>{{item.prod_season}}</td>
+                  <td>{{item.volume}}</td>
+                  <td>{{item.volume_percent}}</td>
+                </tr>
+              </tbody>
             </table>
             <div class="d-flex">
-              <pagination>
+              <!-- <pagination>
 
-              </pagination>
+              </pagination> -->
           </div>
           </div>
         </div>
