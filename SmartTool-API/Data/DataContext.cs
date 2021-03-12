@@ -1,21 +1,22 @@
-
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using SmartTool_API.Models;
 
 namespace SmartTool_API.Data
 {
     public class DataContext : DbContext
     {
+        public DataContext(DbContextOptions options) : base(options) { }
         public DbSet<Model> Models { get; set; }
-        public DbSet<Defect_Reason> Defect_Reason { get; set; }
         public DbSet<Model_Operation> Model_Operations { get; set; }
-        public DbSet<Kaizen> Kaizen { get; set; }
-        public DbSet<Measurement_RFT> Measurement_RFT { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder){
-            modelBuilder.Entity<Model>().HasKey(x => new { x.factory_id, x.model_no });
-            modelBuilder.Entity<Model_Operation>().HasKey(x => new { x.factory_id, x.model_no, x.stage_id, x.operation_id });
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Model>().HasKey(x => new { x.factory_id, x.model_no });
+            builder.Entity<Model_Operation>().HasKey(x => new { x.factory_id, x.model_no, x.stage_id, x.operation_id });
         }
     }
 }

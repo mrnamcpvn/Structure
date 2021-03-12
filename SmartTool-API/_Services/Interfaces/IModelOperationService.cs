@@ -4,21 +4,8 @@ using SmartTool_API.Helpers;
 
 namespace SmartTool_API._Services.Interfaces
 {
-    public interface IModelOperationService
+    public interface IModelOperationService : IMainService<ModelOperationDTO>
     {
-         Task<PagedList<ModelOperationDTO>> SearchModelOperation(PaginationParams param, ModelOperationParam modelParam);
-   
-         Task<bool> Add(ModelOperationDTO model); 
-
-         Task<bool> Update(ModelOperationDTO model);
-
-         Task<bool> Delete(ModelOperationDTO operation);
-
-         Task<ModelOperationDTO> GetModelOperation(ModelOperationEditParam modelOperationEditParam);
-
-         Task<object> GetAllProcessType();
-
-         Task<bool> CheckExistKaizenAndRTF(ModelOperationDTO operation);
-
+        
     }
 }

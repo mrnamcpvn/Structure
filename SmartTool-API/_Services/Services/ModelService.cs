@@ -6,7 +6,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
@@ -17,24 +16,79 @@ namespace SmartTool_API._Services.Services
 {
     public class ModelService : IModelService
     {
-        private readonly IModelRepository _repo;
-
-        private readonly IModelTypeRepository _repoModelType;
+        private readonly IModelRepository _modelRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private OperationResult operationResult;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
 
-        private string factory;
-        public ModelService(IModelRepository repo, 
-                            IMapper mapper,
-                            MapperConfiguration configMapper,
-                            IModelTypeRepository repoModelType,
-                            IConfiguration configuration)
+        public ModelService(IModelRepository modelRepository, IUnitOfWork unitOfWork, IMapper mapper, MapperConfiguration configMapper)
         {
-            _configMapper = configMapper;
+            _modelRepository = modelRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _repo = repo;
-            _repoModelType = repoModelType;
-            factory = configuration.GetSection("AppSettings:Factory").Value;
+            _configMapper = configMapper;
+        }
+        public async Task<List<ModelDTO>> GetAllAsync()
+        {
+            return await _modelRepository.FindAll().ProjectTo<ModelDTO>(_configMapper).ToListAsync();
+        }
+
+        public async Task<OperationResult> AddAsync(ModelDTO model)
+        {
+            var item = _mapper.Map<Model>(model);
+            try
+            {
+                await _modelRepository.AddAsync(item);
+                await _modelRepository.SaveAll();
+
+                // await _unitOfWork.SaveChangeAsync();
+
+                operationResult = new OperationResult() { Caption = "Success", Message = "Save Complete", Success = true, Data = item };
+            }
+            catch (Exception ex)
+            {
+                operationResult = new OperationResult() { Caption = "Failed", Message = ex.Message.ToString(), Success = false };
+            }
+
+            return operationResult;
+        }
+        public ModelDTO GetById(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Pager> PaginationAsync(ParamaterPagination paramater)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Update(ModelDTO model)
+        {
+            var modelUp = _mapper.Map<Model>(model);
+            _modelRepository.Update(modelUp);
+            return await _modelRepository.SaveAll();
+        }
+
+        public Task<bool> Delete(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PagedList<ModelDTO>> GetWithPagination(PaginationParams param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PagedList<ModelDTO>> Search(PaginationParams param, object text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ModelDTO> GetByFactoryAndModelNo(string facID, string modelNo)
+        {
+            var model =  _mapper.Map<Model, ModelDTO>(await _modelRepository.GetByFactoryAndModelNo(facID,modelNo));
+             return model;
         }
 
         public async Task<PagedList<ModelDTO>> SearchModel(PaginationParams param, ModelParam modelParam)
@@ -50,62 +104,15 @@ namespace SmartTool_API._Services.Services
 			if(!String.IsNullOrEmpty(modelParam.model_search)) {
 				pred_Model.And(x => x.model_no.Contains(modelParam.model_search) || x.model_name.Contains(modelParam.model_search));
 			}
-            var list = _repo.FindAll(pred_Model).ProjectTo<ModelDTO>(_configMapper).OrderByDescending(x => x.prod_season);
+            var list = _modelRepository.FindAll(pred_Model).ProjectTo<ModelDTO>(_configMapper).OrderByDescending(x => x.prod_season);
 			return await PagedList<ModelDTO>.CreateAsync(list, param.PageNumber, param.PageSize);
         }
-        public async Task<bool> Add(ModelDTO model)
-        {
-             var models = _mapper.Map<Model>(model);
-             models.create_time = DateTime.Now;
-            _repo.Add(models);
-            return await _repo.SaveAll();
-        }
 
-        public async Task<object> GetModelType()
+        public async Task<bool> Delete(ModelOperationDTO operation)
         {
-            return await _repoModelType.FindAll(x => x.factory_id.Trim() == factory && x.is_active == true)
-            .GroupBy(x => new { x.model_type_id, x.model_type_name })
-            .Select(x => new {Id = x.Key.model_type_id, Name = x.Key.model_type_name}).ToListAsync();
+                var modelOperation = _mapper.Map<Model_Operation>(operation);
+                _modelRepository.Remove(modelOperation);
+                return await _modelRepository.SaveAll();
         }
-
-        public Task<bool> Delete(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<ModelDTO>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ModelDTO GetById(object id)
-        {
-             var model =  _mapper.Map<Model, ModelDTO>(_repo.FindById(id));
-             return model;
-        }
-
-        public Task<PagedList<ModelDTO>> GetWithPagination(PaginationParams param)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PagedList<ModelDTO>> Search(PaginationParams param, object text)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> Update(ModelDTO model)
-        {
-            var modelUp = _mapper.Map<Model>(model);
-            _repo.Update(modelUp);
-            return await _repo.SaveAll();
-        }
-
-        public async Task<ModelDTO> GetByFactoryAndModelNo(string facID, string modelNo)
-        {
-            var model =  _mapper.Map<Model, ModelDTO>(await _repo.GetByFactoryAndModelNo(facID,modelNo));
-             return model;
-        }
-
     }
 }

@@ -9,7 +9,7 @@ using SmartTool_API.Models;
 
 namespace SmartTool_API._Repositories.Repositories
 {
-    public class ModelOperationRepository : MainRepository<Model_Operation>, IModelOperationRepository
+    public class ModelOperationRepository : MainRepository<Model_Operation, int>, IModelOperationRepository
     {
         private readonly DataContext _context;
         public ModelOperationRepository(DataContext context, IConfiguration configuration) : base(context, configuration)

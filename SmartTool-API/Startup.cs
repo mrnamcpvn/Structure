@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Repositories.Repositories;
 using SmartTool_API._Services.Interfaces;
@@ -41,8 +42,8 @@ namespace SmartTool_API
         {
             services.AddCors();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString(factoryConnection)));
-            services.AddDbContext<SHCDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SHCConnection")));
-            services.AddControllers().AddNewtonsoftJson();
+            // services.AddDbContext<SHCDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SHCConnection")));
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             //Auto Mapper
             services.AddAutoMapper(typeof(Startup));
@@ -67,21 +68,13 @@ namespace SmartTool_API
                 });
 
             // Repository
-            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
-            services.AddScoped<IKaizenRepository, KaizenRepository>();
-            services.AddScoped<IMeasurement_RFTRepository, Measurement_RFTRepository>();
             services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
-            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
-            services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
-            services.AddScoped<IStageRepository, StageRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Service
-            // services.AddScoped<IDefectReasonService, DefectReasonService>();
-            services.AddScoped<IKaizenService, KaizenService>();
             services.AddScoped<IModelService, ModelService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
-            // services.AddScoped<IRFTReportService, RFTReportService>();
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -109,7 +102,7 @@ namespace SmartTool_API
                     });
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

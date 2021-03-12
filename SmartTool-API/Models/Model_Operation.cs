@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
+    [Table("Model_Operation")]
     public class Model_Operation
     {
         [Key][Column(Order=0)]

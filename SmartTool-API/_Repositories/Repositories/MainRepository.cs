@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Data;
+using SmartTool_API.Helpers;
 
 namespace SmartTool_API._Repositories.Repositories
 {
-    public class MainRepository<T> : IMainRepository<T> where T : class
+    public class MainRepository<T, K> : IMainRepository<T, K> where T : class
     {
         public string DataSearch;
         private readonly DataContext _context;
@@ -19,10 +20,16 @@ namespace SmartTool_API._Repositories.Repositories
             _context = context;
             _configuration = configuration;
         }
-        public void Add(T entity){
-            DataSearch = _configuration.GetSection("AppSettings:DataSearch").Value;
+        public void Add(T entity)
+        {
             _context.Add(entity);
         }
+
+        public async Task AddAsync(T entity)
+        {
+            await _context.AddAsync(entity);
+        }
+
         public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
         {
              DataSearch = _configuration.GetSection("AppSettings:DataSearch").Value;
@@ -101,5 +108,7 @@ namespace SmartTool_API._Repositories.Repositories
         {
            _context.UpdateRange(entities);
         }
+
+        
     }
 }
