@@ -27,16 +27,16 @@
                 </select>
               </div>
               <div class="col-md-4">
-                <button type="button" class="btn  btn-secondary float-left mr-2 mt-1 "><i class="fa fa-search"></i>
+                <button type="button" class="btn  btn-secondary float-left mr-2 mt-1 " (click)="search()"><i class="fa fa-search"></i>
                   Search</button>
-                  <button type="button" class="btn  btn-danger float-left mt-1"><i class="fa fa-ban"></i>
+                  <button type="button" class="btn  btn-danger float-left mt-1" (click)="clear()"><i class="fa fa-ban"></i>
                     Clear</button>
               </div>
           </div>
         </div>
         <div class="card-body">
           <div class="add-new">
-            <button type="button" class="btn  btn-primary float-left mb-2" (Click)="addModel()">
+            <button type="button" class="btn  btn-primary float-left mb-2" (click)="addModel()">
               <i class="fa fa-plus"></i> Add new
             </button>
           </div>
@@ -59,9 +59,9 @@
                 <ng-container *ngIf="noData">
                   <tr>
                     <td colspan="9">
-                      <!-- <alert class="text-center" type='danger'>
+                      <alert class="text-center" type='danger'>
                         <strong>No Data matching!</strong>
-                      </alert> -->
+                      </alert>
                     </td>
                   </tr>
                 </ng-container>
@@ -84,8 +84,9 @@
               </tbody>
             </table>
             <div class="d-flex">
-              <!-- <pagination>
-
+              <!-- <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
+              [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
               </pagination> -->
           </div>
           </div>

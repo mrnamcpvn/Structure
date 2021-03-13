@@ -21,7 +21,7 @@ export class ModelService {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    let url = this.baseUrl + 'model/model-list';
+    const url = this.baseUrl + 'model/model-list';
     return this.http.post<any>(url, modelParam, { observe: 'response', params })
       .pipe(
         map(response => {
@@ -34,8 +34,12 @@ export class ModelService {
       );
   }
 
+  getAllModelType() {
+    return this.http.get<any>(this.baseUrl + 'model/model-type', {});
+  }
+
   GetAllAsync() {
-    return this.http.get<any>(this.baseUrl + 'model/model-list', {});
+    return this.http.post<any>(this.baseUrl + 'Model/model-list', {});
   }
 
   AddAsync(model: Model) {

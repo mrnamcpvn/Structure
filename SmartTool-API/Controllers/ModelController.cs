@@ -11,6 +11,8 @@ using SmartTool_API.Helpers;
 
 namespace SmartTool_API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ModelController : ControllerBase
     {
         private readonly IModelService _modelService;

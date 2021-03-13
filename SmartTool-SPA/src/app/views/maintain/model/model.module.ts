@@ -6,6 +6,9 @@ import { ModelListComponent } from './model-list/model-list.component';
 import { ModelRoutingModule } from './model-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelect2Module } from 'ng-select2';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -15,6 +18,11 @@ import { CommonModule } from '@angular/common';
     ModelRoutingModule,
     HttpClientModule,
     PaginationModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+    PaginationModule,
+    NgxSpinnerModule,
+     NgSelect2Module
   ],
   declarations: [
     AddComponent,

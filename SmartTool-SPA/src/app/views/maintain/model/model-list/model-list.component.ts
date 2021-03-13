@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select2OptionData } from 'ng-select2';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Model } from '../../../../_core/_models/model';
 import { PaginatedResult, Pagination } from '../../../../_core/_models/pagination';
 import { AlertifyService } from '../../../../_core/_services/alertify.service';
@@ -32,16 +33,21 @@ export class ModelListComponent implements OnInit {
     private modelService: ModelService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data) => {
-      this.models = data['models'].result;
-      this.pagination = data['models'].pagination;
+      this.spinner.show();
+      this.modelService.GetAllAsync().subscribe(res => {
+        this.spinner.hide();
+        this.models = res;
+        this.pagination = res.pagination;
     });
+    this.spinner.hide();
   }
 
   loadData() {
+    this.spinner.show();
     this.noData = false;
     this.paramSearch.model_search = this.paramSearch.model_search.toUpperCase();
     this.modelService
@@ -54,9 +60,10 @@ export class ModelListComponent implements OnInit {
         (res: PaginatedResult<Model[]>) => {
           this.models = res.result;
           this.pagination = res.pagination;
-          if (this.models.length == 0) {
+          if (this.models.length = 0) {
             this.noData = true;
           }
+          this.spinner.hide();
         },
         (error) => {
           this.alertify.error('List Model failed loading data');
@@ -65,8 +72,10 @@ export class ModelListComponent implements OnInit {
   }
 
   search() {
+    this.spinner.show();
     this.pagination.currentPage = 1;
     this.loadData();
+    this.spinner.hide();
   }
 
   clear() {

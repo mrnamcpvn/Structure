@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
@@ -29,6 +30,7 @@ namespace SmartTool_API._Services.Services
             _mapper = mapper;
             _configMapper = configMapper;
         }
+
         public async Task<List<ModelDTO>> GetAllAsync()
         {
             return await _modelRepository.FindAll().ProjectTo<ModelDTO>(_configMapper).ToListAsync();
