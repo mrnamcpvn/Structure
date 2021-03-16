@@ -16,7 +16,7 @@ namespace SmartTool_API._Repositories.Interfaces
 
         IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
 
-        // void Add(T entity);
+        void Add(T entity);
         Task AddAsync(T entity);
 
         void Update(T entity);

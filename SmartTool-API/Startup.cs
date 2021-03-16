@@ -71,6 +71,7 @@ namespace SmartTool_API
             services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
 
             // Service
             services.AddScoped<IModelService, ModelService>();

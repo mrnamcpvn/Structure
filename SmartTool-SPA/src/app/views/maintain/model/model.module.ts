@@ -22,7 +22,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     PaginationModule,
     NgxSpinnerModule,
-     NgSelect2Module
+    NgSelect2Module,
   ],
   declarations: [
     AddComponent,

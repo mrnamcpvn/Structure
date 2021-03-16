@@ -19,6 +19,7 @@ namespace SmartTool_API._Services.Services
     public class ModelOperationService : IModelOperationService
     {
         private readonly IModelOperationRepository _modelOperationRepository;
+        private OperationResult operationResult;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
 
@@ -43,9 +44,19 @@ namespace SmartTool_API._Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(object id)
+        public async Task<OperationResult> Delete(ModelOperationDTO modelOperationDTO)
         {
-            throw new NotImplementedException();
+            var modelOperation =  _mapper.Map<Model_Operation>(modelOperationDTO);
+            _modelOperationRepository.Remove(modelOperation);
+            try
+            {
+                await _modelOperationRepository.SaveAll();
+                return new OperationResult {Success = true, Caption = "Model operation was successfully delete."};
+            }
+            catch
+            {
+                return new OperationResult {Success = true, Caption = "Deleting model operation failed on save."};
+            }
         }
 
         public Task<PagedList<ModelOperationDTO>> GetWithPagination(PaginationParams param)
@@ -58,9 +69,36 @@ namespace SmartTool_API._Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<OperationResult> AddAsync(ModelOperationDTO model)
+        public async Task<OperationResult> AddAsync(ModelOperationDTO modelOperationDTO)
+        {
+            var item = _mapper.Map<Model_Operation>(modelOperationDTO);
+            try
+            {
+                await _modelOperationRepository.AddAsync(item);
+                await _modelOperationRepository.SaveAll();
+
+                // await _unitOfWork.SaveChangeAsync();
+
+                operationResult = new OperationResult() { Caption = "Success", Message = "Save Complete", Success = true, Data = item };
+            }
+            catch (Exception ex)
+            {
+                operationResult = new OperationResult() { Caption = "Failed", Message = ex.Message.ToString(), Success = false };
+            }
+
+            return operationResult;
+        }
+
+        public Task<PagedList<ModelDTO>> SearchModel(PaginationParams param, ModelParam modelParam)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ModelOperationDTO> GetModelOperation(ModelOperationEditParam modelOperationEditParam)
+        {
+            var data = await _modelOperationRepository.GetByModelOperation(modelOperationEditParam);
+            var models = _mapper.Map<Model_Operation, ModelOperationDTO>(data);
+            return models;
         }
     }
 }

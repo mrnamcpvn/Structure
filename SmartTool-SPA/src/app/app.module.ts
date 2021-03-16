@@ -1,10 +1,10 @@
+import { AlertifyService } from './_core/_services/alertify.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { IconModule, IconSetModule, IconSetService } from '@coreui/icons-angular';
@@ -44,10 +44,11 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
@@ -62,7 +63,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     IconModule,
     IconSetModule.forRoot(),
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    SnotifyModule
   ],
   declarations: [
     AppComponent,
@@ -73,11 +75,16 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     RegisterComponent
   ],
   providers: [
+    IconSetService,
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
-    IconSetService,
+    {
+      provide: 'SnotifyToastConfig',
+      useValue: ToastDefaults
+    },
+    SnotifyService
   ],
   bootstrap: [ AppComponent ]
 })

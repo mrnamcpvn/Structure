@@ -15,9 +15,9 @@ namespace SmartTool_API._Repositories.Repositories
         {
             _context = context;
         }
-        public async Task<Model> GetByFactoryAndModelNo(string facID, string modelNo)
+        public async Task<Model> GetByModelNo(string modelNo)
         {
-            var model = await _context.Models.Where(x => x.factory_id == facID && x.model_no == modelNo).FirstOrDefaultAsync();
+            var model = await _context.Models.Where(x => x.model_no == modelNo).FirstOrDefaultAsync();
             return model;
         }
     }

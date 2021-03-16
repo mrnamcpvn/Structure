@@ -12,6 +12,16 @@
           <div class="card-body">
             <div class="form-group row">
               <label for="model_no" class="col-md-2 col-form-label">
+                Factory Id<span class="red_star">*</span>
+              </label>
+              <div class="col-md-3">
+                <input type="text" formControlName="factory_id" id="factory_id" name="factory_id" class="form-control input-upper" placeholder="Enter factory id..">
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+
+            <div class="form-group row">
+              <label for="model_no" class="col-md-2 col-form-label">
                 Model No<span class="red_star">*</span>
               </label>
               <div class="col-md-3">
@@ -41,8 +51,8 @@
                 Model Type <span class="red_star">*</span>
               </label>
               <div class="col-md-3" >
-                <!-- <ng-select2 [data]="modelTypeList" formControlName="model_type_id" width="100%" id="model_type_id" name="model_type_id">
-                </ng-select2 > -->
+                <ng-select2 [data]="modelTypeList" formControlName="model_type_id" width="100%" id="model_type_id" name="model_type_id">
+                </ng-select2 >
               </div>
               <div class="col-md-1"></div>
               <label class="col-md-2 col-form-label" for="is_active">Active</label>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
 
 namespace SmartTool_API._Services.Interfaces
@@ -11,7 +12,7 @@ namespace SmartTool_API._Services.Interfaces
 
         Task<bool> Update(T model);
 
-        Task<bool> Delete(object id);
+        Task<OperationResult> Delete(T model);
 
         Task<List<T>> GetAllAsync();
 

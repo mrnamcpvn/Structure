@@ -19,17 +19,19 @@ namespace SmartTool_API.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        private string username ;
-        private string factory ;
+        private string username;
+        private string factory;
 
-        public ModelController(IModelService modelService, IWebHostEnvironment webHostEnvironment)
+        public ModelController(IModelService modelService, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _modelService = modelService;
             _webHostEnvironment = webHostEnvironment;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        private string GetUserClaim() {
-            return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        private string GetUserClaim()
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         [HttpPost("model-list")]
@@ -38,10 +40,17 @@ namespace SmartTool_API.Controllers
             return Ok(await _modelService.GetAllAsync());
         }
 
-        [HttpPost("model-add")]
-        public async Task<ActionResult> AddModel([FromBody] ModelDTO model)
+        [HttpPost("add-model")]
+        public async Task<ActionResult> AddModel([FromBody] ModelDTO modelDTO)
         {
-            return Ok(await _modelService.AddAsync(model));
+            return Ok(await _modelService.AddAsync(modelDTO));
+        }
+
+        [HttpGet("model-type")]
+        public async Task<IActionResult> GetAllModelType()
+        {
+            var data = await _modelService.GetModelType();
+            return Ok(data);
         }
 
         [HttpPost("model-search")]
@@ -56,29 +65,29 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> updateModel([FromBody] ModelDTO modelDto)
         {
             modelDto.update_by = GetUserClaim();
-            modelDto.update_time = DateTime.Now;    
-            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
-            if(modelDto.model_picture.Length > 100)
+            modelDto.update_time = DateTime.Now;
+            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
+            if (modelDto.model_picture.Length > 100)
             {
                 var source = modelDto.model_picture;
                 string base64 = source.Substring(source.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] modelData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                var fileName = factory + "_" + modelDto.model_no + ".jpg";
                 string filePathImages = Path.Combine(folder, fileName);
-                 // kiểm tra file cũ có chưa xóa đi
+                // kiểm tra file cũ có xóa đi chưa
                 if (System.IO.File.Exists(filePathImages))
                 {
                     System.IO.File.Delete(filePathImages);
                 }
                 System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = factory + "/Model/" + fileName;
             }
-            
+
             if (await _modelService.Update(modelDto))
             {
                 return NoContent();
@@ -87,9 +96,9 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpGet("edit-model")]
-        public async Task<ActionResult> GetByFactoryAndModelNo(string modelNo)
+        public async Task<ActionResult> GetByModelNo(string modelNo)
         {
-            var modelRepo = await _modelService.GetByFactoryAndModelNo(factory, modelNo);
+            var modelRepo = await _modelService.GetByModelNo(modelNo);
             if (modelRepo != null)
             {
                 return Ok(modelRepo);
@@ -98,11 +107,9 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("delete-Model")]
-        public async Task<IActionResult> DeleteModelOperation(ModelDTO modelDTO)
+        public async Task<IActionResult> DeleteModel([FromBody] ModelDTO modelDTO)
         {
-            if (await _modelService.Delete(modelDTO))
-                return NoContent();
-            return BadRequest($"The Model is already in use, it cannot be deleted");
+            return Ok(await _modelService.Delete(modelDTO));
         }
     }
 

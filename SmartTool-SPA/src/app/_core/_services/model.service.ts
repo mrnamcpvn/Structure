@@ -1,3 +1,4 @@
+import { OperationResult } from './../_models/operation-result';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Model } from '../_models/model';
@@ -50,7 +51,7 @@ export class ModelService {
     return this.http.post(this.baseUrl + 'modle/update-model', model);
   }
 
-  Delete(model: Model) {
-    return this.http.post(this.baseUrl + 'model/delete-model', model);
+  Delete(item: Model) {
+    return this.http.post<OperationResult>(this.baseUrl + 'Model/delete-Model', item);
   }
 }
