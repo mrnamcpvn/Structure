@@ -8,7 +8,6 @@ import {
   PaginatedResult,
   Pagination,
 } from '../../../../_core/_models/pagination';
-import { AlertifyService } from '../../../../_core/_services/alertify.service';
 import { ModelService } from '../../../../_core/_services/model.service';
 
 @Component({
@@ -99,16 +98,14 @@ export class ModelListComponent implements OnInit {
   }
 
   editModel(modelNo: Model) {
-    debugger;
-    this.router.navigate(['/maintain/model/edit/']);
-    // this.router.navigate(['/maintain/model/edit/' + modelNo]);
+    this.router.navigate(['/maintain/model/edit/' + modelNo.model_no]);
   }
 
   deleteModel(modelNo: Model) {
     this.modelService.Delete(modelNo).subscribe((res) => {
+      this.loadData();
       this.alertify.success('đã xóa thành công', 'Successfully');
     });
-    this.loadData();
     this.alertify.warning('xóa không thành công', 'Warning');
   }
 }

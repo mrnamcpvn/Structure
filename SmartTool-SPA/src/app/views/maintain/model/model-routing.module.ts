@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
 import { ModelListComponent } from './model-list/model-list.component';
+import { ModelResolver } from '../../../_core/_resolvers/model.resolver';
+import { ModelEditResolver } from '../../../_core/_resolvers/model-edit.resolver';
 
 
 const routes: Routes = [
@@ -20,9 +22,9 @@ const routes: Routes = [
         }
       },
       {
-        path: 'edit',
+        path: 'edit/:modelNo',
         component: EditComponent,
-        // resolve: {model: ModelResolver},
+         resolve: {model: ModelEditResolver},
         data: {
           title: 'Edit model'
         }
@@ -30,9 +32,9 @@ const routes: Routes = [
       {
         path: 'list',
         component: ModelListComponent,
-        // resolve: {model: ModelResolver},
+         resolve: {model: ModelResolver},
         data: {
-          title: 'List model'
+          title: 'List model  '
         },
       },
     ],

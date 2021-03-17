@@ -43,7 +43,6 @@ namespace SmartTool_API._Services.Services
         public async Task<OperationResult> AddAsync(ModelDTO model)
         {
             model.create_time = DateTime.Now;
-            model.update_time = DateTime.Now;
             var item = _mapper.Map<Model>(model);
             _modelRepository.Add(item);
             try

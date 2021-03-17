@@ -1,4 +1,4 @@
-export interface Model {
+export class Model {
   factory_id: string;
   model_no: string;
   model_name: string;

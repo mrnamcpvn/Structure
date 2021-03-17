@@ -45,6 +45,8 @@ import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { ModelResolver } from './_core/_resolvers/model.resolver';
+import { ModelEditResolver } from './_core/_resolvers/model-edit.resolver';
 
 @NgModule({
   imports: [
@@ -76,6 +78,8 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
   ],
   providers: [
     IconSetService,
+    ModelResolver,
+    ModelEditResolver,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
@@ -84,7 +88,7 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
       provide: 'SnotifyToastConfig',
       useValue: ToastDefaults
     },
-    SnotifyService
+    SnotifyService,
   ],
   bootstrap: [ AppComponent ]
 })

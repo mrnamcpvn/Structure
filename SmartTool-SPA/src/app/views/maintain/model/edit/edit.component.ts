@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { AlertUtilityService } from './../../../../_core/_services/alertUtility.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +18,7 @@ export class EditComponent implements OnInit {
   editModelForm: FormGroup;
   url: string = environment.imageUrl;
   modelTypeList: Array<Select2OptionData>;
+  user = JSON.parse(localStorage.getItem('userSmartTooling'));
   constructor(
     private modelService: ModelService,
     private route: ActivatedRoute,
@@ -29,6 +31,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.route.data.subscribe((data) => {
+      console.log(data);
       this.spinner.hide();
       this.editModelForm.setValue(data.model);
       this.url = this.url + this.editModelForm.value.model_picture + '?' + Math.random();
@@ -37,9 +40,8 @@ export class EditComponent implements OnInit {
   }
 
   initForm() {
-    debugger;
     this.editModelForm = this.formBuilder.group({
-      factory_id: '',
+      factory_id: ['', Validators.compose([Validators.required])],
       model_no: ['', Validators.compose([Validators.required])],
       upper_id: ['', Validators.compose([Validators.required, Validators.maxLength(6)])],
       model_name: ['', Validators.compose([Validators.required])],
@@ -61,6 +63,7 @@ export class EditComponent implements OnInit {
 
   changeToUppercase() {
     this.editModelForm.patchValue({
+      factory_id: this.editModelForm.value.factory_id.toUpperCase(),
       model_no: this.editModelForm.value.model_no.toUpperCase(),
       model_name: this.editModelForm.value.model_name.toUpperCase(),
       model_family: this.editModelForm.value.model_family.toUpperCase(),
@@ -76,7 +79,7 @@ export class EditComponent implements OnInit {
   btnSave() {
     this.changeToUppercase();
     this.modelService.Update(this.editModelForm.value).subscribe(
-      () => {
+      (res) => {
         this.router.navigate(['/maintain/model/list']);
         this.alertify.success('Edit succeed ', 'Success');
       },
@@ -123,6 +126,7 @@ export class EditComponent implements OnInit {
       });
     });
   }
+
   cancel() {
     this.backList();
   }

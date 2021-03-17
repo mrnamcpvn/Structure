@@ -11,6 +11,16 @@
         <form class="form-horizontal" [formGroup]="editModelForm">
           <div class="card-body">
             <div class="form-group row">
+              <label for="model_no" class="col-md-2 col-form-label">
+                Factory Id<span class="red_star">*</span>
+              </label>
+              <div class="col-md-3">
+                <input type="text" formControlName="factory_id" id="factory_id" name="factory_id" class="form-control input-upper" placeholder="Enter factory id..">
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+
+            <div class="form-group row">
               <label class="col-md-2 col-form-label" for="model_no">
                 Model No <span class="red_star">*</span>
               </label>

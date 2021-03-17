@@ -1,29 +1,26 @@
-import { environment } from "./../../../../../environments/environment";
-import { Component, NgModule, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Select2OptionData } from "ng-select2";
-import { ModelService } from "../../../../_core/_services/model.service";
-import { AlertifyService } from "../../../../_core/_services/alertify.service";
-import { AlertUtilityService } from "../../../../_core/_services/alertUtility.service";
-import { SnotifyPosition } from "ng-snotify";
+import { environment } from './../../../../../environments/environment';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Select2OptionData } from 'ng-select2';
+import { ModelService } from '../../../../_core/_services/model.service';
+import { AlertUtilityService } from '../../../../_core/_services/alertUtility.service';
+import { SnotifyPosition } from 'ng-snotify';
 
 @Component({
-  selector: "app-add",
-  templateUrl: "./add.component.html",
-  styleUrls: ["./add.component.scss"],
+  selector: 'app-add',
+  templateUrl: './add.component.html',
+  styleUrls: ['./add.component.scss'],
 })
 export class AddComponent implements OnInit {
   addModelForm: FormGroup;
   baseUrl: string = environment.imageUrl;
-  defaultImage: string =
-    this.baseUrl + environment.factory + "/Model/no-image.jpg";
+  defaultImage: string = this.baseUrl + environment.factory + '/Model/no-image.jpg';
   modelTypeList: Array<Select2OptionData>;
-  user = JSON.parse(localStorage.getItem("userSmartTooling"));
+  user = JSON.parse(localStorage.getItem('userSmartTooling'));
 
   constructor(
     private modelService: ModelService,
-    // private alertify: AlertifyService,
     private router: Router,
     private formBuilder: FormBuilder,
     private alertify: AlertUtilityService
@@ -35,7 +32,7 @@ export class AddComponent implements OnInit {
   }
 
   backList() {
-    this.router.navigate(["/maintain/model/list"]);
+    this.router.navigate(['/maintain/model/list']);
   }
 
   changeToUppercase() {
@@ -51,19 +48,22 @@ export class AddComponent implements OnInit {
 
   saveAndNext() {
     this.changeToUppercase();
+    console.log(this.user);
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
-      () => {
+      (res) => {
         this.alertify.success(
-          "Add model was success",
-          "Successfully",
+          'Add model was success',
+          'Successfully',
           SnotifyPosition.rightTop
         );
-        this.router.navigate(["/maintain/model/list"]);
+        console.log(this.addModelForm.value);
+        console.log('abc');
+        this.router.navigate(['/maintain/model/list']);
       },
       (error) => {
         this.alertify.error(
-          "Add Model failed on save",
-          "Faile",
+          'Add Model failed on save',
+          'Faile',
           SnotifyPosition.rightTop
         );
       }
@@ -71,24 +71,26 @@ export class AddComponent implements OnInit {
   }
 
   save() {
+    debugger;
     this.changeToUppercase();
     console.log(this.user);
 
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
-      (res) => {
+      () => {
         this.alertify.success(
-          "Add succeed",
-          "Successfully",
+          'Add succeed',
+          'Successfully',
           SnotifyPosition.rightTop
         );
         console.log(this.addModelForm.value);
+        console.log('abc');
 
         this.resetForm();
       },
       (error) => {
         this.alertify.error(
-          "Add Model failed on save",
-          "Faile",
+          'Add Model failed on save',
+          'Faile',
           SnotifyPosition.rightTop
         );
       }
@@ -101,15 +103,15 @@ export class AddComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       const file = event.target.files[0];
-      const title = event.target.files[0].name.split(".").pop();
+      const title = event.target.files[0].name.split('.').pop();
       const fileSize = event.target.files[0].size;
       if (
-        title === "jpg" ||
-        title === "jpeg" ||
-        title === "png" ||
-        title === "JPG" ||
-        title === "JPEG" ||
-        title === "PNG"
+        title == 'jpg' ||
+        title == 'jpeg' ||
+        title == 'png' ||
+        title == 'JPG' ||
+        title == 'JPEG' ||
+        title == 'PNG'
       ) {
         if (fileSize <= 5242880) {
           reader.onload = (event) => {
@@ -119,8 +121,8 @@ export class AddComponent implements OnInit {
           };
         } else {
           this.alertify.error(
-            "Video cannot be larger than 5MB",
-            "Error",
+            'Video cannot be larger than 5MB',
+            'Error',
             SnotifyPosition.rightTop
           );
         }
@@ -143,22 +145,19 @@ export class AddComponent implements OnInit {
 
   initForm() {
     this.addModelForm = this.formBuilder.group({
-      factory_id: ["", Validators.compose([Validators.required])],
-      model_no: ["", Validators.compose([Validators.required])],
-      upper_id: [
-        "",
-        Validators.compose([Validators.required, Validators.maxLength(6)]),
-      ],
-      model_name: ["", Validators.compose([Validators.required])],
-      model_family: [""],
-      model_type_id: ["", Validators.compose([Validators.required])],
+      factory_id: ['', Validators.compose([Validators.required])],
+      model_no: ['', Validators.compose([Validators.required])],
+      upper_id: ['', Validators.compose([Validators.required, Validators.maxLength(6)])],
+      model_name: ['', Validators.compose([Validators.required])],
+      model_family: [''],
+      model_type_id: ['', Validators.compose([Validators.required])],
       is_active: true,
       volume: [null, Validators.compose([Validators.min(0)])],
       volume_percent: [null, Validators.compose([Validators.min(0)])],
-      dev_season: ["", Validators.compose([Validators.required])],
-      prod_season: ["", Validators.compose([Validators.required])],
-      remarks: [""],
-      model_picture: "",
+      dev_season: ['', Validators.compose([Validators.required])],
+      prod_season: ['', Validators.compose([Validators.required])],
+      remarks: [''],
+      model_picture: '',
       update_by: [this.user.username],
       create_by: [this.user.username],
     });
@@ -166,19 +165,19 @@ export class AddComponent implements OnInit {
 
   resetForm() {
     this.addModelForm.setValue({
-      factory_id: "",
-      model_no: "",
-      upper_id: "",
-      model_name: "",
-      model_family: "",
-      model_type_id: "",
+      factory_id: '',
+      model_no: '',
+      upper_id: '',
+      model_name: '',
+      model_family: '',
+      model_type_id: '',
       is_active: true,
       volume: null,
       volume_percent: null,
-      dev_season: "",
-      prod_season: "",
-      remarks: "",
-      model_picture: "",
+      dev_season: '',
+      prod_season: '',
+      remarks: '',
+      model_picture: '',
       update_by: this.user.username,
       create_by: this.user.username
     });

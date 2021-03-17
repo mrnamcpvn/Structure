@@ -1,4 +1,4 @@
-export interface Factory {
+export class Factory {
   factory_id: string;
   factory_name: string;
   customer_name: string;
