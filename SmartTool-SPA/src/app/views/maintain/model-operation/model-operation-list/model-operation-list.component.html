@@ -83,7 +83,7 @@
                     <button type="button" (click)="updateModelOperation()" class="btn btn-sm btn-primary ">
                       <i class="fa fa-edit fa-lg"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-danger" >
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteOperation(item)" >
                       <i class="fa fa-trash fa-lg"></i></button>
                   </td>
                   <td rowspan="3" class="vertical">{{item.model_no}}</td>

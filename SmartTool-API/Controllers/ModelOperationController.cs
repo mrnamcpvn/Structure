@@ -25,6 +25,7 @@ namespace SmartTool_API.Controllers
             _modelOperationService = modelOperationService;
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
         private string GetUserClaim() {

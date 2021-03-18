@@ -1,3 +1,4 @@
+import { OperationResult } from './../_models/operation-result';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -44,16 +45,20 @@ export class ModelOperationService {
     return this.http.post<ModelOperation>(this.baseUrl + 'modelOperation/getModelOperation/', modelOperation);
   }
 
+  getStage() {
+    return this.http.get<any>(this.baseUrl + 'modelOperation/stage', {});
+  }
+
   addModelOperation(modelOperation: ModelOperation) {
-    return this.http.post(this.baseUrl + 'modelOperation/create-operation/', modelOperation);
+    return this.http.post(this.baseUrl + 'modelOperation/add-operation/', modelOperation);
   }
 
   updateModelOperation(modelOperation: ModelOperation) {
-    return this.http.post(this.baseUrl + 'modelOperation/updateModelOperation/', modelOperation);
+    return this.http.post(this.baseUrl + 'modelOperation/update-ModelOperation/', modelOperation);
   }
 
-  deleteModelOperation(modelOperation: ModelOperation) {
-    return this.http.post(this.baseUrl + 'modelOperation/deleteModelOperation/', modelOperation);
+  deleteModelOperation(item: ModelOperation) {
+    return this.http.post<OperationResult>(this.baseUrl + 'modelOperation/delete-ModelOperation/', item);
   }
 
 }

@@ -1,3 +1,4 @@
+import { AlertUtilityService } from './../../../../_core/_services/alertUtility.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select2OptionData } from 'ng-select2';
@@ -24,14 +25,14 @@ export class ModelOperationListComponent implements OnInit {
   paramSearch: any = {};
   modelName: string = '';
   listdataModelNo: any;
-  pagination: Pagination = {
-    currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
-  };
+  // pagination: Pagination = {
+  //   currentPage: 1,
+  //   itemsPerPage: 10,
+  //   totalItems: 1,
+  //   totalPages: 1,
+  // };
   constructor(private modelOperationService: ModelOperationService,
-              private alertify: AlertifyService,
+              private alertify: AlertUtilityService,
               private router: Router,
               private spinner: NgxSpinnerService) { }
   ngOnInit() {
@@ -42,25 +43,25 @@ export class ModelOperationListComponent implements OnInit {
   loadData() {
     this.spinner.show();
       this.noData = false;
-      this.modelOperationService.search(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch)
+      this.modelOperationService.search(this.paramSearch)
       .subscribe(
         (res: PaginatedResult<ModelOperation[]>) => {
           this.modelOperations = res.result;
-          this.pagination = res.pagination;
+          // this.pagination = res.pagination;
           if (this.modelOperations.length == 0) {
             this.noData = true;
           }
           this.spinner.hide();
         },
         (error) => {
-          this.alertify.error(error);
+          this.alertify.error(error, 'Error');
         });
 
   }
 
   search() {
     this.spinner.show();
-    this.pagination.currentPage = 1;
+    // this.pagination.currentPage = 1;
     this.loadData();
     this.spinner.hide();
   }
@@ -93,15 +94,13 @@ updateModelOperation(item: ModelOperation) {
   this.router.navigate(['/maintain/model-operation/edit']);
 }
 
-deleteOperation(item: ModelOperation) {
-  this.alertify.confirm('Delete Model Operation', 'Are you sure you want to delete this Model Operation ?', () => {
-    this.modelOperationService.deleteModelOperation(item).subscribe(() => {
+deleteOperation(operation: ModelOperation) {
+    this.modelOperationService.deleteModelOperation(operation).subscribe(() => {
+      console.log('Success');
       this.loadData();
-      this.alertify.success('Model Operation has been deleted');
-    }, error => {
-      this.alertify.error('This Model Operation is already in use');
+      this.alertify.success('Model Operation has been deleted', 'Success');
     });
-  });
+    this.alertify.warning('This Model Operation is already in use', 'Warning');
 }
 
 changeModelNo(event: any) {
