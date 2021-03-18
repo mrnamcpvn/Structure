@@ -51,13 +51,8 @@ export class AddComponent implements OnInit {
     console.log(this.user);
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
       (res) => {
-        this.alertify.success(
-          'Add model was success',
-          'Successfully',
-          SnotifyPosition.rightTop
-        );
+        this.alertify.success('Add model was success', 'Successfully', SnotifyPosition.rightTop );
         console.log(this.addModelForm.value);
-        console.log('abc');
         this.router.navigate(['/maintain/model/list']);
       },
       (error) => {
@@ -71,17 +66,12 @@ export class AddComponent implements OnInit {
   }
 
   save() {
-    debugger;
     this.changeToUppercase();
     console.log(this.user);
 
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
       () => {
-        this.alertify.success(
-          'Add succeed',
-          'Successfully',
-          SnotifyPosition.rightTop
-        );
+        this.alertify.success('Add succeed', 'Successfully', SnotifyPosition.rightTop);
         console.log(this.addModelForm.value);
         console.log('abc');
 

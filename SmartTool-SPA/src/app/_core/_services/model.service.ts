@@ -44,16 +44,12 @@ export class ModelService {
   }
 
   AddAsync(model: Model) {
-    debugger;
     return this.http.post(this.baseUrl + 'model/add-model', model);
   }
 
-  edit() {
-    return this.http.get<any>(this.baseUrl + 'model/edit-model', {});
-  }
-
   Update(model: Model) {
-    return this.http.post(this.baseUrl + 'modle/updateModel', model);
+    debugger;
+    return this.http.post(this.baseUrl + 'model/update-Model', model);
   }
 
   Delete(item: Model) {
@@ -61,6 +57,6 @@ export class ModelService {
   }
 
   getModelNoEdit(modelNo: string) {
-    return this.http.get<Model>(this.baseUrl + "model/edit/" + modelNo);
+    return this.http.get<Model>(this.baseUrl + 'model/edit/' + modelNo);
   }
 }

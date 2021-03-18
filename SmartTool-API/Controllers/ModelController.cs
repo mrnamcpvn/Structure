@@ -60,7 +60,7 @@ namespace SmartTool_API.Controllers
             return Ok(lists);
         }
 
-        [HttpPost("updateModel")]
+        [HttpPost("update-Model")]
         public async Task<IActionResult> updateModel([FromBody] ModelDTO modelDTO)
         {
             // modelDTO.update_by = GetUserClaim();

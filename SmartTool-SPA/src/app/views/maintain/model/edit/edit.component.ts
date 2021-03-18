@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { AlertUtilityService } from './../../../../_core/_services/alertUtility.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select2OptionData } from 'ng-select2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../environments/environment';
-import { AlertifyService } from '../../../../_core/_services/alertify.service';
 import { ModelService } from '../../../../_core/_services/model.service';
 
 @Component({
@@ -72,14 +70,12 @@ export class EditComponent implements OnInit {
     });
   }
 
-  backList() {
-    this.router.navigate(['/maintain/model/list']);
-  }
-
   btnSave() {
     this.changeToUppercase();
-    this.modelService.Update(this.editModelForm.value).subscribe(
-      (res) => {
+    // debugger;
+    this.modelService.Update(this.editModelForm.value).subscribe((res) => {
+        debugger;
+        console.log(this.editModelForm.value);
         this.router.navigate(['/maintain/model/list']);
         this.alertify.success('Edit succeed ', 'Success');
       },
@@ -126,6 +122,12 @@ export class EditComponent implements OnInit {
       });
     });
   }
+
+
+  backList() {
+    this.router.navigate(['/maintain/model/list']);
+  }
+
 
   cancel() {
     this.backList();
