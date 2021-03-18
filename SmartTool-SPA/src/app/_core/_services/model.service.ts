@@ -48,7 +48,6 @@ export class ModelService {
   }
 
   Update(model: Model) {
-    debugger;
     return this.http.post(this.baseUrl + 'model/update-Model', model);
   }
 

@@ -8,5 +8,6 @@ namespace SmartTool_API._Services.Interfaces
     {
         Task<PagedList<ModelDTO>> SearchModel(PaginationParams param, ModelParam modelParam);
         Task<ModelOperationDTO> GetModelOperation(ModelOperationEditParam modelOperationEditParam);
+        
     }
 }

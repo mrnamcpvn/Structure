@@ -8,7 +8,6 @@ using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
-using SmartTool_API._Repositories.Repositories;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
@@ -19,11 +18,12 @@ namespace SmartTool_API._Services.Services
     public class ModelOperationService : IModelOperationService
     {
         private readonly IModelOperationRepository _modelOperationRepository;
-        private OperationResult operationResult;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
 
-        public ModelOperationService(IModelOperationRepository modelOperationRepository, IMapper mapper, MapperConfiguration configMapper)
+        private OperationResult operationResult;
+
+        public ModelOperationService(IModelOperationRepository modelOperationRepository, IMapper mapper, MapperConfiguration configMapper, IConfiguration configuration)
         {
             _modelOperationRepository = modelOperationRepository;
             _mapper = mapper;

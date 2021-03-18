@@ -72,9 +72,7 @@ export class EditComponent implements OnInit {
 
   btnSave() {
     this.changeToUppercase();
-    // debugger;
     this.modelService.Update(this.editModelForm.value).subscribe((res) => {
-        debugger;
         console.log(this.editModelForm.value);
         this.router.navigate(['/maintain/model/list']);
         this.alertify.success('Edit succeed ', 'Success');
