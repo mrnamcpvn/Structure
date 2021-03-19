@@ -72,10 +72,17 @@ namespace SmartTool_API
             services.AddScoped<IModelRepository, ModelRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleUserRepository, RoleUserRepository>();
+             services.AddScoped<IAuthRepository, AuthRepository>();
+            
 
             // Service
             services.AddScoped<IModelService, ModelService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             // Swagger
             services.AddSwaggerGen(c =>

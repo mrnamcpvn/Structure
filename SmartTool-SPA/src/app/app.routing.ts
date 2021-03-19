@@ -1,4 +1,4 @@
-import { MaintainModule } from './views/maintain/maintain.module';
+import { AuthGuard } from './_core/_guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '/dashboard',
     pathMatch: 'full',
   },
   {
@@ -64,6 +64,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
       },
       {
+        canActivate: [AuthGuard],
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
@@ -84,8 +85,14 @@ export const routes: Routes = [
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       },
       {
+        canActivate: [AuthGuard],
         path: 'maintain',
         loadChildren: () => import('./views/maintain/maintain.module').then(m => m.MaintainModule)
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'user',
+        loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
       }
     ]
   },

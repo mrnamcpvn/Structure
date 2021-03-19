@@ -31,6 +31,18 @@ export const navItems: INavData[] = [
       }
     ],
   },
+  {
+    name: '2. USER MANAGER',
+    url: '/user',
+    icon: 'icon-user',
+    children: [
+      {
+        name: '2.1 User list',
+        url: '/user',
+        class: 'menu-margin'
+      }
+    ]
+  },
   // {
   //   name: 'Typography',
   //   url: '/theme/typography',

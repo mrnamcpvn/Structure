@@ -47,10 +47,18 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { ModelResolver } from './_core/_resolvers/model.resolver';
 import { ModelEditResolver } from './_core/_resolvers/model-edit.resolver';
+import { AuthService } from './_core/_services/auth.service';
+import { AuthGuard } from './_core/_guards/auth.guard';
+import { FormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
 
+export function tokenGetter() {
+  return localStorage.getItem('tokenSmartTooling');
+}
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
@@ -66,7 +74,14 @@ import { ModelEditResolver } from './_core/_resolvers/model-edit.resolver';
     IconSetModule.forRoot(),
     HttpClientModule,
     NgxSpinnerModule,
-    SnotifyModule
+    SnotifyModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:5000'],
+        disallowedRoutes: ['localhost:5000/api/auth'],
+      },
+    }),
   ],
   declarations: [
     AppComponent,
@@ -77,6 +92,8 @@ import { ModelEditResolver } from './_core/_resolvers/model-edit.resolver';
     RegisterComponent
   ],
   providers: [
+    AuthService,
+    AuthGuard,
     IconSetService,
     ModelResolver,
     ModelEditResolver,
