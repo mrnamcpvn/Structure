@@ -9,7 +9,7 @@ namespace SmartTool_API.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions options) : base(options) { }
-        public DbSet<Model> Models { get; set; }
+        public virtual DbSet<Model> Models { get; set; }
         public DbSet<Model_Type> Model_Type { get; set; }
 
         public DbSet<Model_Operation> Model_Operations { get; set; }

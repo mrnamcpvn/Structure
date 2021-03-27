@@ -1,38 +1,36 @@
+import { Subscription } from 'rxjs';
 import { environment } from './../../../../../environments/environment';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Select2OptionData } from 'ng-select2';
 import { ModelService } from '../../../../_core/_services/model.service';
+import { Router } from '@angular/router';
 import { AlertUtilityService } from '../../../../_core/_services/alertUtility.service';
-import { SnotifyPosition } from 'ng-snotify';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss'],
+  styleUrls: ['./add.component.scss']
 })
 export class AddComponent implements OnInit {
+
   addModelForm: FormGroup;
-  baseUrl: string = environment.imageUrl;
-  defaultImage: string = this.baseUrl + environment.factory + '/Model/no-image.jpg';
+  apiUrl: string = environment.apiUrl;
+  addModelSub: Subscription;
+  defaultImage: string = this.apiUrl + environment.factory + '/Model/no-image.jpg';
   modelTypeList: Array<Select2OptionData>;
   user = JSON.parse(localStorage.getItem('userSmartTooling'));
 
   constructor(
     private modelService: ModelService,
     private router: Router,
-    private formBuilder: FormBuilder,
-    private alertify: AlertUtilityService
-  ) {}
+    private alertUtility: AlertUtilityService,
+    private formBuilder: FormBuilder
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllModelType();
     this.initForm();
-  }
-
-  backList() {
-    this.router.navigate(['/maintain/model/list']);
   }
 
   changeToUppercase() {
@@ -46,41 +44,17 @@ export class AddComponent implements OnInit {
     });
   }
 
-  initForm() {
-    this.addModelForm = this.formBuilder.group({
-      factory_id: ['', Validators.compose([Validators.required])],
-      model_no: ['', Validators.compose([Validators.required])],
-      upper_id: ['', Validators.compose([Validators.required, Validators.maxLength(6)])],
-      model_name: ['', Validators.compose([Validators.required])],
-      model_family: [''],
-      model_type_id: ['', Validators.compose([Validators.required])],
-      is_active: true,
-      volume: [null, Validators.compose([Validators.min(0)])],
-      volume_percent: [null, Validators.compose([Validators.min(0)])],
-      dev_season: ['', Validators.compose([Validators.required])],
-      prod_season: ['', Validators.compose([Validators.required])],
-      remarks: [''],
-      model_picture: '',
-      update_by: [this.user.username],
-      create_by: [this.user.username],
-    });
-  }
-
   saveAndNext() {
     this.changeToUppercase();
     console.log(this.user);
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
       (res) => {
-        this.alertify.success('Add model was success', 'Successfully', SnotifyPosition.rightTop );
+        this.alertUtility.success('Add model was success', 'Successfully');
         console.log(this.addModelForm.value);
-        this.router.navigate(['/maintain/model/list']);
+        this.router.navigate(['/maintain-a/model-a']);
       },
       (error) => {
-        this.alertify.error(
-          'Add Model failed on save',
-          'Faile',
-          SnotifyPosition.rightTop
-        );
+        this.alertUtility.error('Add Model failed on save', 'Faile');
       }
     );
   }
@@ -91,18 +65,14 @@ export class AddComponent implements OnInit {
 
     this.modelService.AddAsync(this.addModelForm.value).subscribe(
       () => {
-        this.alertify.success('Add succeed', 'Successfully', SnotifyPosition.rightTop);
+        this.alertUtility.success('Add succeed', 'Successfully');
         console.log(this.addModelForm.value);
         console.log('abc');
 
         this.resetForm();
       },
       (error) => {
-        this.alertify.error(
-          'Add Model failed on save',
-          'Faile',
-          SnotifyPosition.rightTop
-        );
+        this.alertUtility.error('Add Model failed on save', 'Faile');
       }
     );
   }
@@ -125,16 +95,10 @@ export class AddComponent implements OnInit {
       ) {
         if (fileSize <= 5242880) {
           reader.onload = (event) => {
-            this.addModelForm.patchValue({
-              model_picture: event.target.result.toString(),
-            });
+            this.addModelForm.patchValue({ model_picture: event.target.result.toString()});
           };
         } else {
-          this.alertify.error(
-            'Video cannot be larger than 5MB',
-            'Error',
-            SnotifyPosition.rightTop
-          );
+          this.alertUtility.error('Video cannot be larger than 5MB', 'Error');
         }
       }
     }
@@ -151,6 +115,26 @@ export class AddComponent implements OnInit {
   cancel() {
     this.resetForm();
     console.log(this.addModelForm.value);
+  }
+
+  initForm() {
+    this.addModelForm = this.formBuilder.group({
+      factory_id: ['', Validators.compose([Validators.required])],
+      model_no: ['', Validators.compose([Validators.required])],
+      upper_id: ['', Validators.compose([Validators.required, Validators.maxLength(6)])],
+      model_name: ['', Validators.compose([Validators.required])],
+      model_family: [''],
+      model_type_id: ['', Validators.compose([Validators.required])],
+      is_active: true,
+      volume: [null, Validators.compose([Validators.min(0)])],
+      volume_percent: [null, Validators.compose([Validators.min(0)])],
+      dev_season: ['', Validators.compose([Validators.required])],
+      prod_season: ['', Validators.compose([Validators.required])],
+      remarks: [''],
+      model_picture: '',
+      update_by: [this.user.username],
+      create_by: [this.user.username],
+    });
   }
 
   resetForm() {
@@ -171,5 +155,9 @@ export class AddComponent implements OnInit {
       update_by: this.user.username,
       create_by: this.user.username
     });
+  }
+
+  backList() {
+    this.router.navigate(['/maintain-a/model-a']);
   }
 }

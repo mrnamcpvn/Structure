@@ -40,7 +40,7 @@ export class ModelService {
   }
 
   GetAllAsync() {
-    return this.http.post<any>(this.baseUrl + 'Model/model-list', {});
+    return this.http.get<any>(this.baseUrl + 'Model/model-list', {});
   }
 
   AddAsync(model: Model) {

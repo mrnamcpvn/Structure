@@ -1,11 +1,14 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
+using SmartTool_API.Data;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
 
@@ -15,14 +18,16 @@ namespace SmartTool_API.Controllers
     [Route("api/[controller]")]
     public class ModelController : ControllerBase
     {
+        private readonly DataContext db;
         private readonly IModelService _modelService;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         private string factory;
 
-        public ModelController(IModelService modelService, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public ModelController(DataContext db, IModelService modelService, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
+            this.db = db;
             _modelService = modelService;
             _webHostEnvironment = webHostEnvironment;
             factory = configuration.GetSection("AppSettings:Factory").Value;
@@ -105,12 +110,14 @@ namespace SmartTool_API.Controllers
             return NoContent();
         }
 
-        [HttpPost("delete-Model")]
-        public async Task<IActionResult> DeleteModel([FromBody] ModelDTO modelDTO)
+        [HttpGet("delete-Model")]
+        public async Task<IActionResult> DeleteModel(string factory_id, string model_no)
         {
-            return Ok(await _modelService.Delete(modelDTO));
+            var model = await db.Models
+                .Where(x => x.model_no == model_no && x.factory_id == factory_id)
+                .FirstOrDefaultAsync();
+            db.Models.Remove(model);
+            return Ok(await db.SaveChangesAsync() > 0);
         }
     }
-
-
 }

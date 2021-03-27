@@ -1,8 +1,9 @@
+import { ModelOperationStore } from './../_stores/modelOperation.store';
 import { OperationResult } from './../_models/operation-result';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ModelOperation } from '../_models/model-operation';
 import { ModelOperationEditParam } from '../_models/model-operationEditParam';
@@ -14,10 +15,17 @@ import { PaginatedResult } from '../_models/pagination';
 export class ModelOperationService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private modelOperationStore: ModelOperationStore
+    ) { }
 
   GetAllAsync() {
-    return this.http.post<any>(this.baseUrl + 'modelOperation/modelOperation-list', {});
+    return this.http.get<ModelOperation[]>(this.baseUrl + 'modelOperation/modelOperation-list', {}).pipe(
+      tap(value => {
+        this.modelOperationStore.set(value);
+      })
+    );
   }
 
   search(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<ModelOperation[]>> {
@@ -42,7 +50,11 @@ export class ModelOperationService {
   }
 
   getModelOperationEdit(modelOperation: ModelOperationEditParam) {
-    return this.http.post<ModelOperation>(this.baseUrl + 'modelOperation/getModelOperation/', modelOperation);
+    return this.http.post<ModelOperation>(this.baseUrl + 'modelOperation/getModelOperation/', modelOperation).pipe(
+      tap(item => {
+        this.modelOperationStore.update({item});
+      })
+    );
   }
 
   getStage() {

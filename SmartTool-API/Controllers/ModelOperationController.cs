@@ -32,7 +32,7 @@ namespace SmartTool_API.Controllers
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
-        [HttpPost("modelOperation-list")]
+        [HttpGet("modelOperation-list")]
         public async Task<IActionResult> GetModelList()
         {
             return Ok(await _modelOperationService.GetAllAsync());

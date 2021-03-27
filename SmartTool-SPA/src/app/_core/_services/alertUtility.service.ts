@@ -6,6 +6,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AlertUtilityService {
+  config: SnotifyToastConfig = {
+    bodyMaxLength: 300,
+    titleMaxLength: 100,
+    backdrop: -1,
+    position: SnotifyPosition.rightTop,
+    timeout: 3000,
+    showProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true
+  };
+
   constructor(
     private snotifyService: SnotifyService
   ) { }
@@ -83,6 +94,20 @@ export class AlertUtilityService {
             this.snotifyService.remove(toast.id);
           }
         }
+      ]
+    });
+  }
+
+  confirm(body: string, title: string, okCallback: () => any) {
+    const config = { ...this.config };
+    config.position = SnotifyPosition.centerCenter;
+    config.timeout = 0;
+
+    this.snotifyService.confirm(body, title, {
+      ...config,
+      buttons: [
+        { text: 'OK', action: toast => { this.snotifyService.remove(toast.id); okCallback(); }, bold: true },
+        { text: 'Cancel', action: toast => { this.snotifyService.remove(toast.id); } }
       ]
     });
   }

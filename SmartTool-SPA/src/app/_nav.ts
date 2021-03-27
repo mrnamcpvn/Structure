@@ -43,6 +43,18 @@ export const navItems: INavData[] = [
       }
     ]
   },
+  {
+    name: '3. MAINTAIN-A',
+    url: '/maintain-a',
+    icon: 'icon-list',
+    children: [
+      {
+        name: '3.1 Model-A',
+        url: '/maintain-a/model-a/',
+        class: 'menu-margin'
+      }
+    ],
+  }
   // {
   //   name: 'Typography',
   //   url: '/theme/typography',

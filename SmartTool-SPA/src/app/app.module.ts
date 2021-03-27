@@ -1,6 +1,6 @@
 import { AlertifyService } from './_core/_services/alertify.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -51,6 +51,10 @@ import { AuthService } from './_core/_services/auth.service';
 import { AuthGuard } from './_core/_guards/auth.guard';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NG_ENTITY_SERVICE_CONFIG } from '@datorama/akita-ng-entity-service';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem('tokenSmartTooling');
@@ -82,6 +86,8 @@ export function tokenGetter() {
         disallowedRoutes: ['localhost:5000/api/auth'],
       },
     }),
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule,
   ],
   declarations: [
     AppComponent,
@@ -106,7 +112,9 @@ export function tokenGetter() {
       useValue: ToastDefaults
     },
     SnotifyService,
+    { provide: NG_ENTITY_SERVICE_CONFIG, useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' }},
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

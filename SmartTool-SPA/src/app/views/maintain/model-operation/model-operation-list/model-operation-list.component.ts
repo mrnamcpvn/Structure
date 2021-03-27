@@ -1,3 +1,4 @@
+import { ModelOperationQuery } from './../../../../_core/_queries/modelOperation.query';
 import { AlertUtilityService } from './../../../../_core/_services/alertUtility.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -5,9 +6,9 @@ import { Select2OptionData } from 'ng-select2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModelOperation } from '../../../../_core/_models/model-operation';
 import { ModelOperationEditParam } from '../../../../_core/_models/model-operationEditParam';
-import { PaginatedResult, Pagination } from '../../../../_core/_models/pagination';
-import { AlertifyService } from '../../../../_core/_services/alertify.service';
 import { ModelOperationService } from '../../../../_core/_services/model-operation.service';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-model-operation-list',
@@ -20,6 +21,7 @@ export class ModelOperationListComponent implements OnInit {
   modelList: Array<Select2OptionData>;
   stageList: Array<Select2OptionData>;
   activeList: Array<Select2OptionData>;
+  subscription: Subscription = new Subscription();
   noData: boolean = false;
   isChecked: any = true;
   paramSearch: any = {};
@@ -31,32 +33,28 @@ export class ModelOperationListComponent implements OnInit {
   //   totalItems: 1,
   //   totalPages: 1,
   // };
-  constructor(private modelOperationService: ModelOperationService,
-              private alertify: AlertUtilityService,
-              private router: Router,
-              private spinner: NgxSpinnerService) { }
-  ngOnInit() {
-    this.loadData();
+  constructor(
+    private modelOperationService: ModelOperationService,
+    private modelOperationQuery: ModelOperationQuery,
+    private alertify: AlertUtilityService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+    ) { }
 
+  ngOnInit() {
+    this.subscription.add(
+      this.modelOperationQuery.selectLoading().subscribe(isLoading => isLoading ? this.spinner.show() : this.spinner.hide())
+    );
+
+    this.subscription.add(
+      this.modelOperationQuery.selectAll().subscribe(modelOperations => this.modelOperations = modelOperations)
+    );
+
+    this.loadData();
   }
 
   loadData() {
-    this.spinner.show();
-      this.noData = false;
-      this.modelOperationService.search(this.paramSearch)
-      .subscribe(
-        (res: PaginatedResult<ModelOperation[]>) => {
-          this.modelOperations = res.result;
-          // this.pagination = res.pagination;
-          if (this.modelOperations.length == 0) {
-            this.noData = true;
-          }
-          this.spinner.hide();
-        },
-        (error) => {
-          this.alertify.error(error, 'Error');
-        });
-
+    timer(500).pipe(switchMap(() => this.modelOperationService.GetAllAsync())).subscribe();
   }
 
   search() {
