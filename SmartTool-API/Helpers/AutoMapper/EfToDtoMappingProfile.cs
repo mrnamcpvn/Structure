@@ -10,6 +10,9 @@ namespace SmartTool_API.Helpers.AutoMapper
         {
             CreateMap<Model, ModelDTO>();
             CreateMap<Model_Operation, ModelOperationDTO>();
+            CreateMap<Kaizen,KaizenDTO>();
+            CreateMap<Kaizen_Benefits_Application_Form, Kaizen_Benefits_Application_FormDTO>();
+            CreateMap<Efficiency, ModelEfficiencyDTO>();
         }
     }
 }

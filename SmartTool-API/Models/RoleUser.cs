@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
+    [Table("RoleUser")]
     public class RoleUser
     {
         [Key][Column(Order = 0)]

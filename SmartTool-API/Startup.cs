@@ -68,7 +68,14 @@ namespace SmartTool_API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
-             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IKaizenRepository, KaizenRepository>();
+            services.AddScoped<IFactoryRepository, FactoryRepository>();
+            services.AddScoped<IStageRepository,StageRepository>();
+            services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
+            services.AddScoped<IKaizenBenefitsApplicationFormRepository,KaizenBenefitsApplicationFormRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
             
 
             // Service
@@ -76,7 +83,10 @@ namespace SmartTool_API
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
-
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
+            services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
+            services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
+            services.AddScoped<IKaizenService,KaizenService>();
             // Swagger
             services.AddSwaggerGen(c =>
             {

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
+    [Table("Model_Type")]
     public class Model_Type
     {
         [Key]
