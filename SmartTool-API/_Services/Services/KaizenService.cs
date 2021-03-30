@@ -44,6 +44,8 @@ namespace SmartTool_API._Services.Services
             else {
                 var models = _mapper.Map<Kaizen>(model);
                 models.create_time = DateTime.Now;
+                models.create_by ="Tung";
+                models.update_by ="Tung";
                 _kaizen.Add(models);
                 await _kaizen.SaveAll();
                 return operationResult = new OperationResult { Caption = "Success", Message = "Add Kaizen Success", Success = true };

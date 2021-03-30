@@ -90,7 +90,7 @@ namespace SmartTool_API._Repositories.Repositories
         public async Task<bool> SaveAll()
         {
             DataSearch = _configuration.GetSection("AppSettings:DataSearch").Value;
-             
+            
             return await _context.SaveChangesAsync() > 0;
         }
 

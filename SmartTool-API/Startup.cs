@@ -76,7 +76,6 @@ namespace SmartTool_API
             services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
             services.AddScoped<IKaizenBenefitsApplicationFormRepository,KaizenBenefitsApplicationFormRepository>();
             services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
-            
 
             // Service
             services.AddScoped<IModelService, ModelService>();
@@ -134,7 +133,7 @@ namespace SmartTool_API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
 
             app.UseSwagger();

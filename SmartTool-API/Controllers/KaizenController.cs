@@ -139,7 +139,7 @@ namespace SmartTool_API.Controllers
             var result = await _kaizenService.AddKaizen(kaizenDTO);
             return Ok(result);
         }
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<IActionResult> update([FromBody] KaizenDTO kaizenDTO) {
             // var username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             // kaizenDTO.update_by = username;

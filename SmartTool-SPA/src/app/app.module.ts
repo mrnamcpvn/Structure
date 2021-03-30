@@ -1,3 +1,4 @@
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AlertifyService } from './_core/_services/alertify.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -55,6 +56,7 @@ import { NG_ENTITY_SERVICE_CONFIG } from '@datorama/akita-ng-entity-service';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 import { environment } from '../environments/environment';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 export function tokenGetter() {
   return localStorage.getItem('tokenSmartTooling');
@@ -77,8 +79,11 @@ export function tokenGetter() {
     IconModule,
     IconSetModule.forRoot(),
     HttpClientModule,
+    PaginationModule,
     NgxSpinnerModule,
     SnotifyModule,
+    ChartsModule,
+    HighchartsChartModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

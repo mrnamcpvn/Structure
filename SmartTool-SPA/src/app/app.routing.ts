@@ -70,7 +70,17 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         path: 'user',
         loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
-      }
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'kaizen',
+        loadChildren: () => import('./views/kaizen/kaizen.module').then(m => m.KaizenModule)
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'report',
+        loadChildren: () => import('./views/report/report.module').then(m => m.ReportModule)
+      },
     ]
   },
   { path: '**', component: P404Component }
