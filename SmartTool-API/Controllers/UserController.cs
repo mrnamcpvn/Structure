@@ -13,7 +13,7 @@ namespace SmartTool_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,7 +23,7 @@ namespace SmartTool_API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("list")]
+        [HttpGet]
         public async Task<IActionResult> GetListUserPaging(string account, string isActive, int pageNumber = 1, int pageSize = 10)
         {
             var result = await _userService.GetListUserPaging(account, isActive, pageNumber, pageSize);

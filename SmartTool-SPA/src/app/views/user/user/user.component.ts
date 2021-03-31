@@ -40,10 +40,12 @@ export class UserComponent implements OnInit {
     private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.getUser();
   }
 
   getUser() {
     console.log('Page: ', this.pagination);
+    debugger
     this.spinnerService.show();
     this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe(res => {
