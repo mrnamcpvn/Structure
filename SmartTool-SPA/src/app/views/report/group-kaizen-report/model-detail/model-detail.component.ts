@@ -5,7 +5,7 @@ import { environment } from '../../../../../environments/environment';
 import { Efficiency } from '../../../../_core/_models/efficiency';
 import { ModelKaizenReport } from '../../../../_core/_models/model-kaizen-report';
 import { Pagination } from '../../../../_core/_models/pagination';
-import { KaizenReportService } from '../../../../_core/_services/kaizen-report.service';
+import { GroupKaizenReportService } from '../../../../_core/_services/group-kaizen-report.service';
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
 declare var $: any;
 
@@ -34,16 +34,16 @@ export class ModelDetailComponent implements OnInit {
   };
   constructor(
     private router: Router,
-    private fuctionUtility: FunctionUtility,
-    private kaizenService: KaizenReportService
+    private functionUtility: FunctionUtility,
+    private kaizenService: GroupKaizenReportService
   ) { }
 
   ngOnInit() {
     this.kaizenService.currentModel.subscribe((res) => (this.model = res));
     if (this.model !== null) {
-      this.model.volume_string = this.fuctionUtility.convertNumber(this.model.volume);
+      this.model.volume_string = this.functionUtility.convertNumber(this.model.volume);
       // Thay thế kí tự ngắt dòng bằng thẻ <br>
-      this.model.remarks = this.fuctionUtility.replaceLineBreak(this.model.remarks);
+      this.model.remarks = this.functionUtility.replaceLineBreak(this.model.remarks);
       this.getSeasonByUpperID();
       this.getDataTable();
     } else {
@@ -53,7 +53,7 @@ export class ModelDetailComponent implements OnInit {
 
   getSeasonByUpperID() {
     this.kaizenService
-      .getSeasonByUpper(this.model.upper_id)
+      .getSeasonByUpper(this.model.factory_id, this.model.upper_id)
       .subscribe((res) => {
         this.seasons = res;
         if (this.seasons.length > 0) {
@@ -62,10 +62,9 @@ export class ModelDetailComponent implements OnInit {
         }
       });
   }
-
   getDataChart() {
     this.kaizenService
-      .getDataChart(this.model.upper_id, this.season)
+      .getDataChart(this.model.factory_id, this.model.upper_id, this.season)
       .subscribe((res) => {
         this.dataChart = res;
         this.efficiencyTargetData = this.dataChart.map((obj) => {
@@ -120,7 +119,7 @@ export class ModelDetailComponent implements OnInit {
               text: '',
             },
             labels: {
-              formatter: function () {
+              formatter: function() {
                 return this.value + '%';
               }
             }
@@ -155,15 +154,14 @@ export class ModelDetailComponent implements OnInit {
       });
   }
 
+  changeSeason() {
+    this.getDataChart();
+  }
   getDataTable() {
-    this.kaizenService
-      .getKaizens(
-        this.pagination.currentPage,
-        this.pagination.itemsPerPage,
-        this.model.model_no
-      )
-      .subscribe((res) => {
-        this.dataTable = res.result;
+    this.kaizenService.getKaizens(this.pagination.currentPage, this.pagination.itemsPerPage, this.model.factory_id, this.model.model_no)
+    .subscribe(res => {
+      console.log(res);
+      this.dataTable = res.result;
         this.dataTable.map((obj) => {
           obj.improv = Math.round(
             100 * ((obj.ct_before_sec - obj.ct_after_sec) / obj.ct_before_sec)
@@ -171,26 +169,19 @@ export class ModelDetailComponent implements OnInit {
           return obj;
         });
         this.pagination = res.pagination;
-      });
+    });
   }
-
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.getDataTable();
   }
-
-  changeSeason() {
-    this.getDataChart();
+  kaizenDetail(item: object) {
+    this.kaizenService.updateClickTimes(item).subscribe();
+    this.kaizenService.changeKaizen(item);
+    this.router.navigate(['/report/group-kaizen-report/kaizen-detail']);
   }
-
-  kaizenDetail(model: any) {
-    this.kaizenService.updateClickTimes(model).subscribe();
-    this.kaizenService.changeKaizen(model);
-    this.router.navigate(['/report/kaizen-report/kaizen-detail']);
-  }
-
   backForm() {
-    this.router.navigate(['/report/kaizen-report/']);
+    this.router.navigate(['/report/group-kaizen-report']);
   }
 
   ngAfterViewChecked() {

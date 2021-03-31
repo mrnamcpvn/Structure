@@ -20,7 +20,7 @@ export class GroupKaizenReportService {
   currentModel = this.modelSource.asObservable();
   kaizenSource = new BehaviorSubject<object>(null);
   currentKaizen = this.kaizenSource.asObservable();
-  getAllFactory() : Observable<Factory[]> {
+  getAllFactory(): Observable<Factory[]> {
     return this.http.get<Factory[]>(this.baseUrl + 'groupKaizenReport/getAllFactory/', {});
   }
   search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport[]>> {
@@ -30,7 +30,7 @@ export class GroupKaizenReportService {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    return this.http.post<any>(this.baseUrl + 'groupKaizenReport/search/', text, { observe: 'response', params })
+    return this.http.post<any>(this.baseUrl + 'GroupKaizenReport/search', text, { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -109,10 +109,10 @@ export class GroupKaizenReportService {
     return this.http.get<any>(this.baseUrl + 'groupKaizenReport/getkaizenDetail',
                               {params: {factory_id: factory_id, model_no: model_no, serial_no: serial_no}});
   }
-  getFactory(){
+  getFactory() {
     return this.http.get(this.baseUrl + 'groupKaizenReport/getFactory', {responseType: 'text'});
   }
-  addCross(model: KaizenBenefitsApplicationForm){
+  addCross(model: KaizenBenefitsApplicationForm) {
     return this.http.post<OperationResult>(this.baseUrl + 'groupKaizenReport/addCrossSiteSharing', model);
   }
 

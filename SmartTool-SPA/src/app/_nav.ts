@@ -81,6 +81,11 @@ export const navItems: INavData[] = [
         name: '5.1 Kaizen Report',
         url: '/report/kaizen-report/',
         class: 'menu-margin'
+      },
+      {
+        name: '5.2 Group Kaizen Report',
+        url: '/report/group-kaizen-report/',
+        class: 'menu-margin'
       }
     ],
   },

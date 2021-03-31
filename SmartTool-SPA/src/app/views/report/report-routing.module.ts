@@ -12,10 +12,10 @@ const routes: Routes = [
         path: 'kaizen-report',
         loadChildren: () => import('./kaizen-report/kaizen-report.module').then(m => m.KaizenReportModule)
       },
-      // {
-      //   path: 'group-kaizen-report',
-      //   loadChildren: () => import('./group-kaizen-report/group-kaizen-report.module').then(m => m.GroupKaizenReportModule)
-      // },
+      {
+        path: 'group-kaizen-report',
+        loadChildren: () => import('./group-kaizen-report/group-kaizen-report.module').then(m => m.GroupKaizenReportModule)
+      },
       // {
       //   path: 'rft-report',
       //   loadChildren: () => import('./rft-report/rft-report.module').then(m => m.RftReportModule)

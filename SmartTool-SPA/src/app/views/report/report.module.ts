@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { KaizenReportModule } from './kaizen-report/kaizen-report.module';
+import { GroupKaizenReportModule } from './group-kaizen-report/group-kaizen-report.module';
 import { ReportRoutingModule } from './report-routing.module';
 
 @NgModule({
@@ -7,7 +7,7 @@ import { ReportRoutingModule } from './report-routing.module';
   imports: [
     // KaizenReportModule,
     ReportRoutingModule,
-    // GroupKaizenReportModule,
+    GroupKaizenReportModule,
     // RftReportModule,
     // GroupRftReportModule,
     // CrossSiteSharingModule,

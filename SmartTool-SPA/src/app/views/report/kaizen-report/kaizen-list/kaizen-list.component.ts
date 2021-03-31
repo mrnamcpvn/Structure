@@ -50,7 +50,7 @@ export class KaizenListComponent implements OnInit {
       active: this.active
     };
     this.spinnerService.show();
-    this.kaizenService.search(this.pagination.currentPage , this.pagination.itemsPerPage,this.filterParam).subscribe(res => {
+    this.kaizenService.search(this.pagination.currentPage , this.pagination.itemsPerPage, this.filterParam).subscribe(res => {
       this.spinnerService.hide();
       this.models = res.result;
       this.models.map(obj => {
