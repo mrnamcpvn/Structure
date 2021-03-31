@@ -26,7 +26,7 @@ export class UserService {
       params = params.append('pageSize', itemsPerPage);
     }
     isActive = isActive === 'all' ? '' : isActive;
-    return this.http.get<any>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
+    return this.http.get<any>(this.baseUrl + 'user/list?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
