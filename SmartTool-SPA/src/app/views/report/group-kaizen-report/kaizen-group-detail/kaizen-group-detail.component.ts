@@ -6,6 +6,7 @@ import { GroupKaizenReportService } from '../../../../_core/_services/group-kaiz
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { GroupKaizenReportQuery } from '../../../../_core/_queries/group-kaizen-report-query';
 
 @Component({
   selector: 'app-kaizen-group-detail',
@@ -26,10 +27,12 @@ export class KaizenGroupDetailComponent implements OnInit {
               private functionUtility: FunctionUtility,
               private kaizenService: GroupKaizenReportService,
               private spinner: NgxSpinnerService,
-              private alertify: AlertUtilityService, ) { }
+              private alertify: AlertUtilityService,
+              private groupKaizenReportQuery: GroupKaizenReportQuery
+              ) { }
 
   ngOnInit() {
-
+    this.query();
     this.kaizenService.currentKaizen.subscribe(res => this.kaizen = res);
     if (this.kaizen !== null) {
       this.getKaizenDetail();
@@ -38,12 +41,17 @@ export class KaizenGroupDetailComponent implements OnInit {
       this.router.navigate(['/report/group-kaizen-report']);
     }
   }
+
+  query() {
+    this.groupKaizenReportQuery.selectAll().subscribe(kaizen => this.kaizen = kaizen)
+  }
+
   getKaizenDetail() {
     this.kaizenService.getKaizenDetail(this.kaizen.factory_id, this.kaizen.model_no, this.kaizen.serial_no).subscribe(res => {
       this.kaizenDetail = res;
       this.kaizenDetail.kaizen.before_remarks = this.functionUtility.replaceLineBreak(this.kaizenDetail.kaizen.before_remarks);
       this.kaizenDetail.kaizen.after_remarks = this.functionUtility.replaceLineBreak(this.kaizenDetail.kaizen.after_remarks);
-       // ----------------------------Show media video or picture--------------------//
+      // ----------------------------Show media video or picture--------------------//
       if (!this.functionUtility.isEmpty(this.kaizenDetail.kaizen.before_media)) {
         const mediaBefore = this.kaizenDetail.kaizen.before_media.trim();
         if (mediaBefore.split('.')[1] === 'mp4' || mediaBefore.split('.')[1] === 'MP4') {
@@ -66,11 +74,13 @@ export class KaizenGroupDetailComponent implements OnInit {
       this.rftDiff = (this.kaizenDetail.kaizen.rft_after_percent - this.kaizenDetail.kaizen.rft_before_percent).toFixed(2);
     });
   }
+
   backForm() {
     this.router.navigate(['/report/group-kaizen-report/model-detail']);
   }
+
   addCross() {
-    this.alertify.confirm('Cross Site Sharing','Are you sure to add a new one?', () => {
+    this.alertify.confirm('Cross Site Sharing', 'Are you sure to add a new one?', () => {
     const kaizenBenefitsApplicationForm = new KaizenBenefitsApplicationForm();
     kaizenBenefitsApplicationForm.factory_id = this.kaizen.factory_id;
     kaizenBenefitsApplicationForm.model_no = this.kaizen.model_no;
@@ -94,6 +104,7 @@ export class KaizenGroupDetailComponent implements OnInit {
     );
   });
   }
+
   getFactory() {
     this.kaizenService.getFactory().subscribe(res => {
       if (this.kaizen.factory_id != res) {
