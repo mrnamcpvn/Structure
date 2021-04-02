@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Efficiency } from '../_models/efficiency';
 import { Factory } from '../_models/factory';
@@ -9,13 +9,18 @@ import { KaizenBenefitsApplicationForm } from '../_models/kaizen-benefits-applic
 import { ModelKaizenReport } from '../_models/model-kaizen-report';
 import { OperationResult } from '../_models/operation-result';
 import { PaginatedResult } from '../_models/pagination';
+import { GroupKaizenReportStore } from '../_stores/group-kaizen-report.store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupKaizenReportService {
   baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private groupKaizenReportStore: GroupKaizenReportStore
+  ) { }
+
   modelSource = new BehaviorSubject<ModelKaizenReport>(null);
   currentModel = this.modelSource.asObservable();
   kaizenSource = new BehaviorSubject<object>(null);
@@ -23,6 +28,7 @@ export class GroupKaizenReportService {
   getAllFactory(): Observable<Factory[]> {
     return this.http.get<Factory[]>(this.baseUrl + 'groupKaizenReport/getAllFactory/', {});
   }
+
   search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport[]>> {
     const paginatedResult: PaginatedResult<ModelKaizenReport[]> = new PaginatedResult<ModelKaizenReport[]>();
     let params = new HttpParams();
@@ -71,13 +77,21 @@ export class GroupKaizenReportService {
   }
 
   getSeasonByUpper(factory_id: string, upper_id: string) {
-    return this.http.get<string[]>(this.baseUrl + 'groupKaizenReport/getSeason',
-                                  {params: {factory_id: factory_id, upper_id: upper_id} });
+    return this.http.get<string[]>(`${this.baseUrl}groupKaizenReport/getSeason`,
+                                  {params: {factory_id: factory_id, upper_id: upper_id} }).pipe(
+                                    tap(seasonByUpper => {
+                                      this.groupKaizenReportStore.update(seasonByUpper);
+                                    })
+                                  );
   }
 
   getDataChart(factory_id: string , upper_id: string, season: string) {
-    return this.http.get<Efficiency[]>(this.baseUrl + 'groupKaizenReport/getEfficiencys',
-                                    {params: {factory_id: factory_id, upper_id: upper_id, season: season}});
+    return this.http.get<Efficiency[]>(`${this.baseUrl}groupKaizenReport/getEfficiencys`,
+                                    {params: {factory_id: factory_id, upper_id: upper_id, season: season}}).pipe(
+                                      tap(dataChart => {
+                                        this.groupKaizenReportStore.update(dataChart);
+                                      })
+                                    );
   }
 
   getKaizens(page?, itemsPerPage?, factory_id?: string, model_no?: string): Observable<PaginatedResult<any[]>> {
@@ -102,18 +116,32 @@ export class GroupKaizenReportService {
   }
 
   updateClickTimes(data: any) {
-    return this.http.post(this.baseUrl + 'groupKaizenReport/updateClickTimes', data, {} );
+    return this.http.post(`${this.baseUrl}groupKaizenReport/updateClickTimes`, data, {} ).pipe(
+      tap(clicksTimes => {
+        this.groupKaizenReportStore.update(clicksTimes);
+      })
+    );
   }
 
   getKaizenDetail(factory_id: string, model_no: string, serial_no: string) {
-    return this.http.get<any>(this.baseUrl + 'groupKaizenReport/getkaizenDetail',
-                              {params: {factory_id: factory_id, model_no: model_no, serial_no: serial_no}});
+    return this.http.get<any>(`${this.baseUrl}groupKaizenReport/getkaizenDetail`,
+                              {params: {factory_id: factory_id, model_no: model_no, serial_no: serial_no}}).pipe(
+                                tap(kaizenDetail => {
+                                  this.groupKaizenReportStore.set(kaizenDetail);
+                                })
+                              );
   }
+
   getFactory() {
-    return this.http.get(this.baseUrl + 'groupKaizenReport/getFactory', {responseType: 'text'});
+    return this.http.get(`${this.baseUrl}groupKaizenReport/getFactory`, {responseType: 'text'});
   }
+
   addCross(model: KaizenBenefitsApplicationForm) {
-    return this.http.post<OperationResult>(this.baseUrl + 'groupKaizenReport/addCrossSiteSharing', model);
+    return this.http.post<OperationResult>(this.baseUrl + 'groupKaizenReport/addCrossSiteSharing', model).pipe(
+      tap(cross => {
+        this.groupKaizenReportStore.update(cross);
+      })
+    );
   }
 
 }

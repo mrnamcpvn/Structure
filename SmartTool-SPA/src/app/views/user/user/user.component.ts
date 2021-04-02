@@ -4,8 +4,10 @@ import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Pagination } from '../../../_core/_models/pagination';
 import { RoleByUser } from '../../../_core/_models/role-by-user';
-import { AddUser } from '../../../_core/_models/user';
+import { AddUser, User } from '../../../_core/_models/user';
 import { UserService } from '../../../_core/_services/user.service';
+import { Subject, Subscription } from 'rxjs';
+import { UserQuery } from '../../../_core/_queries/user.query';
 
 @Component({
   selector: 'app-user',
@@ -13,8 +15,8 @@ import { UserService } from '../../../_core/_services/user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
-  users: AddUser[] = [];
+  // userToAdd: AddUser = {} as AddUser;
+  users: User[] = [];
   account: string = '';
   isActive: string = 'all';
   pagination: Pagination = {
@@ -30,36 +32,49 @@ export class UserComponent implements OnInit {
   userAuthorizationAccount: string = '';
   userAuthorizationName: string = '';
   listRoleByUser: RoleByUser[] = [];
-
+  subscription: Subscription = new Subscription();
+  private readonly unsubscribe$: Subject<void> = new Subject();
   editUser: AddUser = new AddUser();
+
   @ViewChild('modalEditUser', { static: false }) modalEditUser: ModalDirective;
 
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
+    private userQuery: UserQuery,
     private spinnerService: NgxSpinnerService,
     private alertifyService: AlertUtilityService,
     private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.getUser();
+    this.queryUser();
+    this.getUsers();
   }
 
-  getUser() {
+  queryUser() {
+    this.subscription.add(
+      this.userQuery.selectAll().subscribe(users => this.users = users)
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  getUsers() {
     console.log('Page: ', this.pagination);
-    debugger
     this.spinnerService.show();
     this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe(res => {
         this.users = res.result;
-        console.log('User: ', this.users);
         this.pagination = res.pagination;
-
         this.spinnerService.hide();
       });
   }
 
   search() {
     this.pagination.currentPage = 1;
-    this.getUser();
+    this.getUsers();
   }
 
   saveAddUser() {
@@ -68,7 +83,7 @@ export class UserComponent implements OnInit {
       .subscribe(() => {
         this.alertifyService.success('Add user success!', 'Success');
         this.spinnerService.hide();
-        this.getUser();
+        this.getUsers();
       }, error => {
         this.alertifyService.error('Fail add user!', 'Error');
         this.spinnerService.hide();
@@ -107,7 +122,7 @@ export class UserComponent implements OnInit {
         this.alertifyService.success('Update user success!', 'Success');
         this.spinnerService.hide();
         this.modalEditUser.hide();
-        this.getUser();
+        this.getUsers();
       }, error => {
         this.alertifyService.error('Fail update user!', 'Error');
         this.spinnerService.hide();
@@ -117,7 +132,7 @@ export class UserComponent implements OnInit {
   pageChanged(event: any): void {
     console.log(event);
     this.pagination.currentPage = event.page;
-    this.getUser();
+    this.getUsers();
   }
 
   openModalEditUser(user: AddUser) {

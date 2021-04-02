@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
+import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { Efficiency } from '../../../../_core/_models/efficiency';
 import { ModelKaizenReport } from '../../../../_core/_models/model-kaizen-report';
 import { Pagination } from '../../../../_core/_models/pagination';
+import { GroupKaizenReportQuery } from '../../../../_core/_queries/group-kaizen-report-query';
 import { GroupKaizenReportService } from '../../../../_core/_services/group-kaizen-report.service';
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
 declare var $: any;
@@ -26,6 +28,7 @@ export class ModelDetailComponent implements OnInit {
   season: string;
   chartOptions = null;
   dataTable: any = [];
+  subscription: Subscription = new Subscription();
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 3,
@@ -35,10 +38,12 @@ export class ModelDetailComponent implements OnInit {
   constructor(
     private router: Router,
     private functionUtility: FunctionUtility,
-    private kaizenService: GroupKaizenReportService
+    private kaizenService: GroupKaizenReportService,
+    private groupKaizenReportQuery: GroupKaizenReportQuery
   ) { }
 
   ngOnInit() {
+    this.query();
     this.kaizenService.currentModel.subscribe((res) => (this.model = res));
     if (this.model !== null) {
       this.model.volume_string = this.functionUtility.convertNumber(this.model.volume);
@@ -49,6 +54,12 @@ export class ModelDetailComponent implements OnInit {
     } else {
       this.backForm();
     }
+  }
+
+  query() {
+    this.subscription.add(
+      this.groupKaizenReportQuery.select(state => state.modelKaizenReport).subscribe(model => this.model = model)
+    );
   }
 
   getSeasonByUpperID() {

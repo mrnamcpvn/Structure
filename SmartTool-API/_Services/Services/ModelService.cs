@@ -129,5 +129,10 @@ namespace SmartTool_API._Services.Services
             .GroupBy(x => new { x.model_type_id, x.model_type_name })
             .Select(x => new { Id = x.Key.model_type_id, Name = x.Key.model_type_name }).ToListAsync();
         }
+
+        public Task<bool> Add(ModelDTO model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,6 +7,8 @@ import { Pagination } from '../../../../_core/_models/pagination';
 import { GroupKaizenReportService } from '../../../../_core/_services/group-kaizen-report.service';
 import { Router } from '@angular/router';
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
+import { Subscription } from 'rxjs';
+import { GroupKaizenReportQuery } from '../../../../_core/_queries/group-kaizen-report-query';
 
 @Component({
   selector: 'app-kaizen-group-list',
@@ -20,6 +22,7 @@ export class KaizenGroupListComponent implements OnInit {
   factories: Factory[];
   factory: string;
   models: ModelKaizenReport[] = [];
+  subscription: Subscription = new Subscription();
   alerts: any = [
     {
       type: 'success',
@@ -36,26 +39,37 @@ export class KaizenGroupListComponent implements OnInit {
   ];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
+    itemsPerPage: 5,
     totalItems: 0,
     totalPages: 0,
   };
+
   constructor(
     private kaizenGroupSerivce: GroupKaizenReportService,
     private spinnerService: NgxSpinnerService,
     private alertify: AlertUtilityService,
     private router: Router,
-    private utility: FunctionUtility
+    private utility: FunctionUtility,
+    private groupKaizenReportQuery: GroupKaizenReportQuery
   ) {}
 
   ngOnInit() {
+    this.queryGroupKaizenReport();
     this.getAllFactory();
   }
+
+  queryGroupKaizenReport() {
+    this.subscription.add(
+      this.groupKaizenReportQuery.selectAll().subscribe(models => this.models = models)
+    );
+  }
+
   getAllFactory() {
     this.kaizenGroupSerivce.getAllFactory().subscribe((res) => {
       this.factories = res;
     });
   }
+
   getData() {
     if (this.factory === undefined || this.factory === null || this.factory === '') {
       this.alertify.error('Please option factory', 'Error');
@@ -83,24 +97,29 @@ export class KaizenGroupListComponent implements OnInit {
         });
     }
   }
+
   search() {
     this.pagination.currentPage = 1;
     this.getData();
   }
+
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.getData();
   }
+
   modelDetail(model: ModelKaizenReport) {
     this.kaizenGroupSerivce.changeModel(model);
     this.router.navigate(['/report/group-kaizen-report/model-detail']);
   }
+
   clear() {
     this.models.length = 0;
     this.model_no = '';
     this.active = 'all';
     this.factory = '';
   }
+
   exportExcel() {
     if (this.factory === undefined || this.factory === null) {
       this.alertify.error('Please option factory!', 'Error');

@@ -76,6 +76,10 @@ namespace SmartTool_API
             services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
             services.AddScoped<IKaizenBenefitsApplicationFormRepository,KaizenBenefitsApplicationFormRepository>();
             services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
+            services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
 
             // Service
             services.AddScoped<IModelService, ModelService>();
@@ -86,6 +90,10 @@ namespace SmartTool_API
             services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddScoped<IKaizenService,KaizenService>();
+            services.AddScoped<IRFTService, RFTService>();
+            services.AddScoped<IDefectReasonService, DefectReasonService>();
+            services.AddScoped<IRFTReportService, RFTReportService>();
+
             // Swagger
             services.AddSwaggerGen(c =>
             {

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { ModelKaizenReport } from '../../../../_core/_models/model-kaizen-report';
 import { Pagination } from '../../../../_core/_models/pagination';
+import { KaizenReportQuery } from '../../../../_core/_queries/kaizen-report.query';
 import { KaizenReportService } from '../../../../_core/_services/kaizen-report.service';
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
 
@@ -16,6 +18,7 @@ export class KaizenListComponent implements OnInit {
   model_no: string = '';
   active: string = 'all';
   filterParam: any;
+  subscription: Subscription = new Subscription();
   alerts: any = [
     {
       type: 'success',
@@ -39,11 +42,20 @@ export class KaizenListComponent implements OnInit {
   constructor(private kaizenService: KaizenReportService,
               private spinnerService: NgxSpinnerService,
               private router: Router,
-              private utility: FunctionUtility) { }
+              private utility: FunctionUtility,
+              private kaizenReportQuery: KaizenReportQuery
+              ) { }
 
   ngOnInit() {
-
+    this.queryKaizenReport();
   }
+
+  queryKaizenReport() {
+    this.subscription.add(
+      this.kaizenReportQuery.selectAll().subscribe(models => this.models = models)
+    );
+  }
+
   getData() {
     this.filterParam = {
       model_No: this.model_no.toUpperCase(),
@@ -60,10 +72,12 @@ export class KaizenListComponent implements OnInit {
       this.pagination = res.pagination;
     });
   }
+
   search() {
     this.pagination.currentPage = 1;
     this.getData();
   }
+
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.getData();

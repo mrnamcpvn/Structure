@@ -4,11 +4,11 @@
   [navbarBrandFull]="{src: 'assets/img/logo/LogoSYF.png', width: 60, height: 40, alt: 'CoreUI Logo'}"
   [navbarBrandMinimized]="{src: 'assets/img/logo/LogoSYF.png', width: 30, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'"
-  [asideMenuToggler]="'lg'">
+  [asideMenuToggler]="''">
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
-        <span></span>
+        <span style="color: aliceblue;">{{currentUser.name}}</span>
         <img src="assets/img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com"/>
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
@@ -31,25 +31,12 @@
     </cui-breadcrumb>
     <div class="container-fluid">
       <router-outlet></router-outlet>
-    </div><!-- /.container-fluid -->
+    </div>
     <ngx-spinner></ngx-spinner>
     <ng-snotify></ng-snotify>
   </main>
-  <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">
-    <tabset>
-      <tab>
-        <ng-template tabHeading><i class="icon-list"></i></ng-template>
-      </tab>
-      <tab>
-        <ng-template tabHeading><i class="icon-speech"></i></ng-template>
-      </tab>
-      <tab>
-        <ng-template tabHeading><i class="icon-settings"></i></ng-template>
-      </tab>
-    </tabset>
-  </app-aside>
 </div>
 <app-footer>
-  <span><a href="https://coreui.io">XuanTungLe</a> &copy; 2021 creativeLabs.</span>
-  <span class="ml-auto">Powered by <a href="https://coreui.io/angular">XuanTungLe</a></span>
+  <span><a href="https://coreui.io">XuanTungLe</a> &copy; 2021 CreativeLabs.</span>
+  <span class="ml-auto">Powered By <a href="https://coreui.io/angular">XuanTungLe</a></span>
 </app-footer>

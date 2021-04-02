@@ -54,6 +54,7 @@ export class KaizenService {
     this.modelNoSource.next(model_no);
     this.modelNameSource.next(model_name);
   }
+
   create(kaizen: Kaizen) {
     console.log('Service: ', kaizen);
     return this.http.post<OperationResult>(`${this.baseUrl}Kaizen/create`, kaizen);

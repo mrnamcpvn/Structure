@@ -100,5 +100,10 @@ namespace SmartTool_API._Services.Services
             var models = _mapper.Map<Model_Operation, ModelOperationDTO>(data);
             return models;
         }
+
+        public Task<bool> Add(ModelOperationDTO model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

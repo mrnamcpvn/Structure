@@ -17,6 +17,10 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<RoleUser, RoleUserDTO>();
             CreateMap<Stage, StageDTO>();
             CreateMap<VW_ModelKaizen, VW_ModelKaizen_Dto>();
+            CreateMap<VW_RFT_AVG, VW_RFT_AVGDTO>();
+            CreateMap<VW_RFTReportDetail, VW_RFTReportDetailDTO>();
+            CreateMap<Measurement_RFT, Measurement_RFTDTO> ();
+            CreateMap<Defect_Reason, DefectReasonDTO> ();
         }
     }
 }

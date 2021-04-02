@@ -86,6 +86,16 @@ export const navItems: INavData[] = [
         name: '5.2 Group Kaizen Report',
         url: '/report/group-kaizen-report/',
         class: 'menu-margin'
+      },
+      {
+        name: '5.3 RFT Report',
+        url: '/report/rft-report/',
+        class: 'menu-margin'
+      },
+      {
+        name: '5.4 Group RFT Report',
+        url: '/report/group-rft-report/',
+        class: 'menu-margin'
       }
     ],
   },

@@ -156,7 +156,7 @@
                 <input type="checkbox"
                   class="custom-control-input"
                   id="active"
-                  [(ngModel)]="addUser.is_active">
+                  [(ngModel)]="addUser.is_active" name="active">
                 <label class="custom-control-label" for="active"></label>
               </div>
             </div>
@@ -241,7 +241,7 @@
               <input type="checkbox"
                 class="custom-control-input"
                 id="editActive"
-                [(ngModel)]="editUser.is_active">
+                [(ngModel)]="editUser.is_active" name="active">
               <label class="custom-control-label" for="editActive"></label>
             </div>
           </div>
@@ -288,7 +288,7 @@
         <div class="row mb-2 mt-3" *ngFor="let item of listRoleByUser">
           <div class="col-md-2 offset-md-3">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="{{item.role_name}}" [(ngModel)]="item.status">
+              <input type="checkbox" class="custom-control-input" id="{{item.role_name}}" [(ngModel)]="item.status" name="status">
               <label class="custom-control-label" for="{{item.role_name}}"></label>
             </div>
           </div>

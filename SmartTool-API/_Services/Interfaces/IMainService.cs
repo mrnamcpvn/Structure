@@ -7,7 +7,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IMainService<T> where T : class
     {
-        // Task<OperationResult> Add(T model);
+        Task<bool> Add(T model);
         Task<OperationResult> AddAsync(T model);
 
         Task<bool> Update(T model);

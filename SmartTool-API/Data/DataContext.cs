@@ -21,6 +21,9 @@ namespace SmartTool_API.Data
         public DbSet<Efficiency> Efficiency { get; set; }
         public DbSet<VW_ModelKaizen> VW_ModelKaizen { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
+        public virtual DbSet<VW_RFT_AVG> VW_RFT_AVG { get; set; }
+        public virtual DbSet<Measurement_RFT> Measurement_RFT { get; set; }
+        public DbSet<Defect_Reason> Defect_Reason { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +32,9 @@ namespace SmartTool_API.Data
             builder.Entity<Model_Type>().HasKey(x => new { x.factory_id, x.model_type_id });
             builder.Entity<Model_Operation>().HasKey(x => new { x.factory_id, x.model_no, x.stage_id, x.operation_id });
             builder.Entity<VW_ModelKaizen>().HasNoKey();
+            builder.Entity<VW_RFTReportDetail>().HasNoKey();
+            builder.Entity<VW_RFT_AVG>().HasNoKey();
+            builder.Entity<Defect_Reason>().HasKey(x => new { x.factory_id, x.defect_reason_id });
             builder.Entity<Kaizen_Benefits_Application_Form>().HasKey(x => new
             {
                 x.factory_id,
@@ -60,6 +66,10 @@ namespace SmartTool_API.Data
                 x.factory_id,
                 x.process_type_id,
             });
+            builder.Entity<Measurement_RFT>().HasKey(x => new
+             {
+                 x.factory_id, x.model_no, x.stage_id, x.operation_id 
+             });
         }
     }
 }
