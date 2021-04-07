@@ -43,7 +43,7 @@ export class KaizenGroupDetailComponent implements OnInit {
   }
 
   query() {
-    this.groupKaizenReportQuery.selectAll().subscribe(kaizen => this.kaizen = kaizen)
+    this.groupKaizenReportQuery.selectAll().subscribe(kaizen => this.kaizen = kaizen);
   }
 
   getKaizenDetail() {

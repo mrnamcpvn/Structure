@@ -21,12 +21,22 @@ export const navItems: INavData[] = [
     children: [
       {
         name: '1.1 Model',
-        url: '/maintain/model/list',
+        url: '/maintain/model',
         class: 'menu-margin'
       },
       {
         name: '1.2 Model Operation',
-        url: '/maintain/model-operation/list',
+        url: '/maintain/model-operation',
+        class: 'menu-margin'
+      },
+      {
+        name: '1.3 Model-Efficiency',
+        url: '/maintain/model-efficiency',
+        class: 'menu-margin'
+      },
+      {
+        name: '1.4 Defect Reason',
+        url: '/maintain/defect-reason',
         class: 'menu-margin'
       }
     ],

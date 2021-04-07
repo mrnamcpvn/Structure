@@ -6,7 +6,7 @@ import { ModelOperationEditComponent } from './model-operation-edit/model-operat
 
 const routes: Routes = [
   {
-    path: 'model-operation',
+    path: '',
     data: {
       title: 'Model operation'
     },
@@ -26,7 +26,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'list',
+        path: '',
         component: ModelOperationListComponent,
         data: {
           title: 'List model operation'

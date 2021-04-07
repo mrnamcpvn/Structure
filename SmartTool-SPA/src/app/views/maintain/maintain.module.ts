@@ -8,8 +8,6 @@ import { MaintainRoutingModule } from './maintain-routing.module';
 @NgModule({
   imports: [
     MaintainRoutingModule,
-    ModelModule,
-    ModelOperationModule,
     HttpClientModule,
     SnotifyModule,
   ],

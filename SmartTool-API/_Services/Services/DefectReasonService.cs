@@ -54,7 +54,7 @@ namespace SmartTool_API._Services.Services
                     }
                 }
             }
-            var list = query.ProjectTo<DefectReasonDTO>(_configMapper).OrderBy(x => x.sequence);
+            var list = query.ProjectTo<DefectReasonDTO>(_configMapper).OrderByDescending(x => x.update_time);
             return await PagedList<DefectReasonDTO>.CreateAsync(list, paginationParams.PageNumber, paginationParams.PageSize);
         }
 

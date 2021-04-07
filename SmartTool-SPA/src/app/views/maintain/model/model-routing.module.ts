@@ -9,11 +9,19 @@ import { ModelEditResolver } from '../../../_core/_resolvers/model-edit.resolver
 
 const routes: Routes = [
   {
-    path: 'model',
+    path: '',
     data: {
       title: 'Model'
     },
     children: [
+      {
+        path: '',
+        component: ModelListComponent,
+         resolve: {model: ModelResolver},
+        data: {
+          title: 'List model  '
+        },
+      },
       {
         path: 'add',
         component: AddComponent,
@@ -28,14 +36,6 @@ const routes: Routes = [
         data: {
           title: 'Edit model'
         }
-      },
-      {
-        path: 'list',
-        component: ModelListComponent,
-         resolve: {model: ModelResolver},
-        data: {
-          title: 'List model  '
-        },
       },
     ],
   },

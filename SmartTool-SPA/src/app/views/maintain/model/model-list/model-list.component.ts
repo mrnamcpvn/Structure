@@ -48,6 +48,7 @@ export class ModelListComponent implements OnInit {
       // this.pagination = res.pagination;
     });
     this.spinner.hide();
+    this.loadData();
   }
 
   loadData() {
