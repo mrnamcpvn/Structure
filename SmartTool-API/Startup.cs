@@ -16,6 +16,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SmartTool_API._Repositories.Interfaces;
+using SmartTool_API._Repositories.Repositories;
+using SmartTool_API._Services.Interfaces;
+using SmartTool_API._Services.Services;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers.AutoMapper;
 
@@ -65,6 +69,40 @@ namespace SmartTool_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });
             });
+
+            //Repository
+            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleUserRepository, RoleUserRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
+            services.AddScoped<IKaizenRepository, KaizenRepository>();
+            services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
+            services.AddScoped<IFactoryRepository, FactoryRepository>();
+            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
+            services.AddScoped<IMeasurement_RFTRepository, Measurement_RFTRepository>();
+            services.AddScoped<IStageRepository, StageRepository>();
+            services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
+            services.AddScoped<IKaizenBenefitsApplicationFormRepository, KaizenBenefitsApplicationFormRepository>();
+
+            //Services
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IModelService, ModelService>();
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRFTService, RFTService>();
+            services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
+            services.AddScoped<IDefectReasonService, DefectReasonService>();
+            services.AddScoped<IModelOperationService, ModelOperationService>();
+            services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
+            services.AddScoped<IRFTReportService, RFTReportService>();
+            services.AddScoped<IKaizenService, KaizenService>();
+            services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +115,7 @@ namespace SmartTool_API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTool_API v1"));
             }
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseHttpsRedirection();
 
             app.UseRouting();

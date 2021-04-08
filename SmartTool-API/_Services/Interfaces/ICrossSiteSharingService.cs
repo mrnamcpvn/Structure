@@ -1,0 +1,16 @@
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SmartTool_API.DTO;
+using SmartTool_API.Helpers;
+
+namespace SmartTool_API._Services.Interfaces
+{
+    public interface ICrossSiteSharingService
+    {
+        Task<PagedList<CrossSiteSharingDTO>> Search(PaginationParams param, CrossSiteSharingParam filterParam);
+        Task<CrossSiteSharingEditDTO> GetCrossSiteSharingEdit(string factory, string modelNO, string serialNo);
+        Task<List<CrossSiteSharingEditDTO>> GetCrossSiteSharingPDF(List<CrossSiteSharingDTO> filterParam);
+        Task<OperationResult> UpdateCrossSiteSharing(Kaizen_Benefits_Application_FormDTO model);
+    }
+}
