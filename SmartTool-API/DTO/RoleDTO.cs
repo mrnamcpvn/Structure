@@ -1,4 +1,4 @@
-namespace SmartTooling_API.DTO
+namespace SmartTool_API.DTO
 {
     public class RoleDTO
     {

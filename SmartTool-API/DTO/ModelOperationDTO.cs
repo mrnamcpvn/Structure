@@ -1,6 +1,6 @@
 using System;
 
-namespace SmartTooling_API.DTO
+namespace SmartTool_API.DTO
 {
     public class ModelOperationDTO
     {
@@ -22,7 +22,8 @@ namespace SmartTooling_API.DTO
         public string update_by { get; set; }
         public DateTime update_time { get; set; }
 
-        public ModelOperationDTO() {
+        public ModelOperationDTO()
+        {
             this.update_time = DateTime.Now;
         }
     }

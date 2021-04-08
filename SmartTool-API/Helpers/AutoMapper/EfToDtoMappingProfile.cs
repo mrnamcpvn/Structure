@@ -1,5 +1,5 @@
 using AutoMapper;
-using SmartTooling_API.DTO;
+using SmartTool_API.DTO;
 using SmartTool_API.Models;
 
 namespace SmartTool_API.Helpers.AutoMapper

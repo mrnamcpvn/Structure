@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace SmartTooling_API.DTO
+namespace SmartTool_API.DTO
 {
     public class UserForLoggedDTO
     {
-         public string Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }

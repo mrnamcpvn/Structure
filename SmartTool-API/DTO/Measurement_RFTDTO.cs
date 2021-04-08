@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.DTO
+namespace SmartTool_API.DTO
 {
     public class Measurement_RFTDTO
     {
