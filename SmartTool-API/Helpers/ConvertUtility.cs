@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace SmartTooling_API.Helpers
+namespace SmartTool_API.Helpers
 {
     public static class ConvertUtility
     {

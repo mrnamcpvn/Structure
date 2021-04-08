@@ -1,4 +1,4 @@
-namespace SmartTooling_API.Helpers
+namespace SmartTool_API.Helpers
 {
     public class ModelParam
     {

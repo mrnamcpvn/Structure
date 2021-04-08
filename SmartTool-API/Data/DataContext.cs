@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using SmartTooling_API.Models;
+using SmartTool_API.Models;
 
-namespace SmartTooling_API.Data
+namespace SmartTool_API.Data
 {
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Defect_Reason> Defect_Reason { get; set; }
         public DbSet<Model> Model { get; set; }
-        public DbSet<Factory> Factory {get;set;}
+        public DbSet<Factory> Factory { get; set; }
         public DbSet<Efficiency> Efficiency { get; set; }
         public DbSet<Kaizen> Kaizen { get; set; }
         public DbSet<Model_Type> Model_Type { get; set; }
@@ -23,7 +23,7 @@ namespace SmartTooling_API.Data
         public DbSet<Measurement_RFT> Measurement_RFT { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
 
-        public DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form {get;set;}
+        public DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Defect_Reason>().HasKey(x => new { x.factory_id, x.defect_reason_id });
@@ -54,9 +54,12 @@ namespace SmartTooling_API.Data
                 x.serial_no
             });
             modelBuilder.Entity<Measurement_RFT>().HasKey(x => new
-             {
-                 x.factory_id, x.model_no, x.stage_id, x.operation_id 
-             });
+            {
+                x.factory_id,
+                x.model_no,
+                x.stage_id,
+                x.operation_id
+            });
             modelBuilder.Entity<Stage>().HasKey(x => new
             {
                 x.factory_id,
@@ -70,7 +73,7 @@ namespace SmartTooling_API.Data
                 x.stage_id,
                 x.operation_id
             });
-             modelBuilder.Entity<Process_Type>().HasKey(x => new
+            modelBuilder.Entity<Process_Type>().HasKey(x => new
             {
                 x.factory_id,
                 x.process_type_id,

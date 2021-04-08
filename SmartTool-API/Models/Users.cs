@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
     public class Users
     {

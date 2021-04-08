@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
     public class Efficiency
     {
@@ -24,13 +24,13 @@ namespace SmartTooling_API.Models
 
         [Column(TypeName = "decimal(5, 2)")]
         public decimal? efficiency_target { get; set; }
-        
+
         [Column(TypeName = "decimal(5, 2)")]
         public decimal? efficiency_actual { get; set; }
 
         public int sequence { get; set; }
 
-        
+
 
         public string create_by { get; set; }
 

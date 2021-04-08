@@ -2,12 +2,12 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
     public class Roles
     {
         [Key]
-        public string  role_unique { get; set; }
+        public string role_unique { get; set; }
 
         public string role_name { get; set; }
 

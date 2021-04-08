@@ -1,4 +1,4 @@
-namespace SmartTooling_API.Helpers
+namespace SmartTool_API.Helpers
 {
     public class OperationResult
     {
@@ -8,7 +8,7 @@ namespace SmartTooling_API.Helpers
 
         public OperationResult()
         {
-            
+
         }
     }
 }

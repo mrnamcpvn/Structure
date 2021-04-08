@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
     public class VW_RFT_AVG
     {

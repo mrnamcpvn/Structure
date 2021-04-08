@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace SmartTooling_API.Helpers.AutoMapper
+namespace SmartTool_API.Helpers.AutoMapper
 {
     public class AutoMapperConfig
     {

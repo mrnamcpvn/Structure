@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
     public class Kaizen
     {
@@ -14,9 +14,9 @@ namespace SmartTooling_API.Models
         [Column(Order = 1)]
         public string model_no { get; set; }
 
-        
+
         public int serial_no { get; set; }
-        
+
         [Key]
         [Column(Order = 2)]
         public string kaizen_description { get; set; }

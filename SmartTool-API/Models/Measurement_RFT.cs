@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
-     public partial class Measurement_RFT
+    public partial class Measurement_RFT
     {
         [Key]
         [StringLength(50)]
@@ -23,7 +23,7 @@ namespace SmartTooling_API.Models
         [Required]
         [StringLength(50)]
         public string defect_reason_id { get; set; }
-        
+
         [Column(TypeName = "numeric(18, 2)")]
         public decimal rft_percent { get; set; }
         [Required]

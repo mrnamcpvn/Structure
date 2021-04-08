@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartTooling_API.Models
+namespace SmartTool_API.Models
 {
-     public partial class Stage
+    public partial class Stage
     {
         [Key]
         [StringLength(50)]
