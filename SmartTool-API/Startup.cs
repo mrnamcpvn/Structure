@@ -16,8 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SmartTooling_API.Data;
-using SmartTooling_API.Helpers.AutoMapper;
+using SmartTool_API.Data;
+using SmartTool_API.Helpers.AutoMapper;
 
 namespace SmartTool_API
 {
