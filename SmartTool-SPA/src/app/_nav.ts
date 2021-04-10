@@ -1,5 +1,5 @@
-import { INavData } from '@coreui/angular';
 import { Injectable } from "@angular/core";
+import { INavData } from "@coreui/angular";
 
 export const navItems: INavData[] = [];
 
@@ -50,20 +50,20 @@ export class NavItem {
     };
     //=================================
     //===Setup Menu cha Report=========
-    const navItemReport = {
-      name: "4. Report",
-      url: "report",
-      icon: "icon-chart",
-      children: [],
-    };
+    // const navItemReport = {
+    //   name: "4. Report",
+    //   url: "report",
+    //   icon: "icon-chart",
+    //   children: [],
+    // };
     //=================================
     //===Setup Menu cha Measurement====
-    const navItemUser = {
-      name: "5. USER MANAGER",
-      url: "user",
-      icon: "icon-user",
-      children: [],
-    };
+    // const navItemUser = {
+    //   name: "5. USER MANAGER",
+    //   url: "user",
+    //   icon: "icon-user",
+    //   children: [],
+    // };
     //=================================
     if (user != null) {
       user.role.forEach((element) => {
@@ -128,75 +128,98 @@ export class NavItem {
         //====================================
 
         //====Setup Menu con cho Measurement====
-        if (element === "ksmt.RFT") {
-          const children = {
-            name: "3.1 RFT ",
-            url: "/measurement/list",
-            class: "menu-margin",
-          };
-          this.hasMeasurement = true;
-          navItemMeasurement.children.push(children);
-        }
+        // if (element === "ksmt.RFT") {
+        //   const children = {
+        //     name: "3.1 RFT ",
+        //     url: "/measurement/list",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasMeasurement = true;
+        //   navItemMeasurement.children.push(children);
+        // }
         //====================================
         //====Setup menu con cho Report=======
-        if (element === "ksmt.KaizenReport") {
-          const children = {
-            name: "4.1 Kaizen Report",
-            url: "/report/kaizen-report/main",
-            class: "menu-margin",
-          };
-          this.hasReport = true;
-          navItemReport.children.push(children);
-        }
-        if (element === "ksmt.GroupKaizenReport") {
-          const children = {
-            name: "4.2 Group Kaizen Report",
-            url: "/report/group-kaizen-report/main",
-            class: "menu-margin",
-          };
-          this.hasReport = true;
-          navItemReport.children.push(children);
-        }
-        if (element === "ksmt.RFTReport") {
-          const children = {
-            name: "4.3 RFT Report",
-            url: "/report/rft-report/main",
-            class: "menu-margin",
-          };
-          this.hasReport = true;
-          navItemReport.children.push(children);
-        }
-        if (element === "ksmt.GroupRFTReport") {
-          const children = {
-            name: "4.4 Group RFT Report",
-            url: "/report/group-rft-report/main",
-            class: "menu-margin",
-          };
-          this.hasReport = true;
-          navItemReport.children.push(children);
-        }
-        if (element === "ksmt.CrossSiteSharingApplication") {
-          const children1 = {
-            name: "4.5 Cross Site Sharing Application",
-            url: "/report/cross-site-sharing/main",
-            class: "menu-margin",
-          };
-          this.hasReport = true;
-          navItemReport.children.push(children1);
-        }
+        // if (element === "ksmt.KaizenReport") {
+        //   const children = {
+        //     name: "4.1 Kaizen Report",
+        //     url: "/report/kaizen-report/main",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasReport = true;
+        //   navItemReport.children.push(children);
+        // }
+        // if (element === "ksmt.GroupKaizenReport") {
+        //   const children = {
+        //     name: "4.2 Group Kaizen Report",
+        //     url: "/report/group-kaizen-report/main",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasReport = true;
+        //   navItemReport.children.push(children);
+        // }
+        // if (element === "ksmt.RFTReport") {
+        //   const children = {
+        //     name: "4.3 RFT Report",
+        //     url: "/report/rft-report/main",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasReport = true;
+        //   navItemReport.children.push(children);
+        // }
+        // if (element === "ksmt.GroupRFTReport") {
+        //   const children = {
+        //     name: "4.4 Group RFT Report",
+        //     url: "/report/group-rft-report/main",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasReport = true;
+        //   navItemReport.children.push(children);
+        // }
+        // if (element === "ksmt.CrossSiteSharingApplication") {
+        //   const children1 = {
+        //     name: "4.5 Cross Site Sharing Application",
+        //     url: "/report/cross-site-sharing/main",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasReport = true;
+        //   navItemReport.children.push(children1);
+        // }
 
         //====================================
         //Setup menu con cho User Manager
-        if (element === "ksmt.UserList") {
-          const children = {
-            name: "5.1 User List",
-            url: "/user",
-            class: "menu-margin",
-          };
-          this.hasUserList = true;
-          navItemUser.children.push(children);
-        }
+        // if (element === "ksmt.UserList") {
+        //   const children = {
+        //     name: "5.1 User List",
+        //     url: "/user",
+        //     class: "menu-margin",
+        //   };
+        //   this.hasUserList = true;
+        //   navItemUser.children.push(children);
+        // }
       });
     }
+
+    //kiểm tra xem có Maintain không
+    if (this.hasMaintain) {
+      this.navItems.push(navItemMaintain);
+    }
+    //kiểm tra xem có Kaizen không
+    if (this.hasKaizen) {
+      this.navItems.push(navItemKaizen);
+    }
+    //kiểm tra xem có Measurement không
+    if (this.hasMeasurement) {
+      this.navItems.push(navItemMeasurement);
+    }
+    //kiểm tra xem có Report không
+    // if (this.hasReport) {
+    //   this.navItems.push(navItemReport);
+    // }
+    //thêm user sau cùng nếu có quyền user
+    // if (this.hasUserList) {
+    //   this.navItems.push(navItemUser);
+    // }
+
+    return this.navItems;
   }
 }

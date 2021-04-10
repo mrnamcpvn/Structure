@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
       next => {
         this.alertify.success("Login Success!!")
         this.spinner.hide();
+        console.log(next)
       },
       error => {
         console.log(error)
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
       },
       () => {
-        this.router.navigate(["/dashboard"]);
+        this.router.navigateByUrl("/dashboard");
         this.spinner.hide();
       }
     );

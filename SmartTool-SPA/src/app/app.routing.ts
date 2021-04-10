@@ -13,7 +13,7 @@ import { AuthGuard } from './_core/_guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '/dashboard',
     pathMatch: 'full',
   },
   {
@@ -38,13 +38,6 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page'
-    }
-  },
-  {
     path: '',
     component: DefaultLayoutComponent,
 
@@ -53,45 +46,34 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'base',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
-      },
-      {
-        path: 'buttons',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      },
-      {
-        path: 'charts',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
-      },
-      {
         path: 'dashboard',
         canActivate: [AuthGuard],
+        runGuardsAndResolvers: 'always',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
-        path: 'icons',
         canActivate: [AuthGuard],
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
+        runGuardsAndResolvers: 'always',
+        path: 'maintain',
+        loadChildren: () => import('./views/maintain/maintain.module').then(m => m.MaintainModule)
       },
-      {
-        path: 'notifications',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'theme',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-      {
-        path: 'widgets',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      }
+      // {
+      //   path: 'report',
+      //   loadChildren: () => import('./views/report/report.module').then(m => m.ReportModule)
+      // },
+      // {
+      //   canActivate: [AuthGuard],
+      //   path: 'user',
+      //   loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
+      // },
+      // {
+      //   path: 'measurement',
+      //   loadChildren: () => import('./views/measurement/measurement.module').then(m => m.MeasurementModule)
+      // },
+      // {
+      //   path: 'kaizen',
+      //   loadChildren: () => import('./views/kaizen/kaizen.module').then(m => m.KaizenModule)
+      // },
     ]
   },
   { path: '**', component: P404Component }

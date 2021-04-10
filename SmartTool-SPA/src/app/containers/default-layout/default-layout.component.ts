@@ -25,7 +25,7 @@ export class DefaultLayoutComponent {
   }
 
   constructor(private authService: AuthService,
-    private alertify: AlertifyService,
+    //private alertify: AlertifyService,
     private router: Router,
     private userService: UserService,
     private spinnerService: NgxSpinnerService,
@@ -38,30 +38,30 @@ export class DefaultLayoutComponent {
     localStorage.removeItem('userSmartTooling');
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
-    this.alertify.message('Logged out');
-    this.router.navigate(['/login']);
+    //this.alertify.message('Logged out');
+    this.router.navigateByUrl('/login');
   }
 
   changePassword() {
     if (this.newPassword !== this.confirmPassword) {
-      this.alertify.error('Confirm password not match!');
-      return;
+      // this.alertify.error('Confirm password not match!');
+      // return;
     }
     this.spinnerService.show();
     this.userService.changePassword(this.currentUser.username, this.oldPassword, this.newPassword)
       .subscribe(res => {
         if (res.success) {
-          this.alertify.success(res.message);
-          this.spinnerService.hide();
-          this.modalEditUser.hide();
+          // this.alertify.success(res.message);
+          // this.spinnerService.hide();
+          // this.modalEditUser.hide();
         }
         else {
-          this.alertify.error(res.message);
-          this.spinnerService.hide();
+          // this.alertify.error(res.message);
+          // this.spinnerService.hide();
         }
       }, error => {
-        this.alertify.error('Fail change pasword user!');
-        this.spinnerService.hide();
+        //this.alertify.error('Fail change pasword user!');
+        //this.spinnerService.hide();
       });
   }
 }
