@@ -45,11 +45,11 @@ export class AddComponent implements OnInit {
 
   changeToUppercase() {
     this.addModelForm.patchValue({
-      model_no: this.addModelForm.value.model_no.toUppercase,
-      model_name: this.addModelForm.value.model_name.toUppercase,
-      model_family: this.addModelForm.value.model_family.toUppercase,
-      dev_season: this.addModelForm.value.dev_season.toUppercase,
-      prod_season: this.addModelForm.value.prod_season.toUppercase,
+      model_no: this.addModelForm.value.model_no.toUppercase(),
+      model_name: this.addModelForm.value.model_name.toUppercase(),
+      model_family: this.addModelForm.value.model_family.toUppercase(),
+      dev_season: this.addModelForm.value.dev_season.toUppercase(),
+      prod_season: this.addModelForm.value.prod_season.toUppercase(),
     });
   }
 
@@ -106,7 +106,7 @@ export class AddComponent implements OnInit {
 
   }
   saveAndNext() {
-    this.changeToUppercase();
+    //this.changeToUppercase();
     console.log(this.addModelForm.value);
     this.modelService.createModel(this.addModelForm.value).subscribe(() => {
       this.alertify.success("Add succeed")

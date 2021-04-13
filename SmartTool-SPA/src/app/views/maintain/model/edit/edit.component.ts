@@ -34,7 +34,10 @@ export class EditComponent implements OnInit {
       this.editModelForm.setValue(data.model);
       this.url =
         this.url + this.editModelForm.value.model_picture + "?" + Math.random();
+
+
     });
+    console.log(this.url);
     this.getAllModelType();
   }
 
@@ -117,8 +120,9 @@ export class EditComponent implements OnInit {
   }
   btnSave() {
     //this.changeToUppercase();
-    this.modelService.updateModel(this.editModelForm.value).subscribe(
+    this.modelService.updateModel(this.editModelForm.getRawValue()).subscribe(
       () => {
+
         this.router.navigate(["/maintain/model/list"]);
         this.alertify.success("Edit succeed ");
 
