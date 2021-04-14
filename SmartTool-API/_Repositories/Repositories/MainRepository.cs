@@ -4,11 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SmartTooling_API._Repositories.Interfaces;
+using SmartTooling_API.Data;
 using Microsoft.Extensions.Configuration;
-using SmartTool_API._Repositories.Interfaces;
-using SmartTool_API.Data;
-
-namespace SmartTool_API._Repositories.Repositories
+namespace SmartTooling_API._Repositories.Repositories
 {
     public class MainRepository<T> : IMainRepository<T> where T : class
     {
@@ -23,15 +22,14 @@ namespace SmartTool_API._Repositories.Repositories
         public void Add(T entity)
         {
             DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
-          
-                _context.Add(entity);
+            _context.Add(entity);
         }
 
         public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
         {
-            DataSeach = _configuration.GetSection("AppSettings:").Value;
+            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
             IQueryable<T> items = _context.Set<T>();
-  
+           
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties)
@@ -90,7 +88,7 @@ namespace SmartTool_API._Repositories.Repositories
         public async Task<bool> SaveAll()
         {
             DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
-
+            
             return await _context.SaveChangesAsync() > 0;
         }
 

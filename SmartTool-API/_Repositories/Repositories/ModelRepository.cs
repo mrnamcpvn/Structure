@@ -2,17 +2,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SmartTool_API._Repositories.Interfaces;
-using SmartTool_API.Data;
-using SmartTool_API.Models;
+using SmartTooling_API._Repositories.Interfaces;
+using SmartTooling_API.Data;
+using SmartTooling_API.Models;
 
-namespace SmartTool_API._Repositories.Repositories
+namespace SmartTooling_API._Repositories.Repositories
 {
     public class ModelRepository : MainRepository<Model>, IModelRepository
     {
         private readonly DataContext _context;
-        public ModelRepository(DataContext context, IConfiguration configuration) :
-                            base(context, configuration)
+        public ModelRepository(DataContext context,IConfiguration configuration) : 
+                            base(context,configuration)
         {
             _context = context;
         }

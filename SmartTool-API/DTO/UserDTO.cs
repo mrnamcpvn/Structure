@@ -1,17 +1,19 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace SmartTooling_API.Models
+namespace SmartTooling_API.DTO
 {
-    public class Users
+    public class UserDTO
     {
-        [Key]
         public string account { get; set; }
         public string password { get; set; }
         public string name { get; set; }
         public string email { get; set; }
         public bool is_active { get; set; }
         public string update_by { get; set; }
-        public DateTime update_time { get; set; }
+        public DateTime? update_time { get; set; }
+        public UserDTO()
+        {
+            this.update_time = DateTime.Now;
+        }
     }
 }
