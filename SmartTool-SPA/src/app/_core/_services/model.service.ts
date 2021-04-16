@@ -13,9 +13,6 @@ import { PaginatedResult } from "../_models/pagination";
 export class ModelService { 
     baseUrl = environment.apiUrl;
 
-    /**
-     *
-     */
     constructor(private http: HttpClient) {}
 
     search(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<Model[]>> {
@@ -47,10 +44,14 @@ export class ModelService {
 
     createModel(model: Model){
         console.log("Service:", model);
-        return this.http.post(this.baseUrl + ' model/createModel/', model);
+        return this.http.post(this.baseUrl + 'model/createModel/', model);
     }
 
     updateModel(model: Model){
         return this.http.post(this.baseUrl + "model/updateModel/", model)
     }
+
+    getModelNoEdit(modelNo: string) {
+        return this.http.get<Model>(this.baseUrl + 'model/edit/' + modelNo);
+      }
 }

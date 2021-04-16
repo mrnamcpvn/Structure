@@ -91,4 +91,10 @@ export class ModelListComponent implements OnInit {
     this.spinner.hide();
   }
 
+  addModel() {
+    this.router.navigate(["/maintain/model/add"]);
+  }
+  updateModel(modelNo) {
+    this.router.navigate(["/maintain/model/edit/" + modelNo]);
+  }
 }

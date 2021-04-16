@@ -23,7 +23,7 @@ namespace SmartTool_API.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
             _modelS = modelS;
-
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
         private string GetUserClaim() {

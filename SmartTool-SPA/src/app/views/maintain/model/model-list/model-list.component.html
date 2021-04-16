@@ -13,7 +13,7 @@
           <div class="row mt-3">
             <label class="col-md-1 col-form-label" for="model"><span class="float-right">Model</span>  </label>
               <div class="col-md-3">
-                <input type="text" name="model_search" id="model" [(ngModel)]="paramSearch.model_search"
+                <input type="text" name="model-search" id="model" [(ngModel)]="paramSearch.model_search"
                  class="form-control model-search input-upper" placeholder="Search" >
               </div>
               <label class="col-md-1 col-form-label" for="active"><span class="float-right">Active</span>  </label>
@@ -34,7 +34,7 @@
         </div>
         <div class="card-body">
           <div class="add-new">
-              <button type="button" class="btn  btn-primary float-left mb-2"><i class="fa fa-plus"></i>
+              <button type="button" class="btn  btn-primary float-left mb-2" (click)="addModel()"><i class="fa fa-plus"></i>
                 Add new</button>
           </div>
           <div class="table-responsive">

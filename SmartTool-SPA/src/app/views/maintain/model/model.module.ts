@@ -7,6 +7,8 @@ import { ModelListComponent } from "./model-list/model-list.component";
 import { NgSelect2Module } from "ng-select2";
 import { ModelRoutingModule } from "./model-routing.module";
 import { PaginationModule } from "ngx-bootstrap/pagination";
+import { AddComponent } from "./add/add.component";
+import { EditComponent } from "./edit/edit.component";
 
 @NgModule({
   imports: [
@@ -19,6 +21,6 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
     PaginationModule,
     NgSelect2Module,
   ],
-  declarations: [ModelListComponent],
+  declarations: [ModelListComponent, AddComponent, EditComponent],
 })
 export class ModelModule {}
