@@ -116,5 +116,13 @@ namespace SmartTool_API.Controllers
             throw new Exception("Creating the Model failed on save");
         }
 
+
+        [HttpGet("model-type")]
+        public async Task<IActionResult> GetAllModelType()
+        {
+            var data = await _modelS.GetModelType();
+            return Ok(data);
+        }
+
     }
 }

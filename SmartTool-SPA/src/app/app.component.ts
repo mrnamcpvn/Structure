@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { IconSetService } from '@coreui/icons-angular';
-import { freeSet } from '@coreui/icons';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from './_core/_services/auth.service';
 
 @Component({
   // tslint:disable-next-line
   selector: 'body',
   template: '<router-outlet></router-outlet>',
-  providers: [IconSetService],
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private router: Router,
-    public iconSet: IconSetService
-  ) {
-    // iconSet singleton
-    iconSet.icons = { ...freeSet };
-  }
+  jwtHelper = new JwtHelperService();
+  constructor(private router: Router, private authService: AuthService) { }
+
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {
@@ -26,5 +21,9 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    }
   }
 }
