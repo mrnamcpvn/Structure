@@ -58,6 +58,8 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { AuthService } from "./_core/_services/auth.service";
 import { AuthGuard } from "./_core/_guards/auth.guard";
 import { NgSelect2Module } from "ng-select2";
+import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
+import { ModelOperationResolver } from "./_core/_resolvers/model-operation.resolver";
 export function tokenGetter() {
   return localStorage.getItem("tokenSmartTooling");
 }
@@ -89,7 +91,6 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
         allowedDomains: ["localhost:5000"],
         disallowedRoutes: ["localhost:5000/api/auth"],
-        
       },
     }),
   ],
@@ -108,6 +109,8 @@ export function tokenGetter() {
     AuthService,
     AuthGuard,
     ModelResolver,
+    ModelOperationResolver,
+    ModelEditResolver,
     AlertifyService,
     IconSetService,
   ],
