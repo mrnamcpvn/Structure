@@ -1,9 +1,9 @@
 namespace SmartTooling_API.Helpers
 {
-    public class ModelParam
+    public class ModelOperationParam
     {
         public string model_search { get; set; }
 
-        public string active { get; set; }
+        public string stage { get; set; }
     }
 }
