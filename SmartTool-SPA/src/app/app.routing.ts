@@ -43,9 +43,9 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'dashboard',
+        path: "dashboard",
         canActivate: [AuthGuard],
-        runGuardsAndResolvers: 'always',
+        runGuardsAndResolvers: "always",
         loadChildren: () =>
           import("./views/dashboard/dashboard.module").then(
             (m) => m.DashboardModule
@@ -54,7 +54,7 @@ export const routes: Routes = [
       {
         path: "maintain",
         canActivate: [AuthGuard],
-        runGuardsAndResolvers: 'always',
+        runGuardsAndResolvers: "always",
         loadChildren: () =>
           import("./views/maintain/maintain.module").then(
             (m) => m.MaintainModule
