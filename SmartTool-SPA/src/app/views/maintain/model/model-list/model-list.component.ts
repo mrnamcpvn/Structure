@@ -8,7 +8,6 @@ import {
 import { Users } from "../../../../_core/_models/users";
 import { AlertifyService } from "../../../../_core/_services/alertify.service";
 import { ModelService } from "../../../../_core/_services/model.service";
-
 @Component({
   selector: "app-model-list",
   templateUrl: "./model-list.component.html",
@@ -35,10 +34,13 @@ export class ModelListComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.route.data.subscribe((data) => {
-      this.models = data["models"].result;
-      this.pagination = data["models"].pagination;
+  ngOnInit() {}
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.route.data.subscribe((data) => {
+        this.models = data["models"].result;
+        this.pagination = data["models"].pagination;
+      });
     });
   }
   loadData() {

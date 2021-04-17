@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+} from "@angular/router";
 import { Select2OptionData } from "ng-select2";
 import { isTemplateExpression } from "typescript";
 import { environment } from "../../../../../environments/environment";
@@ -26,6 +30,12 @@ export class ModelEditComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.route.data.subscribe((data) => {
+      this.editModelForm.setValue(data.model);
+      this.url =
+        this.url + this.editModelForm.value.model_picture + "?" + Math.random();
+    });
+
     this.getAllModelType();
   }
   initForm() {
@@ -53,12 +63,52 @@ export class ModelEditComponent implements OnInit {
     });
     console.log(this.editModelForm);
   }
-  checkedValue() {
-    this.alertify.error("this log");
-
-    console.log(this.editModelForm);
+  backList() {
+    this.router.navigate(["/maintain/model/list"]);
   }
 
+  cancel() {
+    this.backList();
+  }
+  btnSave() {
+    this.modelService.updateModel(this.editModelForm.value).subscribe(
+      () => {
+        this.router.navigate(["/maintain/model/list"]);
+        this.alertify.success("Edit Success");
+      },
+      (error) => {
+        this.alertify.success("Can't update model");
+      }
+    );
+  }
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      var file = event.target.files[0];
+      var title = event.target.files[0].name.split(".").pop();
+      var fileSize = event.target.files[0].size;
+      if (
+        title == "jpg" ||
+        title == "jpeg" ||
+        title == "png" ||
+        title == "JPG" ||
+        title == "JPEG" ||
+        title == "PNG"
+      ) {
+        if (fileSize <= 5242880) {
+          reader.onload = (event) => {
+            this.url = event.target.result.toString();
+            this.editModelForm.patchValue({
+              model_picture: event.target.result.toString(),
+            });
+          };
+        } else {
+          this.alertify.error("Image size is larger than 5mb");
+        }
+      }
+    }
+  }
   getAllModelType() {
     this.modelService.getAllModelType().subscribe((res) => {
       this.modelTypeList = res.map((item) => {

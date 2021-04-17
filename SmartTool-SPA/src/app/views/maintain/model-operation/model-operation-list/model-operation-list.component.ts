@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select2OptionData } from "ng-select2";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -37,19 +37,29 @@ export class ModelOperationListComponent implements OnInit {
     private alertify: AlertifyService,
     private router: Router,
     private route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
     this.getListModelNo();
     this.getListStage();
-    this.route.data.subscribe((data) => {
-      this.pagination = data["modelOperations"].pagination;
-      this.listdataModelNo = data["modelOperations"].result;
-      this.modelOperations = data["modelOperations"].result;
+  }
+  
+   // fix bug: xpression has changed after it was checked. Previous value: 'undefined'. Current value: 'null'
+    // if not fix it still works fine. but i don't want see the bug.
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.route.data.subscribe((data) => {
+        this.pagination = data["modelOperations"].pagination;
+        this.listdataModelNo = data["modelOperations"].result;
+        this.modelOperations = data["modelOperations"].result;
+      });
     });
   }
-
+  ngAfterViewChecked(): void {
+    this.changeRef.detectChanges();
+  }
   getListModelNo() {
     this.modelOperationService.getModelNo().subscribe((res) => {
       this.listdataModelNo = res;
