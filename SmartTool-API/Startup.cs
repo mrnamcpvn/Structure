@@ -87,6 +87,7 @@ namespace SmartTool_API
             services.AddScoped<IRFTService, RFTService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
+            services.AddScoped<IDefectReasonService,DefectReasonService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });

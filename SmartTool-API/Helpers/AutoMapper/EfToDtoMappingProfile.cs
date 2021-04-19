@@ -13,6 +13,7 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<Measurement_RFT, Measurement_RFTDTO>();
             CreateMap<Model_Operation, ModelOperationDTO>();
             CreateMap<Efficiency, ModelEfficiencyDTO>();
+            CreateMap<Defect_Reason,DefectReasonDTO>();
         }
     }
 }
