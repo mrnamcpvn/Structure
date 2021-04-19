@@ -15,7 +15,11 @@ const routes: Routes = [
             {
                 path: 'model-operation',
                 loadChildren: () => import('./model-operation/model-operation.module').then(m => m.ModelOperationModule)
-              },
+            },
+            {
+                path: 'model-efficiency',
+                loadChildren: () => import('./model-efficiency/model-efficiency.module').then(m => m.ModelEfficiencyModule)
+            }
         ]
     }
 ];

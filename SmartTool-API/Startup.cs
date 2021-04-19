@@ -79,13 +79,14 @@ namespace SmartTool_API
             services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
             services.AddScoped<IStageRepository,StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
 
             //Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
             services.AddScoped<IRFTService, RFTService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
-
+            services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });
