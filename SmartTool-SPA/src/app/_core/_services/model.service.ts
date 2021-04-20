@@ -6,8 +6,8 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { Model } from "../_models/model";
-import { PaginatedResult } from "../_models/pagination";
-
+import { PaginatedResult, Pagination } from "../_models/pagination";
+const API = environment.apiUrl;
 @Injectable({
   providedIn: "root",
 })
@@ -46,7 +46,18 @@ export class ModelService {
         })
       );
   }
-
+  searchModel(pagination: Pagination, modelParam: any) {
+    let params = new HttpParams();
+    if (pagination.currentPage != null && pagination.pageSize != null) {
+      params = params.append("pageNumber", pagination.currentPage.toString());
+      params = params.append("pageSize", pagination.pageSize.toString());
+    }
+    return this.http.post<PaginatedResult<Model[]>>(
+      `${API}Model/model-list`,
+      modelParam,
+      { params }
+    );
+  }
   getAllModelType() {
     return this.http.get<any>(this.baseUrl + "model/model-type", {});
   }

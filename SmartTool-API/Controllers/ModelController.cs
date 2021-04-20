@@ -39,7 +39,6 @@ namespace SmartTooling_API.Controllers
         public async Task<IActionResult> Search([FromQuery] PaginationParams param, ModelParam modelParam)
         {
             var lists = await _modelService.SearchModel(param, modelParam);
-            Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
 

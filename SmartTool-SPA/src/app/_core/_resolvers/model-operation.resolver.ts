@@ -19,7 +19,7 @@ export class ModelOperationResolver implements Resolve<Model[]> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Model[]> {
     return this.modelOperationService
-      .getOperationData(this.pageNumber, this.pageSize)
+      .search(this.pageNumber, this.pageSize)
       .pipe(
         catchError((error) => {
           this.alertify.error("Problem retrieving data");
