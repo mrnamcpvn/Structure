@@ -19,6 +19,10 @@ const routes: Routes = [
             {
                 path: 'model-efficiency',
                 loadChildren: () => import('./model-efficiency/model-efficiency.module').then(m => m.ModelEfficiencyModule)
+            },
+            {
+                path: 'defect-reason',
+                loadChildren: () => import('./defect-reason/defect-reason.module').then(m => m.DefectReasonModule)
             }
         ]
     }

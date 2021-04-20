@@ -19,6 +19,7 @@ namespace SmartTool_API.Controllers
         public DefectReasonController(IDefectReasonService defectReason, IConfiguration configuration)
         {
             _defectReason = defectReason;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
         private string GetUserClaim()
         {
@@ -57,7 +58,6 @@ namespace SmartTool_API.Controllers
             if (await _defectReason.Add(defectReasonDTO))
             {
                 return NoContent();
-        
             }
 
             throw new Exception("Creating the Defect Reason failed on save");
