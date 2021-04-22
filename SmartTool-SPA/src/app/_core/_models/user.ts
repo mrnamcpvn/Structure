@@ -19,3 +19,4 @@ export class AddUser {
     updated_time: Date = new Date;
     is_active: boolean = true;
 }
+ 

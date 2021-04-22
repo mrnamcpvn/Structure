@@ -27,7 +27,6 @@ export class ModelOperationService {
     const paginatedResult: PaginatedResult<
       ModelOperation[]
     > = new PaginatedResult<ModelOperation[]>();
-    debugger;
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append("pageNumber", page);
@@ -38,7 +37,6 @@ export class ModelOperationService {
       .post<any>(url, modelParam, { observe: "response", params })
       .pipe(
         map((response) => {
-          debugger;
           paginatedResult.result = response.body;
           let page = response.headers.get("Pagination");
           if (response.headers.get("Pagination") != null) {

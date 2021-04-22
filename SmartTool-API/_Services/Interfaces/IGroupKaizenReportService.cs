@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SmartTooling_API.DTO;
 using SmartTooling_API.Helpers;
+using SmartTooling_API.Helpers.Utilities;
 using SmartTooling_API.Models;
 
 namespace SmartTooling_API._Services.Interfaces
@@ -17,6 +18,7 @@ namespace SmartTooling_API._Services.Interfaces
         // Load data Chart
         Task<List<Efficiency>> GetEfficiencys(string factory_id, string upper_id, string season);
         Task<PagedList<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no);
+        Task<PageListUtility<KaizenModelDetail>> GetKaiZens2(PaginationParams param, string factory_id, string model_no);
         Task<object> GetKaizenDetail(string factory_id, string model_no, string serial_no);
         Task<OperationResult> AddCross(Kaizen_Benefits_Application_FormDTO model);
     }

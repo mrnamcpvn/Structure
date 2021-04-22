@@ -37,7 +37,8 @@ namespace SmartTooling_API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Name)
+                new Claim(ClaimTypes.Name, userFromRepo.Name),
+                new Claim("UserName", userFromRepo.Name)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8

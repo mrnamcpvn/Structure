@@ -5,6 +5,7 @@ import { map } from "rxjs/internal/operators/map";
 import { environment } from "../../../environments/environment";
 import { OperationResult } from "../_models/operation-result";
 import { PaginatedResult } from "../_models/pagination";
+import { RoleByUser } from "../_models/role-by-user";
 import { AddUser, User } from "../_models/user";
 
 @Injectable({
@@ -56,12 +57,12 @@ export class UserService {
   updateUser(updateUser: AddUser) {
     return this.http.post(this.baseUrl + "User/update", updateUser);
   }
-  // getRoleByUser(account: string) {
-  //   return this.http.get<RoleByUser[]>(this.baseUrl + 'User/roleuser/' + account);
-  // }
-  // updateRoleByUser(account: string, listRoleByUser: RoleByUser[]) {
-  //   return this.http.post(this.baseUrl + 'User/roleuser/' + account, listRoleByUser);
-  // }
+  getRoleByUser(account: string) {
+    return this.http.get<RoleByUser[]>(this.baseUrl + 'User/roleuser/' + account);
+  }
+  updateRoleByUser(account: string, listRoleByUser: RoleByUser[]) {
+    return this.http.post(this.baseUrl + 'User/roleuser/' + account, listRoleByUser);
+  }
 
   changePassword(account: string, oldPassword: string, password: string) {
     const user = {

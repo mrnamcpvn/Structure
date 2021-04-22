@@ -114,7 +114,7 @@ export class NavItem {
         if (element === "ksmt.Kaizen") {
           const children = {
             name: "2.1 Kaizen",
-            url: "/kaizen/kaizen/",
+            url: "/kaizen/kaizen/list",
             class: "menu-margin",
           };
           this.hasKaizen = true;
@@ -195,6 +195,15 @@ export class NavItem {
           const children = {
             name: "5.1 User List",
             url: "/user",
+            class: "menu-margin",
+          };
+          this.hasUserList = true;
+          navItemUser.children.push(children);
+        }
+        if (element === "ksmt.UserList") {
+          const children = {
+            name: "5.2User List",
+            url: "/user/mat-table",
             class: "menu-margin",
           };
           this.hasUserList = true;

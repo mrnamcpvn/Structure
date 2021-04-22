@@ -16,6 +16,7 @@ using SmartTooling_API._Services.Interfaces;
 using SmartTooling_API.DTO;
 using SmartTooling_API.Helpers;
 using SmartTooling_API.Models;
+using SmartTooling_API.Helpers.Utilities;
 
 namespace SmartTooling_API._Services.Services
 {
@@ -41,7 +42,7 @@ namespace SmartTooling_API._Services.Services
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        public async Task<PagedList<ModelDTO>> SearchModel(PaginationParams param, ModelParam modelParam)
+        public async Task<PageListUtility<ModelDTO>> SearchModel(PaginationParams param, ModelParam modelParam)
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
             bool active = true;
@@ -55,7 +56,7 @@ namespace SmartTooling_API._Services.Services
 				pred_Model.And(x => x.model_no.Contains(modelParam.model_search) || x.model_name.Contains(modelParam.model_search));
 			}
             var list = _repo.FindAll(pred_Model).ProjectTo<ModelDTO>(_configMapper).OrderByDescending(x => x.prod_season);
-			return await PagedList<ModelDTO>.CreateAsync(list, param.PageNumber, param.PageSize);
+			return await PageListUtility<ModelDTO>.PageListAsync(list, param.PageNumber, param.PageSize);
         }
         public async Task<bool> Add(ModelDTO model)
         {

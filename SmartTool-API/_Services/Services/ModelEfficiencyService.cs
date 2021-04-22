@@ -38,7 +38,7 @@ namespace SmartTooling_API._Services.Services
         {
             foreach (var efficiency in listModelEfficiencyDTO)
             {
-                efficiency.season = efficiency.season + efficiency.season_year;
+                efficiency.season = efficiency.season;
                 var effParam = new ModelEfficiencyEditParam();
                 effParam.factory = factory;
                 effParam.season = efficiency.season;

@@ -10,6 +10,7 @@ using SmartTooling_API._Repositories.Interfaces;
 using SmartTooling_API._Services.Interfaces;
 using SmartTooling_API.DTO;
 using SmartTooling_API.Helpers;
+using SmartTooling_API.Helpers.Utilities;
 using SmartTooling_API.Models;
 
 namespace SmartTooling_API._Services.Services
@@ -157,6 +158,40 @@ namespace SmartTooling_API._Services.Services
                 _configuration.GetSection("AppSettings:DataSeach").Value ="";
             return await PagedList<KaizenModelDetail>.CreateAsync(data, param.PageNumber, param.PageSize);
         }
+
+   public async Task<PageListUtility<KaizenModelDetail>> GetKaiZens2(PaginationParams param, string factory_id, string model_no)
+        {
+             _configuration.GetSection("AppSettings:DataSeach").Value =factory_id.Trim();
+            var kaizens =  _repoKaizen.FindAll(x => x.factory_id.Trim() == factory_id.Trim() && 
+                                x.model_no.Trim() == model_no.Trim())
+                    .OrderBy(x => x.serial_no);
+            var modelOperations =  _repoModelOperation.FindAll(x => x.factory_id.Trim() == factory_id.Trim() &&
+                                x.model_no.Trim() == model_no.Trim());
+            var data = (from a in kaizens join b in modelOperations 
+                        on new {stage_id = a.stage_id.Trim(), operation_id = a.operation_id.Trim()}
+                        equals new {stage_id = b.stage_id.Trim(), operation_id = b.operation_id.Trim()}
+                        select new KaizenModelDetail() {
+                            factory_id = a.factory_id,
+                            model_no = a.model_no,
+                            serial_no = a.serial_no,
+                            kaizen_description = a.kaizen_description,
+                            stage_id = a.stage_id,
+                            process_type_id = b.process_type_id,
+                            operation_id = b.operation_id,
+                            start_date = a.start_date,
+                            process_tct_sec = a.process_tct_sec,
+                            ct_before_sec = a.ct_before_sec,
+                            ct_after_sec = a.ct_after_sec,
+                            improv = 0,
+                            rft_before_percent = a.rft_before_percent,
+                            rft_after_percent = a.rft_after_percent,
+                            line_roll_out_percent = a.line_roll_out_percent,
+                            clicks_times = a.clicks_times
+                        }).OrderBy(x=>x.serial_no);
+                _configuration.GetSection("AppSettings:DataSeach").Value ="";
+            return await PageListUtility<KaizenModelDetail>.PageListAsync(data, param.PageNumber, param.PageSize);
+        }
+
         public async Task<object> GetKaizenDetail(string factory_id, string model_no, string serial_no)
         {
              _configuration.GetSection("AppSettings:DataSeach").Value =factory_id.Trim();

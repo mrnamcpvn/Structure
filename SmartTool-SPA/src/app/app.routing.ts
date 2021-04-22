@@ -1,79 +1,90 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from "./containers";
+import { CardsComponent } from "./views/base/cards.component";
 
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
-import { AuthGuard } from './_core/_guards/auth.guard';
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
+import { UserComponent } from "./views/user/user/user.component";
+import { AuthGuard } from "./_core/_guards/auth.guard";
 
 export const routes: Routes = [
   {
-    path: '',
-    // canActivate: [AuthGuard],
-    redirectTo: '/dashboard',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "/dashboard",
+    pathMatch: "full",
   },
+
   {
-    path: '404',
-    component: P404Component,
-    data: {
-      title: 'Page 404'
-    }
-  },
-  {
-    path: '500',
-    component: P500Component,
-    data: {
-      title: 'Page 500'
-    }
-  },
-  {
-    path: 'login',
+    path: "login",
     component: LoginComponent,
     data: {
-      title: 'Login Page'
-    }
+      title: "Login Page",
+    },
   },
   {
-    path: 'register',
+    path: "register",
     component: RegisterComponent,
     data: {
-      title: 'Register Page'
-    }
+      title: "Register Page",
+    },
   },
   {
-    path: '',
+    path: "",
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: "Home",
     },
     children: [
       {
-        path: 'base',
-        loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
+        path: "base",
+        loadChildren: () =>
+          import("./views/base/base.module").then((m) => m.BaseModule),
       },
       {
-        path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+        path: "dashboard",
+        loadChildren: () =>
+          import("./views/dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
+          ),
       },
       ///
       {
-        path: 'maintain',
-        loadChildren: () => import('./views/Maintain/maintain.module').then(m => m.MaintainModule)
+        path: "maintain",
+        loadChildren: () =>
+          import("./views/Maintain/maintain.module").then(
+            (m) => m.MaintainModule
+          ),
       },
-
-      
-    ]
+      {
+        path: "kaizen",
+        loadChildren: () =>
+          import("./views/kaizen/kaizen-main.module").then(
+            (m) => m.KaizenMainModule
+          ),
+      },
+      {
+        path: "report",
+        loadChildren: () =>
+          import("./views/report/report.module").then(
+            (m) => m.ReportModule
+          ),
+      },
+      {
+        path: "user",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./views/user/user.module").then((m) => m.UserModule),
+      },
+    ],
   },
-  { path: '**', component: P404Component }
+  { path: "**", component: CardsComponent },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
