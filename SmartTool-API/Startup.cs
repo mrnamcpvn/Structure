@@ -73,21 +73,25 @@ namespace SmartTool_API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
             services.AddScoped<IKaizenRepository, KaizenRepository>();
             services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
+            services.AddScoped<IFactoryRepository, FactoryRepository>();
             services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
             services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
             services.AddScoped<IStageRepository,StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
-            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
 
             //Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
             services.AddScoped<IRFTService, RFTService>();
+            services.AddScoped<IDefectReasonService, DefectReasonService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
-            services.AddScoped<IDefectReasonService,DefectReasonService>();
+            services.AddScoped<IKaizenService,KaizenService>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });

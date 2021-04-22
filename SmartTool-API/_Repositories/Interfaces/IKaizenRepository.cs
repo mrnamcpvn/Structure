@@ -8,6 +8,6 @@ namespace SmartTool_API._Repositories.Interfaces
     {
         Task<bool> CheckExistsKaizen(ModelOperationDTO operation);
 
-        // Task<bool> CheckKaizenDescriptionExist(KaizenDTO model);
+        Task<bool> CheckKaizenDescriptionExist(KaizenDTO model);
     }
 }
