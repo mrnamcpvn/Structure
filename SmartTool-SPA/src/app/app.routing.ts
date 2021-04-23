@@ -61,8 +61,14 @@ export const routes: Routes = [
           ),
       },
       {
+        canActivate: [AuthGuard],
         path: 'kaizen',
         loadChildren: () => import('./views/kaizen/kaizen.module').then(m => m.KaizenModule)
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'user',
+        loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
       },
     ],
   },

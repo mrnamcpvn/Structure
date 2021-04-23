@@ -90,7 +90,7 @@ namespace SmartTool_API
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddScoped<IKaizenService,KaizenService>();
-
+            services.AddScoped<IUserService, UserService>();
 
             services.AddSwaggerGen(c =>
             {
