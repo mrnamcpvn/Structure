@@ -81,7 +81,7 @@ namespace SmartTool_API
             services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
             services.AddScoped<IStageRepository,StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
-
+            services.AddScoped<IViewModelKaizenRepository,ViewModelKaizenRepository>();
             //Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
@@ -91,7 +91,7 @@ namespace SmartTool_API
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddScoped<IKaizenService,KaizenService>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IKaizenReportService,KaizenReportService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });

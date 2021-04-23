@@ -17,7 +17,7 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<DefectReasonDTO, Defect_Reason> ();
             CreateMap<KaizenDTO,Kaizen>();
             CreateMap<ModelEfficiencyDTO,Efficiency>();
-            
+            CreateMap<VW_ModelKaizen_Dto,VW_ModelKaizen>();
         }
     }
 }

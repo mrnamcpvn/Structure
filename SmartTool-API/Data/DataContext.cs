@@ -20,6 +20,8 @@ namespace SmartTool_API.Data
         public virtual DbSet<Factory> Factory { get; set; }
         public virtual DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
+        public virtual DbSet<VW_ModelKaizen> VW_ModelKaizen { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -79,6 +81,8 @@ namespace SmartTool_API.Data
             {
                 entity.HasKey(e => new { e.factory_id, e.stage_id });
             });
+
+            modelBuilder.Entity<VW_ModelKaizen>().HasNoKey();
 
         }
 
