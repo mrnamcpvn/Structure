@@ -114,7 +114,7 @@
   </div>
 </div>
 
-<div bsModal #modelAddUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="diablog-sizes-name1">
+<div bsModal #modalAddUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -183,6 +183,7 @@
             </div>
           </div>
         </form>
+
       </div>
       <div class="modal-footer justify-content-start">
         <button class="btn btn-danger btn-sm"
@@ -191,6 +192,139 @@
         </button>
         <button class="btn btn-success btn-sm"
           (click)="saveAddUser()" [disabled]="!addUserForm.valid">
+          <i class="fa fa-check" aria-hidden="true"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalEditUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Modify User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalEditUser.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-2">
+          <label class="col-md-3 col-form-label" for="account">
+            <strong class="float-right">User Account <span class="red_star">  *</span></strong>
+          </label>
+          <div class="col-md-8">
+            <input type="text"
+              name="account"
+              class="form-control"
+              [(ngModel)]="editUser.account"
+              disabled />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <label class="col-md-3 col-form-label" for="password">
+            <strong class="float-right">Password <span class="red_star">  *</span></strong>
+          </label>
+          <div class="col-md-8">
+            <input type="password"
+              name="password"
+              class="form-control"
+              [(ngModel)]="editUser.password" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <label class="col-md-3 col-form-label" for="username">
+            <strong class="float-right">User Name <span class="red_star">  *</span></strong>
+          </label>
+          <div class="col-md-8">
+            <input type="text"
+              name="username"
+              class="form-control"
+              [(ngModel)]="editUser.name"  />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <label class="col-md-3 col-form-label" for="email">
+            <strong class="float-right">Email <span class="red_star">  *</span></strong>
+          </label>
+          <div class="col-md-8">
+            <input type="text"
+              class="form-control"
+              [(ngModel)]="editUser.email"  name="emailEdit"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <label class="col-md-3 col-form-label" for="active">
+            <label for="editActive"><strong class="float-right">Active</strong></label>
+          </label>
+          <div class="col-md-8 pt-1">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox"
+                class="custom-control-input"
+                id="editActive"
+                [(ngModel)]="editUser.is_active">
+              <label class="custom-control-label" for="editActive"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-start">
+        <button class="btn btn-danger btn-sm"
+          (click)="modalEditUser.hide()">
+          <i class="fa fa-ban" aria-hidden="true"></i> Cancel
+        </button>
+        <button class="btn btn-success btn-sm"
+          (click)="saveEditUser()">
+          <i class="fa fa-check" aria-hidden="true"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #authorizationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Authorization</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="authorizationModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-2">
+          <label class="col-md-2 col-form-label" for="account">
+            <strong class="float-right">User Account</strong>
+          </label>
+          <div class="col-md-4">
+            <input type="text" name="account" class="form-control" disabled [ngModel]="userAuthorizationAccount" />
+          </div>
+          <label class="col-md-2 col-form-label" for="username">
+            <strong class="float-right">User Name</strong>
+          </label>
+          <div class="col-md-4">
+            <input type="text" name="username" class="form-control" disabled  [ngModel]="userAuthorizationName" />
+          </div>
+        </div>
+        <div class="row mb-2 mt-3" *ngFor="let item of listRoleByUser">
+          <div class="col-md-2 offset-md-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="{{item.role_name}}" [(ngModel)]="item.status">
+              <label class="custom-control-label" for="{{item.role_name}}"></label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="{{item.role_name}}">{{item.role_name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-start">
+        <button class="btn btn-danger btn-sm" (click)="authorizationModal.hide()">
+          <i class="fa fa-ban" aria-hidden="true"></i> Cancel
+        </button>
+        <button class="btn btn-success btn-sm"
+          (click)="saveAuthorizationUser()">
           <i class="fa fa-check" aria-hidden="true"></i> Save
         </button>
       </div>
