@@ -8,11 +8,10 @@ import { Pagination } from "../../../../_core/_models/pagination";
 import { KaizenReportService } from "../../../../_core/_services/kaizen-report.service";
 import { FunctionUtility } from "../../../../_core/_utility/function-utility";
 declare var $: any;
-
 @Component({
-  selector: 'app-model-detail',
-  templateUrl: './model-detail.component.html',
-  styleUrls: ['./model-detail.component.scss']
+  selector: "app-model-detail",
+  templateUrl: "./model-detail.component.html",
+  styleUrls: ["./model-detail.component.scss"],
 })
 export class ModelDetailComponent implements OnInit {
   highcharts = Highcharts;
@@ -46,9 +45,11 @@ export class ModelDetailComponent implements OnInit {
       this.model.remarks = this.fuctionUtility.replaceLineBreak(this.model.remarks)
       this.getSeasonByUpperID();
       this.getDataTable();
+      
+    } else {
+      this.backForm();
     }
   }
-
   getSeasonByUpperID() {
     this.kaizenService
       .getSeasonByUpper(this.model.upper_id)
@@ -60,7 +61,6 @@ export class ModelDetailComponent implements OnInit {
         }
       });
   }
-
   getDataChart() {
     this.kaizenService
       .getDataChart(this.model.upper_id, this.season)
@@ -131,6 +131,7 @@ export class ModelDetailComponent implements OnInit {
               },
               enableMouseTracking: true
             },
+
           },
           tooltip: {
             valueSuffix: "%",
@@ -151,7 +152,6 @@ export class ModelDetailComponent implements OnInit {
         };
       });
   }
-
   getDataTable() {
     this.kaizenService
       .getKaizens(
@@ -170,7 +170,6 @@ export class ModelDetailComponent implements OnInit {
         this.pagination = res.pagination;
       });
   }
-
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.getDataTable();
@@ -178,17 +177,15 @@ export class ModelDetailComponent implements OnInit {
   changeSeason() {
     this.getDataChart();
   }
-
+  kaizenDetail(model: any) {
+    this.kaizenService.updateClickTimes(model).subscribe();
+    this.kaizenService.changeKaizen(model);
+    this.router.navigate(["/report/kaizen-report/kaizen-detail"]);
+  }
   backForm() {
     this.router.navigate(["/report/kaizen-report/main"]);
   }
   ngAfterViewChecked() {
     $('.highcharts-credits').html('');
-  }
-
-  kaizenDetail(model: any) {
-    this.kaizenService.updateClickTimes(model).subscribe();
-    this.kaizenService.changeKaizen(model);
-    this.router.navigate(["/report/kaizen-report/kaizen-detail"]);
   }
 }
