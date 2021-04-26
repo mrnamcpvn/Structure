@@ -72,7 +72,6 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ChartsModule,
-    SnotifyModule,
     HighchartsChartModule,
     JwtModule.forRoot({
       config: {

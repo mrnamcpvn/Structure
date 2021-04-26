@@ -70,6 +70,11 @@ export const routes: Routes = [
         path: 'user',
         loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
       },
+      {
+        canActivate: [AuthGuard],
+        path: 'report',
+        loadChildren: () => import('./views/report/report.module').then(m => m.ReportModule)
+      },
     ],
   },
 ];

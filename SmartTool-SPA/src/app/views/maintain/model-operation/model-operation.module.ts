@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelect2Module } from "ng-select2";
+import { AlertModule } from "ngx-bootstrap/alert";
 import { PaginationModule } from "ngx-bootstrap/pagination";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AddComponent } from "./add/add.component";
@@ -18,6 +19,7 @@ import { ModelOperationRoutingModule } from "./model-operation-routing.module";
     ModelOperationRoutingModule,
     PaginationModule,
     NgSelect2Module,
+    AlertModule.forRoot()
   ],
   declarations: [
     ListComponent,
