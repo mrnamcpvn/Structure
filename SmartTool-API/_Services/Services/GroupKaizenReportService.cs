@@ -7,6 +7,7 @@ using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
+using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
 using SmartTool_API.Models;
@@ -14,7 +15,7 @@ using SmartTooling_API.Helpers;
 
 namespace SmartTool_API._Services.Services
 {
-    public class GroupKaizenReportService
+    public class GroupKaizenReportService : IGroupKaizenReportService
     {
         private readonly IFactoryRepository _repoFactory;
         private readonly IModelRepository _repoModel;
@@ -40,6 +41,7 @@ namespace SmartTool_API._Services.Services
             _repoViewModelKaizen = repoViewModelKaizen;
             _repoEfficiency = repoEfficiency;
             _repoKaizen = repoKaizen;
+            _repoModel = repoModel;
             _repoModelOperation = repoModelOperation;
             _mapper = mapper;
             _configuration = configuration;
@@ -55,17 +57,17 @@ namespace SmartTool_API._Services.Services
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
             _configuration.GetSection("AppSettings:DataSeach").Value = filterParam.factory_id.Trim();
-            if (!string.IsNullOrEmpty(filterParam.factory_id))
+            if (!String.IsNullOrEmpty(filterParam.factory_id))
             {
-                pred_Model.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
+                pred_Model = pred_Model.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
             }
-            if (!string.IsNullOrEmpty(filterParam.model_no))
+            if (!String.IsNullOrEmpty(filterParam.model_no))
             {
-                pred_Model.And(x => x.model_no.Trim().Contains(filterParam.model_no.Trim()) || x.model_name.Trim().Contains(filterParam.model_no.Trim()));
+                pred_Model = pred_Model.And(x => x.model_no.Trim().Contains(filterParam.model_no.Trim()) || x.model_name.Trim().Contains(filterParam.model_no.Trim()));
             }
             if (filterParam.active != "all")
             {
-                pred_Model.And(x => x.is_active == ((filterParam.active == "1") ? true : false));
+                pred_Model = pred_Model.And(x => x.is_active == ((filterParam.active == "1") ? true : false));
             }
             var data = _repoModel.FindAll(pred_Model);
             _configuration.GetSection("AppSettings:DataSeach").Value = "";

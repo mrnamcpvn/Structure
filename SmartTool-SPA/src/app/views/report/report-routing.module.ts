@@ -15,6 +15,11 @@ const routes: Routes = [
         path: 'kaizen-report',
         loadChildren: () => import('./kaizen-report/kaizen-report.module').then(m => m.KaizenReportModule)
       },
+      {
+        canActivate : [AuthGuard],
+        path: 'group-kaizen-report',
+        loadChildren: () => import('./group-kaizen-report/group-kaizen-report.module').then(m => m.GroupKaizenReportModule)
+      },
     ]
   }
 ];

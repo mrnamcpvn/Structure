@@ -17,6 +17,7 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<Kaizen,KaizenDTO>();
             CreateMap<Efficiency, ModelEfficiencyDTO>();
             CreateMap<VW_ModelKaizen,VW_ModelKaizen_Dto>();
+            CreateMap<Kaizen_Benefits_Application_Form, Kaizen_Benefits_Application_FormDTO>();
         }
     }
 }
