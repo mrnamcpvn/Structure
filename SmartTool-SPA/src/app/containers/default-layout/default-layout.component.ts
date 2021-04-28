@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,20 +25,43 @@ export class DefaultLayoutComponent {
   }
 
   constructor(private authService: AuthService,
-    private snotifyService: CustomNgSnotifyService,
+    private snotify: CustomNgSnotifyService,
     private router: Router,
     private userService: UserService,
     private spinnerService: NgxSpinnerService,
     private nav: NavItem) {
-      this.navItems = this.nav.getNav(this.currentUser);
-    }
+    this.navItems = this.nav.getNav(this.currentUser);
+  }
 
-    logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      this.authService.decodedToken = null;
-      this.authService.currentUser = null;
-      this.snotifyService.info('Logged out');
-      this.router.navigate(['/login']);
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.authService.decodedToken = null;
+    this.authService.currentUser = null;
+    this.snotify.info('Logged out');
+    this.router.navigate(['/login']);
+  }
+  changePassword() {
+    if (this.newPassword !== this.confirmPassword) {
+      this.snotify.error('Confirm password not match!');
+      return;
     }
+    this.spinnerService.show();
+    this.userService.changePassword(this.currentUser.username, this.oldPassword, this.newPassword)
+      .subscribe(res => {
+        if (res.success) {
+          this.snotify.success(res.message);
+          this.spinnerService.hide();
+          this.modalEditUser.hide();
+        }
+        else {
+          this.snotify.error(res.message);
+          this.spinnerService.hide();
+        }
+      }, error => {
+        this.snotify.error('Fail change pasword user!');
+        this.spinnerService.hide();
+      });
+  }
+
 }

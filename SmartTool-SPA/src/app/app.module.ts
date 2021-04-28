@@ -48,6 +48,7 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from "ng-snotify";
 import { ModelResolver } from "./_core/_resolvers/model.resolver";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
+import { CustomNgSnotifyService } from "./_core/_services/snotify.service";
 
 
 export function tokenGetter() {
@@ -72,6 +73,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ChartsModule,
+    SnotifyModule.forRoot(),
     HighchartsChartModule,
     JwtModule.forRoot({
       config: {
@@ -89,13 +91,14 @@ export function tokenGetter() {
   providers: [
     AuthService,
     AuthGuard,
-    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
+    CustomNgSnotifyService,
     ModelResolver,
     ModelEditResolver,
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

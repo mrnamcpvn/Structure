@@ -87,9 +87,9 @@ namespace SmartTool_API.Controllers
         [HttpPost("updateClickTimes")]
         public async Task<IActionResult> UpdateClickTimes([FromBody] KaizenModelDetail model)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = model.factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = model.factory_id.Trim();
             var result = await _serviceKaizenReport.UpdateClickTimes(model);
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return Ok(result);
         }
         [HttpGet("getKaizenDetail")]
@@ -110,12 +110,12 @@ namespace SmartTool_API.Controllers
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var factory = _configuration.GetSection("AppSettings:Factory").Value;
-            _configuration.GetSection("AppSettings:DataSeach").Value = model.factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = model.factory_id.Trim();
             model.to_factory_id = factory;
             model.update_by = username;
             model.create_by = username;
             var result = await _service.AddCross(model);
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return Ok(result);
         }
     }

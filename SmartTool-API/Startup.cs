@@ -78,11 +78,13 @@ namespace SmartTool_API
             services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
             services.AddScoped<IFactoryRepository, FactoryRepository>();
             services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
-            services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
-            services.AddScoped<IStageRepository,StageRepository>();
+            services.AddScoped<IMeasurement_RFTRepository, Measurement_RFTRepository>();
+            services.AddScoped<IStageRepository, StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
-            services.AddScoped<IViewModelKaizenRepository,ViewModelKaizenRepository>();
-            services.AddScoped<IKaizenBenefitsApplicationFormRepository,KaizenBenefitsApplicationFormRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IKaizenBenefitsApplicationFormRepository, KaizenBenefitsApplicationFormRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
             //Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
@@ -90,10 +92,11 @@ namespace SmartTool_API
             services.AddScoped<IDefectReasonService, DefectReasonService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
-            services.AddScoped<IKaizenService,KaizenService>();
+            services.AddScoped<IKaizenService, KaizenService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IKaizenReportService,KaizenReportService>();
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
             services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
+            services.AddScoped<IRFTReportService, RFTReportService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });

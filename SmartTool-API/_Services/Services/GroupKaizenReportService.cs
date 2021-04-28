@@ -56,7 +56,7 @@ namespace SmartTool_API._Services.Services
         public async Task<PagedList<Model>> Search(PaginationParam param, KaizenReportGroupParam filterParam)
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
-            _configuration.GetSection("AppSettings:DataSeach").Value = filterParam.factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = filterParam.factory_id.Trim();
             if (!String.IsNullOrEmpty(filterParam.factory_id))
             {
                 pred_Model = pred_Model.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
@@ -70,14 +70,14 @@ namespace SmartTool_API._Services.Services
                 pred_Model = pred_Model.And(x => x.is_active == ((filterParam.active == "1") ? true : false));
             }
             var data = _repoModel.FindAll(pred_Model);
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return await PagedList<Model>.CreateAsync(data, param.PageNumber, param.PageSize);
         }
 
         public async Task<List<VW_ModelKaizen_Dto>> GetModelKaizens(KaizenReportGroupParam filterParam)
         {
             var pred_model_kaizen = PredicateBuilder.New<VW_ModelKaizen>(true);
-            _configuration.GetSection("AppSettings:DataSeach").Value = filterParam.factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = filterParam.factory_id.Trim();
             if (!string.IsNullOrEmpty(filterParam.factory_id))
             {
                 pred_model_kaizen.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
@@ -100,42 +100,42 @@ namespace SmartTool_API._Services.Services
                 item.critical_efficiency_string = item.critical_efficiency == true ? "Y" : "N";
                 item.critical_quality_string = item.critical_quality == true ? "Y" : "N";
             });
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return result;
         }
 
         public async Task<Model> GetModelByModelNo(string factory_id, string model_No)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = factory_id.Trim();
             var model = await _repoModel.FindAll(x => x.factory_id.Trim() == factory_id.Trim() &&
                                                  x.model_no.Trim() == model_No.Trim()).FirstOrDefaultAsync();
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return model;
         }
 
         public async Task<List<string>> GetSeasonByUpper(string factory_id, string upper_id)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = factory_id.Trim();
             var data = await _repoEfficiency.FindAll(x => x.factory_id.Trim() == factory_id.Trim() && x.upper_id.Trim() == upper_id.Trim() && (x.efficiency_target != null || x.efficiency_actual != null))
                 .Select(x => x.season.Trim()).Distinct()
                 .ToListAsync();
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return data;
         }
 
         public async Task<List<Efficiency>> GetEfficiencys(string factory_id, string upper_id, string season)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = factory_id.Trim();
             var data = await _repoEfficiency.FindAll(x => x.factory_id.Trim() == factory_id.Trim() &&
                             x.upper_id.Trim() == upper_id.Trim() &&
                             x.season.Trim() == season.Trim()).OrderBy(x => x.sequence).ToListAsync();
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return data;
         }
 
         public async Task<PagedList<KaizenModelDetail>> GetKaiZens(PaginationParam param, string factory_id, string model_no)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = factory_id.Trim();
             var kaizens = _repoKaizen.FindAll(x => x.factory_id.Trim() == factory_id.Trim() &&
                                x.model_no.Trim() == model_no.Trim())
                     .OrderBy(x => x.serial_no);
@@ -164,12 +164,12 @@ namespace SmartTool_API._Services.Services
                             line_roll_out_percent = a.line_roll_out_percent,
                             clicks_times = a.clicks_times
                         }).OrderBy(x => x.serial_no);
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return await PagedList<KaizenModelDetail>.CreateAsync(data, param.PageNumber, param.PageSize);
         }
         public async Task<object> GetKaizenDetail(string factory_id, string model_no, string serial_no)
         {
-            _configuration.GetSection("AppSettings:DataSeach").Value = factory_id.Trim();
+            _configuration.GetSection("AppSettings:DataSearch").Value = factory_id.Trim();
             var modelOperations = _repoModelOperation.FindAll();
             var kaizens = _repoKaizen.FindAll();
             var models = _repoModel.FindAll();
@@ -189,7 +189,7 @@ namespace SmartTool_API._Services.Services
                                   model = b,
                                   modelOperation = c
                               }).FirstOrDefaultAsync();
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return data;
         }
         public async Task<OperationResult> AddCross(Kaizen_Benefits_Application_FormDTO model)
