@@ -24,6 +24,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         path: 'rft-report',
         loadChildren: () => import('./rft-report/rft-report.module').then(m => m.RftReportModule)
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'group-rft-report',
+        loadChildren: () => import('./group-rft-report/group-rft-report.module').then(m => m.GroupRftReportModule)
       }
     ]
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RFTReportDetail } from '../../../../_core/_models/rft-report-detail';
+import { AuthService } from '../../../../_core/_services/auth.service';
 import { RFTReportService } from '../../../../_core/_services/rft-report.service';
 import { CustomNgSnotifyService } from '../../../../_core/_services/snotify.service';
 
@@ -13,7 +14,7 @@ import { CustomNgSnotifyService } from '../../../../_core/_services/snotify.serv
 export class RftDetailComponent implements OnInit {
   rftReportDetails: RFTReportDetail[];
   model: any = {};
-  avgdata = null;
+  avgdata: any = null;
   cr2: string = null;
   sms: string = null;
   cs1: string = null;
@@ -28,6 +29,7 @@ export class RftDetailComponent implements OnInit {
   constructor(
     private rftReportService: RFTReportService,
     private snotify: CustomNgSnotifyService,
+    private authService: AuthService,
     private router: Router,
     private spinner: NgxSpinnerService
   ) { }
@@ -70,7 +72,7 @@ export class RftDetailComponent implements OnInit {
         this.mp1 = this.avgdata.rftavg.mP1;
         this.mp2 = this.avgdata.rftavg.mP2;
         this.mp3 = this.avgdata.rftavg.mP3;
-        this.totalavg = this.avgdata.totalavg.toFixed(2);
+        this.totalavg = this.avgdata.totalavg !== null ? this.avgdata.totalavg.toFixed(2) : this.avgdata.totalavg;
       });
   }
 
