@@ -12,24 +12,24 @@ namespace SmartTool_API.Models
         [StringLength(8)]
         public string model_no { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CR2 { get; set; }
+        public double? CR2 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? SMS { get; set; }
+        public double? SMS { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS1 { get; set; }
+        public double? CS1 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS2 { get; set; }
+        public double? CS2 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS3 { get; set; }
+        public double? CS3 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? PROD1 { get; set; }
+        public double? PROD1 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? PROD2 { get; set; }
+        public double? PROD2 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP1 { get; set; }
+        public double? MP1 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP2 { get; set; }
+        public double? MP2 { get; set; }
         [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP3 { get; set; }
+        public double? MP3 { get; set; }
     }
 }

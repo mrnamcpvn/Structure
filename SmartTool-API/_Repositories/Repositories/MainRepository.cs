@@ -12,7 +12,7 @@ namespace SmartTool_API._Repositories.Repositories
 {
     public class MainRepository<T> : IMainRepository<T> where T : class
     {
-        public string DataSeach;
+        public string DataSearch;
         private readonly DataContext _context;
 
         private IConfiguration _configuration;

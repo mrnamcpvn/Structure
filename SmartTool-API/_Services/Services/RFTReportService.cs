@@ -55,7 +55,7 @@ namespace SmartTool_API._Services.Services
                                mp2 = all.MP2,
                                mp3 = all.MP3
                            }).FirstOrDefault();
-            List<decimal?> avglist = new List<decimal?>() { avgdata.cr2, avgdata.sms, avgdata.cs1, avgdata.cs2, avgdata.cs3, avgdata.prod1, avgdata.prod2, avgdata.mp1, avgdata.mp2, avgdata.mp3 };
+            List<double?> avglist = new List<double?>() { avgdata.cr2, avgdata.sms, avgdata.cs1, avgdata.cs2, avgdata.cs3, avgdata.prod1, avgdata.prod2, avgdata.mp1, avgdata.mp2, avgdata.mp3 };
             var avg = avglist.Average();
             var data = (from a in rftavgall
                         select new
@@ -88,7 +88,7 @@ namespace SmartTool_API._Services.Services
             var data = await _repoViewRFTReport.FindAll(x => x.factory_id.Trim() == rftReportParam.factory_id.Trim() && x.model_no == rftReportParam.model_no.Trim())
                 .OrderBy(x => x.sequence).ToListAsync();
             var result = _mapper.Map<List<VW_RFTReportDetailDTO>>(data);
-            _configuration.GetSection("AppSettings:DataSeach").Value = "";
+            _configuration.GetSection("AppSettings:DataSearch").Value = "";
             return result;
         }
 

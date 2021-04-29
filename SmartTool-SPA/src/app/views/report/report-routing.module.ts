@@ -11,15 +11,20 @@ const routes: Routes = [
     },
     children: [
       {
-        canActivate : [AuthGuard],
+        canActivate: [AuthGuard],
         path: 'kaizen-report',
         loadChildren: () => import('./kaizen-report/kaizen-report.module').then(m => m.KaizenReportModule)
       },
       {
-        canActivate : [AuthGuard],
+        canActivate: [AuthGuard],
         path: 'group-kaizen-report',
         loadChildren: () => import('./group-kaizen-report/group-kaizen-report.module').then(m => m.GroupKaizenReportModule)
       },
+      {
+        canActivate: [AuthGuard],
+        path: 'rft-report',
+        loadChildren: () => import('./rft-report/rft-report.module').then(m => m.RftReportModule)
+      }
     ]
   }
 ];
