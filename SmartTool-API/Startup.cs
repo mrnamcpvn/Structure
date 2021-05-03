@@ -97,6 +97,8 @@ namespace SmartTool_API
             services.AddScoped<IKaizenReportService, KaizenReportService>();
             services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
             services.AddScoped<IRFTReportService, RFTReportService>();
+            services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });

@@ -29,6 +29,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         path: 'group-rft-report',
         loadChildren: () => import('./group-rft-report/group-rft-report.module').then(m => m.GroupRftReportModule)
+      },
+      {
+        path: 'cross-site-sharing',
+        loadChildren: () => import('./cross-site-sharing/cross.module').then(m => m.CrossSiteSharingModule)
       }
     ]
   }
