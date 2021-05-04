@@ -10,7 +10,8 @@
         <img src="assets/img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <a class="dropdown-item" href="javascript:;" (click)="modalChangePassword.show()"><i class="fa fa-key"></i> Change Password</a>
+        <a class="dropdown-item" href="javascript:;" (click)="modalChangePassword.show()"><i class="fa fa-key"></i>
+          Change Password</a>
         <a class="dropdown-item" href="javascript:;" (click)="logout()"><i class="fa fa-lock"></i> Logout</a>
       </div>
     </li>
@@ -29,7 +30,6 @@
     </cui-breadcrumb>
     <div class="container-fluid">
       <router-outlet></router-outlet>
-      <ng-snotify></ng-snotify>
     </div><!-- /.container-fluid -->
   </main>
   <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">

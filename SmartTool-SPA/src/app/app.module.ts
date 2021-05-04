@@ -73,7 +73,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ChartsModule,
-    SnotifyModule.forRoot(),
+    SnotifyModule,
     HighchartsChartModule,
     JwtModule.forRoot({
       config: {
@@ -93,7 +93,6 @@ export function tokenGetter() {
     AuthGuard,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
-    CustomNgSnotifyService,
     ModelResolver,
     ModelEditResolver,
     { provide: LocationStrategy, useClass: HashLocationStrategy }

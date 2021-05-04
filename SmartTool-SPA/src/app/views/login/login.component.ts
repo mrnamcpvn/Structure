@@ -17,29 +17,24 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private snotifyService: CustomNgSnotifyService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    if (this.authService.loggedIn()) this.router.navigate(["/dashboard"]);
+    if (this.authService.loggedIn) this.router.navigate(["/dashboard"]);
   }
 
   login() {
     console.log(this.user);
     this.spinner.show();
-    this.authService.login(this.user).subscribe(
-      next => {
-        this.snotifyService.success("Login Success!!")
-        this.spinner.hide();
-      },
-      error => {
-        console.log(error)
-        this.snotifyService.error("Login failed!!")
-        this.spinner.hide();
-      },
-      () => {
-        this.router.navigate(["/dashboard"]);
-        this.spinner.hide();
-      }
-    );
+    this.authService.login(this.user).subscribe(() => {
+      this.snotifyService.success("Login Success!!");
+      this.router.navigate(["/dashboard"]);
+      this.spinner.hide();
+    }, error => {
+      console.log(error)
+      this.snotifyService.error("Login failed!!");
+      this.spinner.hide();
+    });
+
   }
 }

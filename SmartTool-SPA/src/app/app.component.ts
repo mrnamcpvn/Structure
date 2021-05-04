@@ -7,7 +7,7 @@ import { AuthService } from './_core/_services/auth.service';
 @Component({
   // tslint:disable-next-line
   selector: 'body',
-  template: '<router-outlet></router-outlet>',
+  template: '<router-outlet></router-outlet><ng-snotify></ng-snotify>',
 })
 export class AppComponent implements OnInit {
   jwtHelper = new JwtHelperService();
