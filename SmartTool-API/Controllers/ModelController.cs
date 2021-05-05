@@ -26,7 +26,8 @@ namespace SmartTool_API.Controllers
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        private string GetUserClaim() {
+        private string GetUserClaim()
+        {
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
@@ -45,30 +46,29 @@ namespace SmartTool_API.Controllers
             modelDto.update_by = GetUserClaim();
             modelDto.create_by = GetUserClaim();
             modelDto.factory_id = factory;
-            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
-            if(modelDto.model_picture == null || modelDto.model_picture == "") {
+            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
+            if (modelDto.model_picture == null || modelDto.model_picture == "")
+            {
                 var fileName = "no-image.jpg";
-                modelDto.model_picture = factory+"/Model/"+ fileName;
-            } 
-            else {
+                modelDto.model_picture = factory + "/Model/" + fileName;
+            }
+            else
+            {
                 var source = modelDto.model_picture;
                 string base64 = source.Substring(source.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] modelData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                var fileName = factory + "_" + modelDto.model_no + ".jpg";
                 string filePathImages = Path.Combine(folder, fileName);
                 System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = factory + "/Model/" + fileName;
             }
-            if (await _modelS.Add(modelDto))
-            {
-                return NoContent();
-            }
-            throw new Exception("Creating the Model failed on save");
+            var result = await _modelS.Add(modelDto);
+            return Ok(result);
         }
 
         [HttpGet("edit/{modelNo}")]
@@ -86,34 +86,31 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> updateModel([FromBody] ModelDTO modelDto)
         {
             modelDto.update_by = GetUserClaim();
-            modelDto.update_time = DateTime.Now;    
-            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
-            if(modelDto.model_picture.Length > 100)
+            modelDto.update_time = DateTime.Now;
+            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
+            if (modelDto.model_picture.Length > 100)
             {
                 var source = modelDto.model_picture;
                 string base64 = source.Substring(source.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] modelData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                var fileName = factory + "_" + modelDto.model_no + ".jpg";
                 string filePathImages = Path.Combine(folder, fileName);
-                 // kiểm tra file cũ có chưa xóa đi
+                // kiểm tra file cũ có chưa xóa đi
                 if (System.IO.File.Exists(filePathImages))
                 {
                     System.IO.File.Delete(filePathImages);
                 }
                 System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = factory + "/Model/" + fileName;
             }
-            
-            if (await _modelS.Update(modelDto))
-            {
-                return NoContent();
-            }
-            throw new Exception("Creating the Model failed on save");
+
+            var result = await _modelS.Update(modelDto);
+            return Ok(result);
         }
 
 

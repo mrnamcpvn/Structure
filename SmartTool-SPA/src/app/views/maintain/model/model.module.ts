@@ -23,4 +23,4 @@ import { EditComponent } from "./edit/edit.component";
   ],
   declarations: [ModelListComponent, AddComponent, EditComponent],
 })
-export class ModelModule {}
+export class ModelModule { }

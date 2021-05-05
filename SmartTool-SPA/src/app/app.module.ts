@@ -48,8 +48,9 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from "ng-snotify";
 import { ModelResolver } from "./_core/_resolvers/model.resolver";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
-import { CustomNgSnotifyService } from "./_core/_services/snotify.service";
-
+import { environment } from "../environments/environment";
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -62,6 +63,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
+
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     NgxSpinnerModule,
@@ -82,6 +84,8 @@ export function tokenGetter() {
         disallowedRoutes: ['localhost:5000/api/auth']
       }
     }),
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule,
   ],
   declarations: [
     AppComponent,

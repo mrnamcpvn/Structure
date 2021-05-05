@@ -7,8 +7,11 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Select2OptionData } from "ng-select2";
+import { Subject, timer } from "rxjs";
+import { switchMap, takeUntil } from "rxjs/operators";
 import { environment } from "../../../../../environments/environment";
 import { Model } from "../../../../_core/_models/model";
+import { ModelQuery } from "../../../../_core/_queries/model.query";
 import { ModelService } from "../../../../_core/_services/model.service";
 import { CustomNgSnotifyService } from "../../../../_core/_services/snotify.service";
 
@@ -23,16 +26,27 @@ export class AddComponent implements OnInit {
   defaultImage: string =
     this.baseUrl + environment.factory + "/Model/no-image.jpg";
   modelTypeList: Array<Select2OptionData>;
+  private readonly unsubscribe$: Subject<void> = new Subject();
+
 
   constructor(
     private modelService: ModelService,
     private snotifyService: CustomNgSnotifyService,
     private router: Router,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private modelQuery: ModelQuery
+  ) { }
 
   ngOnInit() {
-    this.getAllModelType();
+    this.modelService.getAllModelType().subscribe();
+    this.modelQuery.select(state => state.modelTypes).subscribe(modelTypes => {
+      this.modelTypeList = modelTypes.map(type => ({ id: type.id, text: type.name }));
+      if (this.modelTypeList.length > 0) {
+        this.addModelForm.controls.model_type_id.setValue(this.modelTypeList[0].id);
+      }
+    });
+
+    // this.getAllModelType();
     this.initForm();
   }
 
@@ -50,32 +64,28 @@ export class AddComponent implements OnInit {
     });
   }
 
-  saveAndNext() {
-    this.changeToUppercase();
-    this.modelService.createModel(this.addModelForm.value).subscribe(
-      () => {
-        this.snotifyService.success("Add succeed");
-        this.resetForm();
-        console.log(this.addModelForm.value);
-      },
-      (error) => {
-        this.snotifyService.error("Add Model failed on save");
-      }
-    );
-  }
+  // saveAndNext() {
+  //   this.changeToUppercase();
+  //   this.modelService.createModel(this.addModelForm.value).subscribe(
+  //     () => {
+  //       this.snotifyService.success("Add succeed");
+  //       this.resetForm();
+  //       console.log(this.addModelForm.value);
+  //     },
+  //     (error) => {
+  //       this.snotifyService.error("Add Model failed on save");
+  //     }
+  //   );
+  // }
 
   save() {
     this.changeToUppercase();
     console.log(this.addModelForm.value);
-    this.modelService.createModel(this.addModelForm.value).subscribe(
-      () => {
-        this.snotifyService.success("Add succeed");
-        this.router.navigate(["/maintain/model/list"]);
-      },
-      (error) => {
-        this.snotifyService.error("Add Model failed on save");
-      }
-    );
+    this.modelService.createModel(this.addModelForm.value).pipe(takeUntil(this.unsubscribe$)
+    ).subscribe(() => {
+      this.snotifyService.success("Create Model Successful");
+      this.router.navigate(["/maintain/model/list"]);
+    }, error => this.snotifyService.error(error));
   }
 
   onSelectFile(event) {
@@ -107,17 +117,16 @@ export class AddComponent implements OnInit {
     }
   }
 
-  getAllModelType() {
-    this.modelService.getAllModelType().subscribe((res) => {
-      this.modelTypeList = res.map((item) => {
-        return { id: item.id, text: item.name };
-      });
-    });
-  }
+  // getAllModelType() {
+  //   this.modelService.getAllModelType().subscribe((res) => {
+  //     this.modelTypeList = res.map((item) => {
+  //       return { id: item.id, text: item.name };
+  //     });
+  //   });
+  // }
 
   cancel() {
     this.resetForm();
-    console.log(this.addModelForm.value);
   }
 
   initForm() {
@@ -143,7 +152,6 @@ export class AddComponent implements OnInit {
       upper_id: "",
       model_name: "",
       model_family: "",
-      model_type_id: "",
       is_active: true,
       volume: null,
       volume_percent: null,
@@ -152,5 +160,10 @@ export class AddComponent implements OnInit {
       remarks: "",
       model_picture: "",
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select2OptionData } from "ng-select2";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { environment } from "../../../../../environments/environment";
+import { Model } from "../../../../_core/_models/model";
+import { ModelQuery } from "../../../../_core/_queries/model.query";
 import { ModelService } from "../../../../_core/_services/model.service";
 import { CustomNgSnotifyService } from "../../../../_core/_services/snotify.service";
 
@@ -16,24 +20,28 @@ export class EditComponent implements OnInit {
   editModelForm: FormGroup;
   url: string = environment.imageUrl;
   modelTypeList: Array<Select2OptionData>;
+  private readonly unsubscribe$: Subject<void> = new Subject();
   constructor(
     private modelService: ModelService,
     private route: ActivatedRoute,
     private snotify: CustomNgSnotifyService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private modelQuery: ModelQuery
+  ) {
+    this.initForm();
+  }
 
   ngOnInit() {
-    this.initForm();
-    this.route.data.subscribe((data) => {
-      this.spinner.hide();
-      this.editModelForm.setValue(data.model);
-      this.url =
-        this.url + this.editModelForm.value.model_picture + "?" + Math.random();
+    let model = this.modelQuery.getActive();
+
+    model ? this.editModelForm.patchValue(model) : this.router.navigate(['/maintain/model/list']);
+
+    this.modelService.getAllModelType().subscribe();
+    this.modelQuery.select(state => state.modelTypes).subscribe(modelTypes => {
+      this.modelTypeList = modelTypes.map(type => ({ id: type.id, text: type.name }));
     });
-    this.getAllModelType();
   }
 
   initForm() {
@@ -61,15 +69,15 @@ export class EditComponent implements OnInit {
     });
   }
 
-  changeToUppercase() {
-    this.editModelForm.patchValue({
-      model_no: this.editModelForm.value.model_no.toUpperCase(),
-      model_name: this.editModelForm.value.model_name.toUpperCase(),
-      model_family: this.editModelForm.value.model_family.toUpperCase(),
-      dev_season: this.editModelForm.value.dev_season.toUpperCase(),
-      prod_season: this.editModelForm.value.prod_season.toUpperCase(),
-    });
-  }
+  // changeToUppercase() {
+  //   this.editModelForm.patchValue({
+  //     model_no: this.editModelForm.value.model_no.toUpperCase(),
+  //     model_name: this.editModelForm.value.model_name.toUpperCase(),
+  //     model_family: this.editModelForm.value.model_family.toUpperCase(),
+  //     dev_season: this.editModelForm.value.dev_season.toUpperCase(),
+  //     prod_season: this.editModelForm.value.prod_season.toUpperCase(),
+  //   });
+  // }
 
   backList() {
     this.router.navigate(["/maintain/model/list"]);
@@ -103,26 +111,26 @@ export class EditComponent implements OnInit {
       }
     }
   }
-  getAllModelType() {
-    this.modelService.getAllModelType().subscribe((res) => {
-      this.modelTypeList = res.map((item) => {
-        return { id: item.id, text: item.name };
-      });
-    });
-  }
+  // getAllModelType() {
+  //   this.modelService.getAllModelType().subscribe((res) => {
+  //     this.modelTypeList = res.map((item) => {
+  //       return { id: item.id, text: item.name };
+  //     });
+  //   });
+  // }
   cancel() {
     this.backList();
   }
-  btnSave() {
-    this.changeToUppercase();
-    this.modelService.updateModel(this.editModelForm.value).subscribe(
-      () => {
-        this.router.navigate(["/maintain/model/list"]);
-        this.snotify.success("Edit succeed ");
-      },
-      (error) => {
-        this.snotify.error("Can not update Model");
-      }
-    );
+  onSubmit(model: Model) {
+    // this.changeToUppercase();
+    this.modelService.updateModel(model).pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.snotify.success("Model was successfully updated.", "Success!");
+        this.router.navigate(['/maintain/model/list']);
+      }, error => this.snotify.error(error, "Error!"));
+  }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

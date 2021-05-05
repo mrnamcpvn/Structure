@@ -4,48 +4,53 @@
       <div class="card">
         <div class="card-header">
           <strong>Edit</strong>
-           model
-          <button type="button" class="btn btn-sm btn-primary float-right" (click)="backList()" ><i class="fa fa-chevron-left"></i>
+          model
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="backList()"><i
+              class="fa fa-chevron-left"></i>
             Back</button>
         </div>
-        <form class="form-horizontal" [formGroup]="editModelForm">
+        <form class="form-horizontal" [formGroup]="editModelForm" (ngSubmit)="editModelForm.valid && onSubmit(editModelForm.getRawValue())">
           <div class="card-body">
             <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="model_no">Model No <span class="red_star">  *</span></label>
+              <label class="col-md-2 col-form-label" for="model_no">Model No <span class="red_star"> *</span></label>
               <div class="col-md-3">
-                <input type="text" formControlName="model_no"  id="model_no" name="model_no" class="form-control input-upper" placeholder="Enter Model No.." disabled>
+                <input type="text" formControlName="model_no" id="model_no" name="model_no"
+                  class="form-control input-upper" placeholder="Enter Model No.." disabled>
               </div>
               <div class="col-md-1"></div>
-              <label class="col-md-2 col-form-label" for="upper_id">Upper ID<span class="red_star">  *</span></label>
+              <label class="col-md-2 col-form-label" for="upper_id">Upper ID<span class="red_star"> *</span></label>
               <div class="col-md-3">
-                <input type="text" formControlName="upper_id" id="upper_id" name="upper_id" class="form-control" placeholder="Enter Upper ID.." >
+                <input type="text" formControlName="upper_id" id="upper_id" name="upper_id" class="form-control"
+                  placeholder="Enter Upper ID..">
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="model_name">Model Name<span class="red_star">  *</span></label>
+              <label class="col-md-2 col-form-label" for="model_name">Model Name<span class="red_star"> *</span></label>
               <div class="col-md-3">
-                <input type="text" formControlName="model_name" id="model_name" name="model_name" class="form-control input-upper" placeholder="Enter Model Name.." >
+                <input type="text" formControlName="model_name" id="model_name" name="model_name"
+                  class="form-control input-upper" placeholder="Enter Model Name..">
               </div>
               <div class="col-md-1"></div>
               <label class="col-md-2 col-form-label" for="model_family">Model Family</label>
               <div class="col-md-3">
-                <input type="text" formControlName="model_family" id="model_family" name="model_family" class="form-control input-upper" placeholder="Enter Model Family..">
+                <input type="text" formControlName="model_family" id="model_family" name="model_family"
+                  class="form-control input-upper" placeholder="Enter Model Family..">
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="model_type_id">Model Type <span class="red_star">  *</span></label>
-              <div class="col-md-3" >
-                <ng-select2 [data]="modelTypeList" formControlName="model_type_id" width="100%" id="model_type_id" name="model_type_id">
-                </ng-select2 >
+              <label class="col-md-2 col-form-label" for="model_type_id">Model Type <span class="red_star">
+                  *</span></label>
+              <div class="col-md-3">
+                <ng-select2 [data]="modelTypeList" formControlName="model_type_id" width="100%" id="model_type_id"
+                  name="model_type_id">
+                </ng-select2>
               </div>
               <div class="col-md-1"></div>
               <label class="col-md-2 col-form-label" for="is_active">Active</label>
               <div class="col-md-3">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox"
-                  formControlName="is_active"
-                  name="is_active" id="is_active"
-                  class="custom-control-input">
+                  <input type="checkbox" formControlName="is_active" name="is_active" id="is_active"
+                    class="custom-control-input">
                   <label class="custom-control-label" for="is_active"></label>
                 </div>
               </div>
@@ -53,34 +58,36 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="volume">Volume</label>
               <div class="col-md-3">
-                <input type="number" formControlName="volume" id="volume"
-                name="volume" class="form-control" placeholder="Enter Volume.."
-                min="0" oninput="validity.valid||(value='');">
+                <input type="number" formControlName="volume" id="volume" name="volume" class="form-control"
+                  placeholder="Enter Volume.." min="0" oninput="validity.valid||(value='');">
               </div>
               <div class="col-md-1"></div>
               <label class="col-md-2 col-form-label" for="volume_percent">Volume (%)</label>
               <div class="col-md-3">
-                <input type="number" formControlName="volume_percent" id="volume_percent"
-                name="volume_percent" class="form-control" placeholder="Enter Volume Percent.."
-                min="0" step="0.01" oninput="validity.valid||(value='');"
-                max="100">
+                <input type="number" formControlName="volume_percent" id="volume_percent" name="volume_percent"
+                  class="form-control" placeholder="Enter Volume Percent.." min="0" step="0.01"
+                  oninput="validity.valid||(value='');" max="100">
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="dev_season">Dev Season<span class="red_star">  *</span></label>
+              <label class="col-md-2 col-form-label" for="dev_season">Dev Season<span class="red_star"> *</span></label>
               <div class="col-md-3">
-                <input type="text" formControlName="dev_season" id="dev_season" name="dev_season" class="form-control input-upper" placeholder="Enter Dev Season..">
+                <input type="text" formControlName="dev_season" id="dev_season" name="dev_season"
+                  class="form-control input-upper" placeholder="Enter Dev Season..">
               </div>
               <div class="col-md-1"></div>
-              <label class="col-md-2 col-form-label" for="prod_season">Prod Season<span class="red_star">  *</span></label>
+              <label class="col-md-2 col-form-label" for="prod_season">Prod Season<span class="red_star">
+                  *</span></label>
               <div class="col-md-3">
-                <input type="text" formControlName="prod_season" id="prod_season" name="prod_season" class="form-control input-upper" placeholder="Enter Prod Season.." required>
+                <input type="text" formControlName="prod_season" id="prod_season" name="prod_season"
+                  class="form-control input-upper" placeholder="Enter Prod Season.." required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="remarks">Remarks</label>
               <div class="col-md-3">
-                <textarea formControlName="remarks" id="remarks" name="remarks" class="form-control" rows="5" placeholder="Enter Remarks.."></textarea>
+                <textarea formControlName="remarks" id="remarks" name="remarks" class="form-control" rows="5"
+                  placeholder="Enter Remarks.."></textarea>
               </div>
               <div class="col-md-1"></div>
               <label class="col-md-2 col-form-label" for="model_picture">Model Picture</label>
@@ -90,13 +97,15 @@
                   <input type="file" class="uploadFile img" value="Upload Photo"
                     style="width: 0px; height: 0px; overflow: hidden;" (change)="onSelectFile($event)" #fileImageB4 />
                 </label>
-                <img [src]="url"  width="100%" width="60" />
+                <img [src]="url" width="100%" width="60" />
               </div>
             </div>
           </div>
           <div class="card-footer">
-        <button type="button" class="btn btn-sm btn-danger" (click)="cancel()"><i class="fa fa-ban" ></i> Cancel</button>
-        <button type="button" class="btn btn-sm btn-success" [disabled]="!editModelForm.valid" (click)="btnSave()"><i class="fa fa-check"></i> Save</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="cancel()"><i class="fa fa-ban"></i>
+              Cancel</button>
+            <button type="submit" class="btn btn-sm btn-success" [disabled]="!editModelForm.valid"><i
+                class="fa fa-check"></i> Save</button>
           </div>
         </form>
       </div>
