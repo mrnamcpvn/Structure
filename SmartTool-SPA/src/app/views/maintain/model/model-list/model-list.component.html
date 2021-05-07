@@ -24,13 +24,13 @@
                 <option value="0">InActive</option>
               </select>
             </div>
-            <!-- <div class="col-md-4">
+            <div class="col-md-4">
               <button type="button" class="btn  btn-secondary float-left mr-2 mt-1 " (click)="search()"><i
                   class="fa fa-search"></i>
                 Search</button>
               <button type="button" class="btn  btn-danger float-left mt-1" (click)="clear()"><i class="fa fa-ban"></i>
                 Clear</button>
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="card-body">
@@ -83,7 +83,8 @@
           <div class="d-flex" *ngIf="pagination.totalPages >= 1">
             <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
               [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
-              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5
+              *ngIf="this.pagination.totalPages > 1">
             </pagination>
           </div>
         </div>

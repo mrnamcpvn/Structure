@@ -105,7 +105,7 @@ namespace SmartTool_API._Services.Services
             var modelUp = _mapper.Map<Model>(model);
             _repo.Update(modelUp);
             if (await _repo.SaveAll())
-                return new OperationResult { Caption = "Success", Message = "Add Model Success", Success = true };
+                return new OperationResult { Caption = "Success", Message = "Update Model Success", Success = true };
             return new OperationResult { Caption = "Failed", Message = "Fail on Update Model", Success = false };
         }
 

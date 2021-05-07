@@ -46,7 +46,7 @@ export class ModelListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    timer(1000).pipe(switchMap(() => this.modelService.getAll())).subscribe();
+    timer(1000).pipe(switchMap(() => this.modelService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch))).subscribe();
 
     //create a "isloading" subscription
     this.modelQuery.selectLoading().pipe(takeUntil(this.unsubscribe$))
@@ -72,7 +72,7 @@ export class ModelListComponent implements OnInit {
     this.unsubscribe$.complete();
   }
   loadData() {
-    this.modelService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe();
+    this.modelService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch).subscribe();
   }
   // loadData(){
   //   this.spinner.show();
@@ -99,11 +99,11 @@ export class ModelListComponent implements OnInit {
   //   );
   // }
 
-  // clear() {
-  //   this.paramSearch.active = "all";
-  //   this.paramSearch.model_search = "";
-  //   this.loadData();
-  // }
+  clear() {
+    this.paramSearch.active = "all";
+    this.paramSearch.model_search = "";
+    this.loadData();
+  }
 
   pageChanged(event: any): void {
     // debugger;

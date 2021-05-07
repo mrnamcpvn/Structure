@@ -34,7 +34,7 @@ namespace SmartTool_API._Services.Services
             _repoProcessType = repoProcessType;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
-        public async Task<bool> Add(ModelOperationDTO model)
+        public async Task<OperationResult> Add(ModelOperationDTO model)
         {
             var modelParam = new ModelOperationEditParam();
             modelParam.factory_id = model.factory_id;
@@ -46,9 +46,11 @@ namespace SmartTool_API._Services.Services
             {
                 var modelOperation = _mapper.Map<Model_Operation>(model);
                 _repoModelOperation.Add(modelOperation);
-                return await _repoModelOperation.SaveAll();
+                if (await _repoModelOperation.SaveAll())
+                    return new OperationResult { Caption = "Success", Message = "Add Model Operation Success", Success = true };
+                else return new OperationResult { Caption = "Failed", Message = "Fail on Add Model", Success = false };
             }
-            else return false;
+            else return new OperationResult { Caption = "Failed", Message = "Fail on Add Model", Success = false };
         }
 
         public async Task<bool> CheckExistKaizenAndRTF(ModelOperationDTO operation)
@@ -58,17 +60,18 @@ namespace SmartTool_API._Services.Services
             return false;
         }
 
-        public async Task<bool> Delete(ModelOperationDTO operation)
+        public async Task<OperationResult> Delete(ModelOperationDTO operation)
         {
             if (await CheckExistKaizenAndRTF(operation))
             {
-                return false;
+                return new OperationResult { Caption = "Failed", Message = "Fail on Delete Model Operation", Success = false };
             }
             else
             {
                 var modelOperation = _mapper.Map<Model_Operation>(operation);
                 _repoModelOperation.Remove(modelOperation);
-                return await _repoModelOperation.SaveAll();
+                await _repoModelOperation.SaveAll();
+                return new OperationResult { Caption = "Success", Message = "Delete Model Operation Success", Success = true };
             }
         }
         public async Task<object> GetAllProcessType()
@@ -80,7 +83,7 @@ namespace SmartTool_API._Services.Services
         public async Task<ModelOperationDTO> GetModelOperation(ModelOperationEditParam modelOperationEditParam)
         {
             var data = await _repoModelOperation.GetByModelOperation(modelOperationEditParam);
-            var models = _mapper.Map<Model_Operation, ModelOperationDTO>(data);
+            var models = _mapper.Map<ModelOperationDTO>(data);
             return models;
         }
 
@@ -121,11 +124,15 @@ namespace SmartTool_API._Services.Services
             return await PagedList<ModelOperationDTO>.CreateAsync(listData, param.PageNumber, param.PageSize);
         }
 
-        public async Task<bool> Update(ModelOperationDTO model)
+        public async Task<OperationResult> Update(ModelOperationDTO model)
         {
             var modelOperation = _mapper.Map<Model_Operation>(model);
             _repoModelOperation.Update(modelOperation);
-            return await _repoModelOperation.SaveAll();
+            if (await _repoModelOperation.SaveAll())
+            {
+                return new OperationResult { Caption = "Success", Message = "Update Model Operation Success", Success = true };
+            }
+            return new OperationResult { Caption = "Failed", Message = "Fail on Update Model Operation", Success = false };
         }
     }
 }

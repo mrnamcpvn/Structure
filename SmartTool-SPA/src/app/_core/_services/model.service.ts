@@ -46,7 +46,7 @@ export class ModelService {
             params = params.append('pageNumber', page);
             params = params.append('pageSize', itemsPerPage);
         }
-        return this.http.post<any>(this.baseUrl + 'model/model-list', {}, { observe: 'response', params }).pipe(
+        return this.http.post<any>(this.baseUrl + 'model/model-list', modelParam, { observe: 'response', params }).pipe(
             map(response => {
                 this.modelStore.update({ pagination: JSON.parse(response.headers.get('Pagination')) });
                 this.modelStore.set(response.body);

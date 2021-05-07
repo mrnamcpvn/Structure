@@ -16,7 +16,7 @@ export function createInitialState(): ModelState {
 }
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: "model", idKey: '_id', deepFreezeFn: obj => obj })  //in dev mode, we deep freeze the store, so that you don't mutate it => solution : deepFreezeFn: obj => obj
+@StoreConfig({ name: "model", idKey: '_id', deepFreezeFn: obj => obj })  //in dev mode, we deep freeze the store, so that you don't mutate it => temporary solution : deepFreezeFn: obj => obj
 export class ModelStore extends EntityStore<ModelState> {
     constructor() {
         super(createInitialState());        //khởi tạo

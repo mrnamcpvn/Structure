@@ -56,7 +56,7 @@
                   <th>Sequence</th>
                 </tr>
               </thead>
-              <tbody *ngIf="noData">
+              <tbody *ngIf="modelOperations.length == 0">
                 <tr>
                   <td colspan="9">
                     <alert class="text-center" type='danger'>
@@ -68,7 +68,7 @@
               <tbody *ngFor="let item of modelOperations; let i = index">
                 <tr>
                   <td rowspan="3" class="vertical" style="width: 10%">
-                    <button type="button" class="btn btn-sm btn-primary " (click)="updateModelOperation(item)"><i
+                    <button type="button" class="btn btn-sm btn-primary " (click)="updateModelOperation(item._id)"><i
                         class="fa fa-edit fa-lg"></i></button>
                     <button type="button" class="btn btn-sm btn-danger" (click)="deleteOperation(item)"><i
                         class="fa fa-trash fa-lg"></i></button>
@@ -105,10 +105,10 @@
               </tbody>
             </table>
           </div>
-          <div class="d-flex" *ngIf="pagination.totalPages >= 1 && noData == false">
+          <div class="d-flex" *ngIf="pagination.totalPages >= 1 ">
             <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
               [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
-              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5 *ngIf="pagination.totalPages > 1">
             </pagination>
           </div>
         </div>

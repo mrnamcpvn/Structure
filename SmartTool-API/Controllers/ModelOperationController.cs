@@ -40,15 +40,12 @@ namespace SmartTool_API.Controllers
         [HttpPost("create-operation")]
         public async Task<IActionResult> CreateModelOperation([FromBody] ModelOperationDTO modelOperationDto)
         {
-            modelOperationDto.update_by = GetUserClaim();
-            modelOperationDto.create_by = GetUserClaim();
-            modelOperationDto.create_time = DateTime.Now;
+            // modelOperationDto.update_by = GetUserClaim();
+            // modelOperationDto.create_by = GetUserClaim();
+            // modelOperationDto.create_time = DateTime.Now;
             modelOperationDto.factory_id = factory;
-            if (await _modelOperationService.Add(modelOperationDto))
-            {
-                return NoContent();
-            }
-            throw new Exception("Creating the Model Operation failed on save");
+            var result = await _modelOperationService.Add(modelOperationDto);
+            return Ok(result);
         }
 
         [HttpPost("getModelOperation")]
@@ -74,20 +71,19 @@ namespace SmartTool_API.Controllers
         [HttpPost("updateModelOperation")]
         public async Task<IActionResult> UpdateModelOperation(ModelOperationDTO modelOperationDTO)
         {
-            modelOperationDTO.update_by = GetUserClaim();
-            modelOperationDTO.update_time = DateTime.Now;
-            if (await _modelOperationService.Update(modelOperationDTO))
-                return NoContent();
-            return BadRequest($"Updating Model Operation failed on save");
+            modelOperationDTO.factory_id = factory;
+            // modelOperationDTO.update_by = GetUserClaim();
+            // modelOperationDTO.update_time = DateTime.Now;
+            var result = await _modelOperationService.Update(modelOperationDTO);
+            return Ok(result);
         }
 
 
         [HttpPost("deleteModelOperation")]
         public async Task<IActionResult> DeleteModelOperation(ModelOperationDTO operationDTO)
         {
-            if (await _modelOperationService.Delete(operationDTO))
-                return NoContent();
-            return BadRequest($"The Model Operation is already in use, it cannot be deleted");
+            var result = await _modelOperationService.Delete(operationDTO);
+            return Ok(result);
         }
     }
 }

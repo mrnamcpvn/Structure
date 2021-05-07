@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Select2OptionData } from "ng-select2";
-import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { environment } from "../../../../../environments/environment";
@@ -23,10 +22,8 @@ export class EditComponent implements OnInit {
   private readonly unsubscribe$: Subject<void> = new Subject();
   constructor(
     private modelService: ModelService,
-    private route: ActivatedRoute,
     private snotify: CustomNgSnotifyService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private modelQuery: ModelQuery
   ) {

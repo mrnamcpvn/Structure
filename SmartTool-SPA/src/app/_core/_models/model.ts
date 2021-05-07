@@ -8,9 +8,13 @@ export interface Model {
     upper_id: string;
     dev_season: string;
     prod_season: string;
-    volume: number;
-    volume_percent: number;
+    volume: number | null;
+    volume_percent: number | null;
     remarks: string;
     model_picture: string;
     is_active: boolean;
+    create_by: string;
+    create_time: string;
+    update_by: string;
+    update_time: string;
 }

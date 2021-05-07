@@ -1,4 +1,5 @@
-export class ModelOperation {
+export interface ModelOperation {
+    _id: string;
     factory_id: string;
     model_no: string;
     stage_id: string;
@@ -12,4 +13,8 @@ export class ModelOperation {
     critical_quality: boolean;
     critical_efficiency: boolean;
     sequence: number;
+    create_by: string;
+    create_time: string | Date;
+    update_by: string;
+    update_time: string | Date;
 }
