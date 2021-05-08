@@ -80,12 +80,12 @@ export class AddComponent implements OnInit {
 
   save() {
     this.changeToUppercase();
-    console.log(this.addModelForm.value);
+    // console.log(this.addModelForm.value);
     this.modelService.createModel(this.addModelForm.value).pipe(takeUntil(this.unsubscribe$)
     ).subscribe(() => {
       this.snotifyService.success("Create Model Successful");
       this.router.navigate(["/maintain/model/list"]);
-    }, error => this.snotifyService.error(error));
+    }, error => this.snotifyService.error("Something wrong here", "Error!"));
   }
 
   onSelectFile(event) {

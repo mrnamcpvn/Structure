@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   stageList: Array<Select2OptionData>;
 
   paramSearch: any = {
-    model_search: "",
+    model_search: "BER58",
     stage: ""
   };
   modelName: string = "";

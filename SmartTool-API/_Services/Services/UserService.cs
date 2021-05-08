@@ -22,7 +22,7 @@ namespace SmartTool_API._Services.Services
         private readonly IRoleUserRepository _roleUserRepository;
         private OperationResult operationResult;
 
-        public UserService( IUserRepository userRepository,
+        public UserService(IUserRepository userRepository,
                             IMapper mapper,
                             MapperConfiguration configMapper,
                             IRoleRepository roleRepository,
@@ -35,14 +35,16 @@ namespace SmartTool_API._Services.Services
             _roleUserRepository = roleUserRepository;
         }
 
-        public async Task<bool> AddUser(UserDTO user, string updateBy)
+        public async Task<OperationResult> AddUser(UserDTO user, string updateBy)
         {
             user.update_by = updateBy;
             user.update_time = DateTime.Now;
             var data = _mapper.Map<Users>(user);
             _userRepository.Add(data);
 
-            return await _userRepository.SaveAll();
+            if (await _userRepository.SaveAll())
+                return operationResult = new OperationResult { Caption = "Success", Message = "Add User Success", Success = true };
+            return operationResult = new OperationResult { Caption = "Fail", Message = "Can not Add User", Success = false };
         }
 
         public async Task<OperationResult> ChangePassword(UserForLoginDto user)
@@ -50,7 +52,7 @@ namespace SmartTool_API._Services.Services
             var currentUser = _userRepository.FindSingle(x => x.account == user.Account);
             if (currentUser.password != user.OldPassword)
             {
-               return operationResult = new OperationResult { Caption = "Fail", Message = "Current Pasword not match", Success = false };
+                return operationResult = new OperationResult { Caption = "Fail", Message = "Current Pasword not match", Success = false };
             }
             else
             {
@@ -104,30 +106,34 @@ namespace SmartTool_API._Services.Services
             return role;
         }
 
-        public async Task<bool> UpdateRoleByUser(string account, List<RoleByUserDTO> roles, string updateBy)
+        public async Task<OperationResult> UpdateRoleByUser(string account, List<RoleByUserDTO> roles, string updateBy)
         {
             var timeNow = DateTime.Now;
             var roleByUserHad = await _roleUserRepository.FindAll(x => x.user_account == account).ToListAsync();
             _roleUserRepository.RemoveMultiple(roleByUserHad);
             var roleByUserNew = roles.Select(x => new RoleUserDTO
-                                            {
-                                                create_by = updateBy,
-                                                create_time = timeNow,
-                                                role_unique = x.role_unique,
-                                                user_account = account
-                                            }).ToList();
+            {
+                create_by = updateBy,
+                create_time = timeNow,
+                role_unique = x.role_unique,
+                user_account = account
+            }).ToList();
             var roleByUserNewMap = _mapper.Map<List<RoleUser>>(roleByUserNew);
             _roleUserRepository.AddMultiple(roleByUserNewMap);
-            return await _roleUserRepository.SaveAll();
+            if (await _roleUserRepository.SaveAll())
+                return operationResult = new OperationResult { Caption = "Success", Message = "Update Role for User Success", Success = true };
+            return operationResult = new OperationResult { Caption = "Fail", Message = "Update Password Failed", Success = false };
         }
 
-        public async Task<bool> UpdateUser(UserDTO user, string updateBy)
+        public async Task<OperationResult> UpdateUser(UserDTO user, string updateBy)
         {
             user.update_by = updateBy;
             user.update_time = DateTime.Now;
             var data = _mapper.Map<Users>(user);
             _userRepository.Update(data);
-            return await _userRepository.SaveAll();
+            if (await _userRepository.SaveAll())
+                return operationResult = new OperationResult { Caption = "Success", Message = "Update User Success", Success = true };
+            return operationResult = new OperationResult { Caption = "Fail", Message = "Update User Success", Success = false };
         }
     }
 }

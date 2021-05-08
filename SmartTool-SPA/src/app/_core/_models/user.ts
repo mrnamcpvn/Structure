@@ -1,21 +1,10 @@
-export interface User {
-    id: number;
+export class User {
+    _id: string;
     account: string;
+    password: string;
+    name: string;
     email: string;
-    fullname: string;
-    created_by: string;
-    created_time: Date;
-    updated_by: string;
-    updated_time: Date;
-    active: boolean;
-}
-
-export class AddUser {
-    account: string = '';
-    password: string = '';
-    email: string = '';
-    name: string = '';
-    updated_by: string = '';
-    updated_time: Date = new Date;
-    is_active: boolean = true;
+    is_active: boolean;
+    update_by: string;
+    update_time: string;
 }

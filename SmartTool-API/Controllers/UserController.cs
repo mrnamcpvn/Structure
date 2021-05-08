@@ -34,12 +34,7 @@ namespace SmartTool_API.Controllers
         {
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.AddUser(user, updateBy);
-            if (result)
-            {
-                return NoContent();
-            }
-
-            throw new Exception("Fail Add User");
+            return Ok(result);
         }
 
         [HttpPost("update")]
@@ -47,12 +42,7 @@ namespace SmartTool_API.Controllers
         {
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.UpdateUser(user, updateBy);
-            if (result)
-            {
-                return NoContent();
-            }
-
-            throw new Exception("Fail Add User");
+            return Ok(result);
         }
 
         [HttpGet("roleuser/{account}")]
@@ -65,7 +55,7 @@ namespace SmartTool_API.Controllers
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword(UserForLoginDto user)
         {
-            var result =  await _userService.ChangePassword(user);
+            var result = await _userService.ChangePassword(user);
             return Ok(result);
         }
 
@@ -78,12 +68,7 @@ namespace SmartTool_API.Controllers
             }
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.UpdateRoleByUser(account, roles, updateBy);
-            if (result)
-            {
-                return NoContent();
-            }
-
-            throw new Exception("Fail Add User");
+            return Ok(result);
         }
     }
 }

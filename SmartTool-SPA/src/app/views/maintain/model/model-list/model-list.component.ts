@@ -21,7 +21,6 @@ import { ModelStore } from '../../../../_core/_stores/model.store';
 })
 export class ModelListComponent implements OnInit {
   models: Model[];
-  model: any = {};
   activeList: Array<Select2OptionData>
   noData: boolean = false;
   isUpdateActivated = false;
@@ -40,7 +39,6 @@ export class ModelListComponent implements OnInit {
     private modelService: ModelService,
     private modelQuery: ModelQuery,
     private modelStore: ModelStore,
-    private snotifyService: CustomNgSnotifyService,
     private router: Router,
     private spinner: NgxSpinnerService
   ) { }
