@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -23,7 +16,8 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API._Services.Services;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers.AutoMapper;
-
+using SmartTool_API.Models.Hubs;
+using Microsoft.AspNetCore.Http.Connections;
 namespace SmartTool_API
 {
     public class Startup
@@ -124,6 +118,7 @@ namespace SmartTool_API
                     });
             });
 
+            services.AddSignalR();
 
         }
 
@@ -136,17 +131,18 @@ namespace SmartTool_API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTool_API v1"));
             }
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
+            app.UseCors(options =>
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<BroadcastHub>("/notify", options => options.Transports = HttpTransportType.WebSockets);
             });
         }
     }

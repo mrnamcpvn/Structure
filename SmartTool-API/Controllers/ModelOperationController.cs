@@ -2,10 +2,12 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
+using SmartTool_API.Models.Hubs;
 
 namespace SmartTool_API.Controllers
 {
@@ -15,11 +17,13 @@ namespace SmartTool_API.Controllers
     {
         private readonly IModelOperationService _modelOperationService;
         private readonly IRFTService _iRFTService;
+        private readonly IHubContext<BroadcastHub, IHubClient> _hubContext;
         private string username;
         private string factory;
-        public ModelOperationController(IModelOperationService modelOperationService, IRFTService iRFTService, IConfiguration configuration)
+        public ModelOperationController(IModelOperationService modelOperationService, IRFTService iRFTService, IConfiguration configuration, IHubContext<BroadcastHub, IHubClient> hubContext)
         {
             _iRFTService = iRFTService;
+            _hubContext = hubContext;
             _modelOperationService = modelOperationService;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
@@ -40,11 +44,9 @@ namespace SmartTool_API.Controllers
         [HttpPost("create-operation")]
         public async Task<IActionResult> CreateModelOperation([FromBody] ModelOperationDTO modelOperationDto)
         {
-            // modelOperationDto.update_by = GetUserClaim();
-            // modelOperationDto.create_by = GetUserClaim();
-            // modelOperationDto.create_time = DateTime.Now;
             modelOperationDto.factory_id = factory;
             var result = await _modelOperationService.Add(modelOperationDto);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
 
@@ -72,8 +74,7 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> UpdateModelOperation(ModelOperationDTO modelOperationDTO)
         {
             modelOperationDTO.factory_id = factory;
-            // modelOperationDTO.update_by = GetUserClaim();
-            // modelOperationDTO.update_time = DateTime.Now;
+            await _hubContext.Clients.All.BroadcastMessage();
             var result = await _modelOperationService.Update(modelOperationDTO);
             return Ok(result);
         }
@@ -83,6 +84,7 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> DeleteModelOperation(ModelOperationDTO operationDTO)
         {
             var result = await _modelOperationService.Delete(operationDTO);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
     }

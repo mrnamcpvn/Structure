@@ -3,17 +3,15 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Select2OptionData } from "ng-select2";
 import { Model } from '../../../../_core/_models/model';
-
-
-
 import { ModelService } from '../../../../_core/_services/model.service';
 import { Pagination } from '../../../../_core/_models/pagination';
-import { CustomNgSnotifyService } from '../../../../_core/_services/snotify.service';
-import { Subject, timer } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ModelQuery } from '../../../../_core/_queries/model.query';
 import { ModelStore } from '../../../../_core/_stores/model.store';
-
+import { SignalrService } from '../../../../_core/_services/signalr.service';
+@UntilDestroy()
 @Component({
   selector: 'app-model-list',
   templateUrl: './model-list.component.html',
@@ -34,27 +32,32 @@ export class ModelListComponent implements OnInit {
     totalItems: 1,
     totalPages: 1,
   };
-  private readonly unsubscribe$: Subject<void> = new Subject();
+
   constructor(
     private modelService: ModelService,
     private modelQuery: ModelQuery,
     private modelStore: ModelStore,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private signalRService: SignalrService
   ) { }
 
   ngOnInit() {
     timer(1000).pipe(switchMap(() => this.modelService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch))).subscribe();
 
     //create a "isloading" subscription
-    this.modelQuery.selectLoading().pipe(takeUntil(this.unsubscribe$))
+    this.modelQuery.selectLoading().pipe(untilDestroyed(this))
       .subscribe(isLoading => isLoading ? this.spinner.show() : this.spinner.hide());
     //create a 'entities' subscription
-    this.modelQuery.selectAll().pipe(takeUntil(this.unsubscribe$))
+    this.modelQuery.selectAll().pipe(untilDestroyed(this))
       .subscribe(models => this.models = models);
     //Create a 'Pagination' subscription
     this.modelQuery.select(state => state.pagination)
       .subscribe(pagination => this.pagination = pagination);
+
+    let connection = this.signalRService.connectSignalR();
+
+    connection.on("BroadcastMessage", () => this.loadData());
   }
 
   addNew() {
@@ -65,10 +68,6 @@ export class ModelListComponent implements OnInit {
     this.router.navigate(['/maintain/model/edit']);
   }
 
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
   loadData() {
     this.modelService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch).subscribe();
   }

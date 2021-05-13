@@ -4,10 +4,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
+using SmartTool_API.Models.Hubs;
 
 namespace SmartTool_API.Controllers
 {
@@ -17,11 +19,13 @@ namespace SmartTool_API.Controllers
     {
         private readonly IModelService _modelS;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHubContext<BroadcastHub, IHubClient> _hubContext;
         private string factory;
         private string username;
-        public ModelController(IModelService modelS, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public ModelController(IModelService modelS, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IHubContext<BroadcastHub, IHubClient> hubContext)
         {
             _webHostEnvironment = webHostEnvironment;
+            _hubContext = hubContext;
             _modelS = modelS;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
@@ -68,6 +72,7 @@ namespace SmartTool_API.Controllers
                 modelDto.model_picture = factory + "/Model/" + fileName;
             }
             var result = await _modelS.Add(modelDto);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
 
@@ -110,6 +115,7 @@ namespace SmartTool_API.Controllers
             }
 
             var result = await _modelS.Update(modelDto);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
 

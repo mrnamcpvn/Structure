@@ -75,7 +75,7 @@ export class KaizenAddComponent implements OnInit {
             } else {
               this.isvideoAfter = false;
               if (title == "MP4" ||
-                title == "mp4" ) {
+                title == "mp4") {
                 this.isvideoAfter = true;
               }
               this.url_after = event.target.result;
@@ -103,7 +103,7 @@ export class KaizenAddComponent implements OnInit {
     this.spinner.show();
     this._kaizenService.create(this.dataKaizen).subscribe(
       res => {
-        if(res.success){
+        if (res.success) {
           this.snotify.success(res.message);
           this.dataKaizen = new Kaizen;
           this.stage = '';
@@ -135,7 +135,7 @@ export class KaizenAddComponent implements OnInit {
     this.spinner.show();
     this._kaizenService.create(this.dataKaizen).subscribe(
       res => {
-        if(res.success){
+        if (res.success) {
           this.spinner.hide();
           this.snotify.success(res.message);
           this.router.navigate(['/kaizen/kaizen/']);
@@ -158,10 +158,10 @@ export class KaizenAddComponent implements OnInit {
     this.dataKaizen.after_media = this.imgBase64After;
     this.dataKaizen.clicks_times = 0;
     this.dataKaizen.factory_id = "";
-    this.dataKaizen.kaizen_type_combine = this.dataKaizen.kaizen_type_combine == undefined?false:this.dataKaizen.kaizen_type_combine;
-    this.dataKaizen.kaizen_type_eliminate = this.dataKaizen.kaizen_type_eliminate ==undefined?false:this.dataKaizen.kaizen_type_eliminate;
-    this.dataKaizen.kaizen_type_reduce = this.dataKaizen.kaizen_type_reduce== undefined?false:this.dataKaizen.kaizen_type_reduce;
-    this.dataKaizen.kaizen_type_smart_tool = this.dataKaizen.kaizen_type_smart_tool== undefined?false:this.dataKaizen.kaizen_type_smart_tool;
+    this.dataKaizen.kaizen_type_combine = this.dataKaizen.kaizen_type_combine == undefined ? false : this.dataKaizen.kaizen_type_combine;
+    this.dataKaizen.kaizen_type_eliminate = this.dataKaizen.kaizen_type_eliminate == undefined ? false : this.dataKaizen.kaizen_type_eliminate;
+    this.dataKaizen.kaizen_type_reduce = this.dataKaizen.kaizen_type_reduce == undefined ? false : this.dataKaizen.kaizen_type_reduce;
+    this.dataKaizen.kaizen_type_smart_tool = this.dataKaizen.kaizen_type_smart_tool == undefined ? false : this.dataKaizen.kaizen_type_smart_tool;
   }
   cancel() {
     this.dataKaizen = new Kaizen;

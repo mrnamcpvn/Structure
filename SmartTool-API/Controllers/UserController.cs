@@ -4,9 +4,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
+using SmartTool_API.Models.Hubs;
 
 namespace SmartTool_API.Controllers
 {
@@ -16,9 +18,12 @@ namespace SmartTool_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IHubContext<BroadcastHub, IHubClient> _hubContext;
+
+        public UserController(IUserService userService, IHubContext<BroadcastHub, IHubClient> hubContext)
         {
             _userService = userService;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -34,6 +39,7 @@ namespace SmartTool_API.Controllers
         {
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.AddUser(user, updateBy);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
 
@@ -42,6 +48,7 @@ namespace SmartTool_API.Controllers
         {
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.UpdateUser(user, updateBy);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
 
@@ -68,6 +75,7 @@ namespace SmartTool_API.Controllers
             }
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.UpdateRoleByUser(account, roles, updateBy);
+            await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
     }

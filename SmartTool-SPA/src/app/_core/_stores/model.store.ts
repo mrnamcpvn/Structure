@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+import { enableAkitaProdMode, EntityState, EntityStore, StoreConfig } from '@datorama/akita';
 import { Model } from '../_models/model';
 import { Pagination } from '../_models/pagination';
+import { environment } from '../../../environments/environment';
 
 export interface ModelState extends EntityState<Model, any> {
     modelTypes: any[];                //khai báo các biến phụ thuộc (tái sử dụng)
@@ -16,10 +17,13 @@ export function createInitialState(): ModelState {
 }
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: "model", idKey: '_id', deepFreezeFn: obj => obj })  //in dev mode, we deep freeze the store, so that you don't mutate it => temporary solution : deepFreezeFn: obj => obj
+@StoreConfig({ name: "model", idKey: '_id' }) //in dev mode, we deep freeze the store, so that you don't mutate it => temporary solution : deepFreezeFn: obj => obj
 export class ModelStore extends EntityStore<ModelState> {
     constructor() {
         super(createInitialState());        //khởi tạo
+        if (environment.production) {
+            enableAkitaProdMode();
+        }
     }
 
     akitaPreAddEntity(newEntity: Model): Model & { _id: string; } {

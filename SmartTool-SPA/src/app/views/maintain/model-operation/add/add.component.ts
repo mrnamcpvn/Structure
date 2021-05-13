@@ -16,10 +16,6 @@ import { CustomNgSnotifyService } from '../../../../_core/_services/snotify.serv
 })
 export class AddComponent implements OnInit {
   addModelOperationForm: FormGroup;
-  // isCheckedQuality: any = false;
-  // isCheckedEfficiency: any = false;
-  // modelOperations = new ModelOperation;
-  // listdataModelNo: any;
   stageList: Array<Select2OptionData>;
   processTypeList: Array<Select2OptionData>;
   modelName: string = "";

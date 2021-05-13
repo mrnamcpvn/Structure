@@ -66,9 +66,7 @@ export class EditComponent implements OnInit {
     /////////////////////////////////////////////////////////////////
   }
   onSubmit(modelOperation: ModelOperation) {
-    // modelOperation.create_by = JSON.parse(localStorage.getItem('user')).name;
     modelOperation.update_by = JSON.parse(localStorage.getItem('user')).name;
-    // modelOperation.create_time = Date.now().toString();
     modelOperation.update_time = new Date(Date());
     this.modelOperationService.updateModelOperation(modelOperation)
       .pipe(takeUntil(this.unsubscribe$))

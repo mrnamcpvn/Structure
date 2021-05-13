@@ -63,7 +63,6 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
-
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     NgxSpinnerModule,

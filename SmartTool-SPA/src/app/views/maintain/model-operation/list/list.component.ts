@@ -4,17 +4,15 @@ import { Select2OptionData } from "ng-select2";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { ModelOperationEditParam } from "../../../../_core/_models/mode-operationEditParam";
 import { ModelOperation } from "../../../../_core/_models/model-operation";
-import {
-  PaginatedResult,
-  Pagination,
-} from "../../../../_core/_models/pagination";
+import { Pagination } from "../../../../_core/_models/pagination";
 import { ModelOperationQuery } from "../../../../_core/_queries/model-operation.query";
 import { ModelOperationService } from "../../../../_core/_services/model-operation.service";
 import { CustomNgSnotifyService } from "../../../../_core/_services/snotify.service";
 import { ModelOperationStore } from "../../../../_core/_stores/model-operation.store";
-
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { SignalrService } from "../../../../_core/_services/signalr.service";
+@UntilDestroy()
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
@@ -27,11 +25,10 @@ export class ListComponent implements OnInit {
 
   paramSearch: any = {
     model_search: "BER58",
-    stage: ""
+    stage: "CR2"
   };
   modelName: string = "";
   listdataModelNo: any;
-  private readonly unsubscribe$: Subject<void> = new Subject();
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 10,
@@ -44,7 +41,8 @@ export class ListComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private modelOperationStore: ModelOperationStore,
-    private modelOperationQuery: ModelOperationQuery
+    private modelOperationQuery: ModelOperationQuery,
+    private signalRService: SignalrService
   ) { }
 
   ngOnInit() {
@@ -53,7 +51,7 @@ export class ListComponent implements OnInit {
     // this.loadData();
 
     //create a 'entities' subscription
-    this.modelOperationQuery.selectAll().pipe(takeUntil(this.unsubscribe$))
+    this.modelOperationQuery.selectAll().pipe(untilDestroyed(this))
       .subscribe(modelOperations => this.modelOperations = modelOperations);
     //Create a 'Pagination' subscription
     this.modelOperationQuery.select(state => state.pagination)
@@ -70,6 +68,11 @@ export class ListComponent implements OnInit {
       this.stageList = stage.map(item => ({ id: item.stage_id, text: item.stage_name }));
     });
     localStorage.removeItem("modelLocal");
+
+    let connection = this.signalRService.connectSignalR();
+
+    connection.on("BroadcastMessage", () => this.loadData());
+
   }
 
   // getListModelNo() {
@@ -98,7 +101,7 @@ export class ListComponent implements OnInit {
     this.snotify.confirm("Are you sure you want to delete this Model Operation", "Delete Model Operation", () => {
       this.modelOperationService
         .deleteModelOperation(item)
-        .pipe(takeUntil(this.unsubscribe$))
+        .pipe(untilDestroyed(this))
         .subscribe(() => {
           this.snotify.success("Model Operation was successfully deleted.", "Success!");
           this.modelOperationService.search(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch).subscribe();
@@ -136,10 +139,6 @@ export class ListComponent implements OnInit {
 
   }
 
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
   // loadData() {
   //   this.spinner.show();
   //   if (

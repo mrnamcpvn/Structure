@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject, timer } from 'rxjs';
@@ -7,10 +8,12 @@ import { Pagination } from '../../../_core/_models/pagination';
 import { RoleByUser } from '../../../_core/_models/role-by-user';
 import { User } from '../../../_core/_models/user';
 import { UserQuery } from '../../../_core/_queries/user.quey';
+import { SignalrService } from '../../../_core/_services/signalr.service';
 import { CustomNgSnotifyService } from '../../../_core/_services/snotify.service';
 import { UserService } from '../../../_core/_services/user.service';
 import { UserStore } from '../../../_core/_stores/user.store';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -32,7 +35,6 @@ export class UserComponent implements OnInit {
   userAuthorizationAccount: string = '';
   userAuthorizationName: string = '';
   listRoleByUser: RoleByUser[] = [];
-  private readonly unsubscribe$: Subject<void> = new Subject();
   modalRef: BsModalRef;
 
   @ViewChild('authorizationModal', { static: false }) authorizationModal: ModalDirective;
@@ -47,16 +49,17 @@ export class UserComponent implements OnInit {
     private snotify: CustomNgSnotifyService,
     private modalService: BsModalService,
     private userStore: UserStore,
-    private userQuery: UserQuery) { }
+    private userQuery: UserQuery,
+    private signalRService: SignalrService) { }
 
   ngOnInit() {
     timer(5000).pipe(switchMap(() => this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage))).subscribe();
 
     //create a "isloading" subscription
-    this.userQuery.selectLoading().pipe(takeUntil(this.unsubscribe$))
+    this.userQuery.selectLoading().pipe(untilDestroyed(this))
       .subscribe(isLoading => isLoading ? this.spinner.show() : this.spinner.hide());
     //create a entities subscription
-    this.userQuery.selectAll().pipe(takeUntil(this.unsubscribe$))
+    this.userQuery.selectAll().pipe(untilDestroyed(this))
       .subscribe(users => this.users = users);
     //Create a 'Pagination' subscription
     this.userQuery.select(state => state.pagination)
@@ -64,6 +67,10 @@ export class UserComponent implements OnInit {
     //Create a 'listRoleByUser' subscription
     this.userQuery.select(state => state.listRoleByUser)
       .subscribe(listRoleByUser => this.listRoleByUser = listRoleByUser);
+
+    let connection = this.signalRService.connectSignalR();
+
+    connection.on("BroadcastMessage", () => this.getUser());
 
   }
   getUser() {
@@ -101,7 +108,7 @@ export class UserComponent implements OnInit {
 
   saveAuthorizationUser() {
     const updateRoleByUser = this.listRoleByUser.filter(item => item.status === true);
-    this.userService.updateRoleByUser(this.userAuthorizationAccount, updateRoleByUser).pipe(takeUntil(this.unsubscribe$))
+    this.userService.updateRoleByUser(this.userAuthorizationAccount, updateRoleByUser).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Update User Authorization Success!", "Success!");
         this.authorizationModal.hide();
@@ -109,12 +116,21 @@ export class UserComponent implements OnInit {
 
   }
   saveAddUser() {
-    this.userService.addUser(this.addUser).pipe(takeUntil(this.unsubscribe$))
+    this.userService.addUser(this.addUser).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Add User Success", "Success!");
         this.getUser();
         this.modalAddUser.hide();
       }, error => this.snotify.error("Something wrong here", "Error!"));
+  }
+
+  saveEditUser() {
+    this.userService.updateUser(this.editUser).pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.snotify.success("Successfully Edit User", "Success");
+        this.modalEditUser.hide();
+        this.getUser();
+      }, error => this.snotify.error('Edit User has failed', "Error!"));
   }
 
   // getUser() {
@@ -148,8 +164,6 @@ export class UserComponent implements OnInit {
   //     });
   // }
 
-
-
   // saveAuthorizationUser() {
   //   const updateRoleByUser = this.listRoleByUser.filter(item => {
   //     return item.status === true;
@@ -166,14 +180,6 @@ export class UserComponent implements OnInit {
   //     });
   // }
 
-  saveEditUser() {
-    this.userService.updateUser(this.editUser).pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.snotify.success("Successfully Edit User", "Success");
-        this.modalEditUser.hide();
-        this.getUser();
-      }, error => this.snotify.error('Edit User has failed', "Error!"));
-  }
   // saveEditUser() {
   //   this.spinnerService.show();
   //   this.userService.updateUser(this.editUser)
@@ -187,6 +193,4 @@ export class UserComponent implements OnInit {
   //       this.spinnerService.hide();
   //     });
   // }
-
-
 }
