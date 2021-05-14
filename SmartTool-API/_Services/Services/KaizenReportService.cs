@@ -110,14 +110,15 @@ namespace SmartTool_API._Services.Services
                 .OrderByDescending(x => x.prod_season).ThenBy(x => x.volume).ThenBy(x => x.serial_no)
                 .ToListAsync();
             var result = _mapper.Map<List<VW_ModelKaizen_Dto>>(data);
-            result.ForEach(item => {
+            result.ForEach(item =>
+            {
                 item.start_date_string = item.start_date.ToString("yyyy/MM/dd");
-                item.kaizen_type_combine_string = item.kaizen_type_combine == true? "Y": "N";
-                item.kaizen_type_eliminate_string = item.kaizen_type_eliminate == true? "Y": "N";
-                item.kaizen_type_reduce_string = item.kaizen_type_reduce == true? "Y": "N";
-                item.kaizen_type_smart_tool_string = item.kaizen_type_smart_tool == true? "Y": "N";
-                item.critical_efficiency_string = item.critical_efficiency == true? "Y": "N";
-                item.critical_quality_string = item.critical_quality == true? "Y": "N";
+                item.kaizen_type_combine_string = item.kaizen_type_combine == true ? "Y" : "N";
+                item.kaizen_type_eliminate_string = item.kaizen_type_eliminate == true ? "Y" : "N";
+                item.kaizen_type_reduce_string = item.kaizen_type_reduce == true ? "Y" : "N";
+                item.kaizen_type_smart_tool_string = item.kaizen_type_smart_tool == true ? "Y" : "N";
+                item.critical_efficiency_string = item.critical_efficiency == true ? "Y" : "N";
+                item.critical_quality_string = item.critical_quality == true ? "Y" : "N";
             });
             return result;
         }
@@ -134,10 +135,12 @@ namespace SmartTool_API._Services.Services
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
             pred_Model.And(x => x.factory_id.Trim() == factory_id.Trim());
-            if (!string.IsNullOrEmpty(filter.Model_No)) {
+            if (!string.IsNullOrEmpty(filter.Model_No))
+            {
                 pred_Model.And(x => x.model_no.Trim().Contains(filter.Model_No.Trim()) || x.model_name.Trim().Contains(filter.Model_No.Trim()));
             }
-            if (filter.Active != "all") {
+            if (filter.Active != "all")
+            {
                 pred_Model.And(x => x.is_active == ((filter.Active == "1") ? true : false));
             }
             var models = _repoModel.FindAll(pred_Model).OrderByDescending(x => x.prod_season).ThenBy(x => x.volume);
@@ -152,10 +155,12 @@ namespace SmartTool_API._Services.Services
                                                 x.stage_id.Trim() == model.stage_id.Trim() &&
                                                 x.operation_id.Trim() == model.operation_id.Trim());
             kaizen.clicks_times = kaizen.clicks_times + 1;
-            try {
+            try
+            {
                 return await _repoKaizen.SaveAll();
             }
-            catch(System.Exception) {
+            catch (System.Exception)
+            {
                 return false;
             }
         }

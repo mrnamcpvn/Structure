@@ -14,7 +14,7 @@ export interface Model {
     model_picture: string;
     is_active: boolean;
     create_by: string;
-    create_time: string;
+    create_time: string | Date;
     update_by: string;
-    update_time: string;
+    update_time: string | Date;
 }

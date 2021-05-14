@@ -12,8 +12,8 @@ namespace SmartTool_API._Services.Services
         private readonly IUserRepository _repoUsers;
         private readonly IRoleRepository _repoRoles;
         private readonly IRoleUserRepository _repoRoleUser;
-        public AuthService( IUserRepository repoUsers, 
-                            IRoleRepository repoRoles, 
+        public AuthService(IUserRepository repoUsers,
+                            IRoleRepository repoRoles,
                             IRoleUserRepository repoRoleUser)
         {
             _repoRoleUser = repoRoleUser;
@@ -45,7 +45,6 @@ namespace SmartTool_API._Services.Services
                 Email = user.email,
                 Username = user.account,
                 Name = user.name,
-                // Nik = user.,
                 Role = roleName.OrderBy(x => x.Position).Select(x => x.Name).ToList()
             };
 

@@ -43,7 +43,7 @@ namespace SmartTool_API.Controllers
             }
             return BadRequest($"Updating Defect Reason {defectReasonDTO.defect_reason_id} failed on save");
         }
-        
+
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateDefectReason(DefectReasonDTO defectReasonDTO)

@@ -49,7 +49,6 @@ export class KaizenRftEditComponent implements OnInit {
     this.spinner.show();
     this._kaizenService.getKaizenEdit(this.model_no, this.serialNo).subscribe(res => {
       this.dataKaizen = res;
-      console.log(res);
       if (this.dataKaizen.before_media != "") {
         if (this.dataKaizen.before_media.split(".").pop() == "mp4" || this.dataKaizen.before_media.split(".").pop() == "MP4")
           this.isvideoB4 = true;

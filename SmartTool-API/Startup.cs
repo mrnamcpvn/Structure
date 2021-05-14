@@ -135,7 +135,7 @@ namespace SmartTool_API
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+
             app.UseSwagger();
             app.UseCors(options =>
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

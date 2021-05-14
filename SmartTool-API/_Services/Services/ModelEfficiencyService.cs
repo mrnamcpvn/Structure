@@ -16,15 +16,15 @@ namespace SmartTool_API._Services.Services
 {
     public class ModelEfficiencyService : IModelEfficiencyService
     {
-        public ModelEfficiencyService(IEfficiencyRepository _RepoEff, IModelRepository _RemoModel, IMapper _Mapper, MapperConfiguration _ConfigMapper) 
+        public ModelEfficiencyService(IEfficiencyRepository _RepoEff, IModelRepository _RemoModel, IMapper _Mapper, MapperConfiguration _ConfigMapper)
         {
             this._RepoEff = _RepoEff;
-                this._RemoModel = _RemoModel;
-                this._Mapper = _Mapper;
-                this._ConfigMapper = _ConfigMapper;
-               
+            this._RemoModel = _RemoModel;
+            this._Mapper = _Mapper;
+            this._ConfigMapper = _ConfigMapper;
+
         }
-                public IEfficiencyRepository _RepoEff { get; set; }
+        public IEfficiencyRepository _RepoEff { get; set; }
         public IModelRepository _RemoModel { get; set; }
         public IMapper _Mapper { get; set; }
         public MapperConfiguration _ConfigMapper { get; set; }
@@ -55,14 +55,15 @@ namespace SmartTool_API._Services.Services
             return await _RemoModel.FindAll(x => x.factory_id.Trim() == factory &&
                                             x.upper_id.Trim() == upperId.Trim())
                                             .OrderBy(x => x.model_name)
-                                            .Select(x => new {Name = x.model_name})
+                                            .Select(x => new { Name = x.model_name })
                                             .Distinct().ToListAsync();
         }
 
         public async Task<List<ModelEfficiencyDTO>> ModelEfficiencyEdit(ModelEfficiencyEditParam modelParam)
         {
             var pred_modelEff = PredicateBuilder.New<Efficiency>(true);
-            if(!String.IsNullOrEmpty(modelParam.season)){
+            if (!String.IsNullOrEmpty(modelParam.season))
+            {
                 pred_modelEff.And(x => x.factory_id.Trim() == factory && x.season.Contains(modelParam.season));
             }
             if (!String.IsNullOrEmpty(modelParam.upper_id))
@@ -88,7 +89,8 @@ namespace SmartTool_API._Services.Services
                 modelEfficiency.update_time = DateTime.Now;
                 modelEfficiency.update_by = username;
                 modelEfficiency.factory_id = factory;
-                if(await CheckExist(effParam)){
+                if (await CheckExist(effParam))
+                {
                     _RepoEff.Update(modelEfficiency);
                 }
                 else

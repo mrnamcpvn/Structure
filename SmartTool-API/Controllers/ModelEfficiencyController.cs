@@ -35,7 +35,8 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetModelName(string upperId) => Ok(await _modelEfficiency.GetModelName(upperId, factory));
 
         [HttpPost("getModelEfficiency")]
-        public async Task<IActionResult> GetModelEfficiency (ModelEfficiencyEditParam modelEfficiencyEditParram){
+        public async Task<IActionResult> GetModelEfficiency(ModelEfficiencyEditParam modelEfficiencyEditParram)
+        {
             modelEfficiencyEditParram.factory = factory;
             var listEfficiency = await _modelEfficiency.ModelEfficiencyEdit(modelEfficiencyEditParram);
             return Ok(listEfficiency);

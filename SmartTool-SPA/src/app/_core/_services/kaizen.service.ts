@@ -20,7 +20,7 @@ export class KaizenService {
   kaizenSource = new BehaviorSubject<Object>({});
   currentKaizen = this.kaizenSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   search(page?, modelNO?): Observable<PaginatedResult<Kaizen[]>> {
     const paginatedResult: PaginatedResult<Kaizen[]> = new PaginatedResult<
@@ -59,7 +59,6 @@ export class KaizenService {
   }
 
   create(kaizen: Kaizen) {
-    console.log("Service: ", kaizen);
     return this.http.post<OperationResult>(
       this.baseUrl + "kaizen/create",
       kaizen
@@ -67,7 +66,6 @@ export class KaizenService {
   }
 
   update(kaizen: Kaizen) {
-    console.log("Service: ", kaizen);
     return this.http.post<OperationResult>(
       this.baseUrl + "kaizen/update",
       kaizen

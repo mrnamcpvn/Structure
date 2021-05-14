@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select2OptionData } from "ng-select2";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -9,7 +10,7 @@ import { Model } from "../../../../_core/_models/model";
 import { ModelQuery } from "../../../../_core/_queries/model.query";
 import { ModelService } from "../../../../_core/_services/model.service";
 import { CustomNgSnotifyService } from "../../../../_core/_services/snotify.service";
-
+@UntilDestroy()
 @Component({
   selector: "app-edit",
   templateUrl: "./edit.component.html",
@@ -19,7 +20,7 @@ export class EditComponent implements OnInit {
   editModelForm: FormGroup;
   url: string = environment.imageUrl;
   modelTypeList: Array<Select2OptionData>;
-  private readonly unsubscribe$: Subject<void> = new Subject();
+
   constructor(
     private modelService: ModelService,
     private snotify: CustomNgSnotifyService,
@@ -44,25 +45,22 @@ export class EditComponent implements OnInit {
   initForm() {
     this.editModelForm = this.fb.group({
       factory_id: "",
-      model_no: ["", Validators.compose([Validators.required])],
-      upper_id: [
-        "",
-        Validators.compose([Validators.required, Validators.maxLength(6)]),
-      ],
+      model_no: ["", Validators.compose([Validators.required, Validators.maxLength(8)])],
+      upper_id: ["", Validators.compose([Validators.required, Validators.maxLength(6)])],
       model_name: ["", Validators.compose([Validators.required])],
       model_family: [""],
       model_type_id: ["", Validators.compose([Validators.required])],
       is_active: true,
       volume: [null, Validators.compose([Validators.min(0)])],
       volume_percent: [null, Validators.compose([Validators.min(0)])],
-      dev_season: ["", Validators.compose([Validators.required])],
-      prod_season: ["", Validators.compose([Validators.required])],
+      dev_season: ["", Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(4)])],
+      prod_season: ["", Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(4)])],
       remarks: [""],
       model_picture: "",
-      create_by: "",
       create_time: "",
-      update_by: "",
       update_time: "",
+      create_by: Date,
+      update_by: Date
     });
   }
 
@@ -80,7 +78,6 @@ export class EditComponent implements OnInit {
     this.router.navigate(["/maintain/model/list"]);
   }
   onSelectFile(event) {
-    console.log(event);
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
@@ -119,15 +116,13 @@ export class EditComponent implements OnInit {
     this.backList();
   }
   onSubmit(model: Model) {
-    // this.changeToUppercase();
-    this.modelService.updateModel(model).pipe(takeUntil(this.unsubscribe$))
+    model.update_by = JSON.parse(localStorage.getItem('user')).name;
+    model.update_time = new Date(Date());
+    this.modelService.updateModel(model).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Model was successfully updated.", "Success!");
         this.router.navigate(['/maintain/model/list']);
       }, error => this.snotify.error(error, "Error!"));
   }
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
+
 }

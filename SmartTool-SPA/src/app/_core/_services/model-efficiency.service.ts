@@ -10,7 +10,7 @@ import { ModelEfficiencyEditParam } from "../_models/efficiency-editParam";
 export class ModelEfficiencyService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUpperID() {
     return this.http.get<any>(this.baseUrl + "modelEfficiency/upperId", {});
@@ -25,7 +25,6 @@ export class ModelEfficiencyService {
   }
 
   getModelEfficiency(modelEfficiencyParram: ModelEfficiencyEditParam) {
-    console.log("service", modelEfficiencyParram);
     return this.http.post<Efficiency[]>(
       this.baseUrl + "modelEfficiency/getModelEfficiency/",
       modelEfficiencyParram
@@ -33,7 +32,6 @@ export class ModelEfficiencyService {
   }
 
   updateModelEfficiency(modelEfficiency: any) {
-    console.log("modelEF", modelEfficiency);
     return this.http.post(
       this.baseUrl + "modelEfficiency/updateModelEfficiency/",
       modelEfficiency

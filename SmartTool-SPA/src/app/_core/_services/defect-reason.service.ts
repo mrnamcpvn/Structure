@@ -13,14 +13,14 @@ export class DefectReasonService {
   currentDefectReason = this.defectReasonSource.asObservable();
   flagSource = new BehaviorSubject<string>("0");
   currentFlag = this.flagSource.asObservable();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  search( page?, itemsPerPage?, defectreasonParam?: object ): Observable<PaginatedResult<DefectReason[]>> {
-    const paginatedResult : PaginatedResult<DefectReason[]> = new PaginatedResult<DefectReason[]>();
+  search(page?, itemsPerPage?, defectreasonParam?: object): Observable<PaginatedResult<DefectReason[]>> {
+    const paginatedResult: PaginatedResult<DefectReason[]> = new PaginatedResult<DefectReason[]>();
     let params = new HttpParams();
-    if(page != null && itemsPerPage != null) {
-        params = params.append("pageNumber",page);
-        params = params.append("pageSize",itemsPerPage);
+    if (page != null && itemsPerPage != null) {
+      params = params.append("pageNumber", page);
+      params = params.append("pageSize", itemsPerPage);
     }
     let url = this.baseUrl + "DefectReason/search";
     return this.http
@@ -38,18 +38,18 @@ export class DefectReasonService {
       );
   }
 
-  createDefectReason(defectReason : DefectReason){
-    return this.http.post(this.baseUrl + "DefectReason/create/" , defectReason);
+  createDefectReason(defectReason: DefectReason) {
+    return this.http.post(this.baseUrl + "DefectReason/create/", defectReason);
   }
 
-  updateDefectReason(defectReason : DefectReason){
-    return this.http.post(this.baseUrl + "DefectReason/edit/" , defectReason);
+  updateDefectReason(defectReason: DefectReason) {
+    return this.http.post(this.baseUrl + "DefectReason/edit/", defectReason);
   }
 
-  changeDefectReason(defectReason : DefectReason){
+  changeDefectReason(defectReason: DefectReason) {
     this.defectReasonSource.next(defectReason);
   }
-  changeFlag(flag: string){
-      this.flagSource.next(flag);
+  changeFlag(flag: string) {
+    this.flagSource.next(flag);
   }
 }

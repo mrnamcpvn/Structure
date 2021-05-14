@@ -6,5 +6,5 @@ export class User {
     email: string;
     is_active: boolean;
     update_by: string;
-    update_time: string;
+    update_time: string | Date;
 }

@@ -9,7 +9,8 @@
               class="fa fa-chevron-left"></i>
             Back</button>
         </div>
-        <form class="form-horizontal" [formGroup]="addModelForm">
+        <form class="form-horizontal" [formGroup]="addModelForm"
+          (ngSubmit)="addModelForm.valid && save(addModelForm.getRawValue())">
           <div class="card-body">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="model_no">Model No<span class="red_star"> *</span></label>
@@ -106,8 +107,7 @@
           <div class="card-footer">
             <button type="button" class="btn btn-sm btn-danger" (click)="cancel()"><i class="fa fa-ban"></i>
               Cancel</button>
-            <!-- <button type="button"  class="btn btn-sm btn-primary" [disabled]="!addModelForm.valid" (click)="saveAndNext()"><i class="fa fa-check"></i> Save & Next</button> -->
-            <button type="button" class="btn btn-sm btn-success" [disabled]="!addModelForm.valid" (click)="save()"><i
+            <button type="submit" class="btn btn-sm btn-success" [disabled]="!addModelForm.valid"><i
                 class="fa fa-check"></i> Save</button>
           </div>
         </form>

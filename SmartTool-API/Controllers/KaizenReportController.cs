@@ -18,7 +18,7 @@ namespace SmartTool_API.Controllers
         private readonly IKaizenReportService _serviceKaizenReport;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string factory;
-        public KaizenReportController(  IKaizenReportService serviceKaizenReport,
+        public KaizenReportController(IKaizenReportService serviceKaizenReport,
                                         IWebHostEnvironment webHostEnvironment,
                                         IConfiguration configuration)
         {
@@ -28,44 +28,51 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IActionResult> Search([FromQuery]PaginationParam param, KaizenReportParam filter) {
-            var result = await _serviceKaizenReport.Search(param,filter, factory);
+        public async Task<IActionResult> Search([FromQuery] PaginationParam param, KaizenReportParam filter)
+        {
+            var result = await _serviceKaizenReport.Search(param, filter, factory);
             Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 
         [HttpGet("getSeason/{upper_id}")]
-        public async Task<IActionResult> GetSeasonByUpper(string upper_id) {
-            var data = await _serviceKaizenReport.GetSeasonByUpper(factory,upper_id);
+        public async Task<IActionResult> GetSeasonByUpper(string upper_id)
+        {
+            var data = await _serviceKaizenReport.GetSeasonByUpper(factory, upper_id);
             return Ok(data);
         }
 
         [HttpGet("getEfficiencys")]
-        public async Task<IActionResult> GetEfficiencys(string upper_id, string season) {
-            var data = await _serviceKaizenReport.GetEfficiencys(factory,upper_id,season);
+        public async Task<IActionResult> GetEfficiencys(string upper_id, string season)
+        {
+            var data = await _serviceKaizenReport.GetEfficiencys(factory, upper_id, season);
             return Ok(data);
         }
         [HttpGet("getKaizens/{model_no}")]
-        public async Task<IActionResult> GetKaizens([FromQuery]PaginationParam param,string model_no) {
+        public async Task<IActionResult> GetKaizens([FromQuery] PaginationParam param, string model_no)
+        {
             var result = await _serviceKaizenReport.GetKaiZens(param, factory, model_no);
             Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 
         [HttpPost("updateClickTimes")]
-        public async Task<IActionResult> UpdateClickTimes([FromBody]KaizenModelDetail model) {
+        public async Task<IActionResult> UpdateClickTimes([FromBody] KaizenModelDetail model)
+        {
             var result = await _serviceKaizenReport.UpdateClickTimes(model);
             return Ok(result);
         }
         [HttpGet("getKaizenDetail")]
-        public async Task<IActionResult> GetKaizenDetails(string model_no, string serial_no) {
+        public async Task<IActionResult> GetKaizenDetails(string model_no, string serial_no)
+        {
             var data = await _serviceKaizenReport.GetKaizenDetail(factory, model_no, serial_no);
             return Ok(data);
         }
 
         [HttpPost("exportExcel")]
-        public async Task<IActionResult> ExportExcel(KaizenReportParam filter) {
-            var data = await _serviceKaizenReport.GetModelKaizens(factory,filter);
+        public async Task<IActionResult> ExportExcel(KaizenReportParam filter)
+        {
+            var data = await _serviceKaizenReport.GetModelKaizens(factory, filter);
             WorkbookDesigner designer = new WorkbookDesigner();
             var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Resources\\Template\\KaizenReport.xlsx");
             designer.Workbook = new Workbook(path);
@@ -74,7 +81,7 @@ namespace SmartTool_API.Controllers
             designer.Process();
 
             MemoryStream stream = new MemoryStream();
-            designer.Workbook.Save(stream,SaveFormat.Xlsx);
+            designer.Workbook.Save(stream, SaveFormat.Xlsx);
 
             byte[] result = stream.ToArray();
 
@@ -82,6 +89,6 @@ namespace SmartTool_API.Controllers
 
         }
 
-        
+
     }
 }

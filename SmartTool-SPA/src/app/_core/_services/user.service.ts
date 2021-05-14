@@ -18,34 +18,17 @@ export class UserService {
 
   constructor(private http: HttpClient, private userStore: UserStore) { }
 
-  // getUsers(account: string, isActive: string, page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
-  //   const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
-  //   let params = new HttpParams();
-
-  //   if (page != null && itemsPerPage != null) {
-  //     params = params.append('pageNumber', page);
-  //     params = params.append('pageSize', itemsPerPage);
-  //   }
-  //   isActive = isActive === 'all' ? '' : isActive;
-  //   return this.http.get<any>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
-  //     .pipe(
-  //       map(response => {
-  //         paginatedResult.result = response.body;
-  //         if (response.headers.get('Pagination') != null) {
-  //           paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-  //         }
-  //         return paginatedResult;
-  //       }),
-  //     );
-  // }
   getUsers(account: string, isActive: string, page?, itemsPerPage?) {
+
     let params = new HttpParams();
+    params = params.append('account', account);
+    isActive = isActive == 'all' ? '' : isActive;
+    params = params.append('isActive', isActive);
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    isActive = isActive === 'all' ? '' : isActive;
-    return this.http.get<any>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
+    return this.http.get<any>(this.baseUrl + 'User', { observe: 'response', params })
       .pipe(map(response => {
         this.userStore.update({ pagination: JSON.parse(response.headers.get("Pagination")) });
         this.userStore.set(response.body);
@@ -67,8 +50,10 @@ export class UserService {
     return this.http.get<RoleByUser[]>(this.baseUrl + 'User/roleuser/' + account);
   }
 
-  updateRoleByUser(account: string, listRoleByUser: RoleByUser[]) {
-    return this.http.post<OperationResult>(this.baseUrl + 'User/roleuser/' + account, listRoleByUser).pipe(
+  updateRoleByUser(account: string, listRoleByUser: RoleByUser[], update_by: string) {
+    let params = new HttpParams();
+    params = params.append("update_by", update_by);
+    return this.http.post<OperationResult>(this.baseUrl + 'User/roleuser/' + account, listRoleByUser, { params }).pipe(
       tap(res => { if (res.success) this.userStore.update({ listRoleByUser }) }));
   }
 
@@ -80,4 +65,25 @@ export class UserService {
     };
     return this.http.post<OperationResult>(this.baseUrl + 'User/changepassword', user);
   }
+
+  // getUsers(account: string, isActive: string, page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+  //   const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+  //   let params = new HttpParams();
+
+  //   if (page != null && itemsPerPage != null) {
+  //     params = params.append('pageNumber', page);
+  //     params = params.append('pageSize', itemsPerPage);
+  //   }
+  //   isActive = isActive === 'all' ? '' : isActive;
+  //   return this.http.get<any>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
+  //     .pipe(
+  //       map(response => {
+  //         paginatedResult.result = response.body;
+  //         if (response.headers.get('Pagination') != null) {
+  //           paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+  //         }
+  //         return paginatedResult;
+  //       }),
+  //     );
+  // }
 }

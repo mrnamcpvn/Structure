@@ -53,9 +53,9 @@ export class UserComponent implements OnInit {
     private signalRService: SignalrService) { }
 
   ngOnInit() {
-    timer(5000).pipe(switchMap(() => this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage))).subscribe();
+    timer(1000).pipe(switchMap(() => this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage))).pipe(untilDestroyed(this)).subscribe();
 
-    //create a "isloading" subscription
+    // //create a "isloading" subscription
     this.userQuery.selectLoading().pipe(untilDestroyed(this))
       .subscribe(isLoading => isLoading ? this.spinner.show() : this.spinner.hide());
     //create a entities subscription
@@ -68,13 +68,13 @@ export class UserComponent implements OnInit {
     this.userQuery.select(state => state.listRoleByUser)
       .subscribe(listRoleByUser => this.listRoleByUser = listRoleByUser);
 
-    let connection = this.signalRService.connectSignalR();
+    // let connection = this.signalRService.connectSignalR();
 
-    connection.on("BroadcastMessage", () => this.getUser());
+    // connection.on("BroadcastMessage", () => this.getUser());
 
   }
   getUser() {
-    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage).subscribe();
+    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage).pipe(untilDestroyed(this)).subscribe();
   }
 
   search() {
@@ -108,7 +108,8 @@ export class UserComponent implements OnInit {
 
   saveAuthorizationUser() {
     const updateRoleByUser = this.listRoleByUser.filter(item => item.status === true);
-    this.userService.updateRoleByUser(this.userAuthorizationAccount, updateRoleByUser).pipe(untilDestroyed(this))
+    let update_by = JSON.parse(localStorage.getItem('user')).name;
+    this.userService.updateRoleByUser(this.userAuthorizationAccount, updateRoleByUser, update_by).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Update User Authorization Success!", "Success!");
         this.authorizationModal.hide();
@@ -116,6 +117,7 @@ export class UserComponent implements OnInit {
 
   }
   saveAddUser() {
+    this.addUser.update_by = JSON.parse(localStorage.getItem('user')).name;
     this.userService.addUser(this.addUser).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Add User Success", "Success!");
@@ -125,6 +127,7 @@ export class UserComponent implements OnInit {
   }
 
   saveEditUser() {
+    this.editUser.update_by = JSON.parse(localStorage.getItem('user')).name;
     this.userService.updateUser(this.editUser).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Successfully Edit User", "Success");

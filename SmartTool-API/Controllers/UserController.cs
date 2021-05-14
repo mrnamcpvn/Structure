@@ -14,7 +14,6 @@ namespace SmartTool_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -37,8 +36,7 @@ namespace SmartTool_API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(UserDTO user)
         {
-            var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await _userService.AddUser(user, updateBy);
+            var result = await _userService.AddUser(user);
             await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
@@ -46,8 +44,7 @@ namespace SmartTool_API.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> UpdateUser(UserDTO user)
         {
-            var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await _userService.UpdateUser(user, updateBy);
+            var result = await _userService.UpdateUser(user);
             await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }
@@ -67,14 +64,14 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("roleuser/{account}")]
-        public async Task<IActionResult> UpdateRoleByUser(string account, List<RoleByUserDTO> roles)
+        public async Task<IActionResult> UpdateRoleByUser(string account, List<RoleByUserDTO> roles, [FromQuery] string update_by)
         {
             if (!(await _userService.CheckExistUser(account)))
             {
                 return NotFound();
             }
-            var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await _userService.UpdateRoleByUser(account, roles, updateBy);
+
+            var result = await _userService.UpdateRoleByUser(account, roles, update_by);
             await _hubContext.Clients.All.BroadcastMessage();
             return Ok(result);
         }

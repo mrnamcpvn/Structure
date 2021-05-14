@@ -131,7 +131,6 @@ export class KaizenAddComponent implements OnInit {
       return;
     }
 
-    console.log(this.dataKaizen);
     this.spinner.show();
     this._kaizenService.create(this.dataKaizen).subscribe(
       res => {

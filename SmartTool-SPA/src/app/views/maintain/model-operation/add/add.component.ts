@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select2OptionData } from 'ng-select2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -8,7 +9,7 @@ import { ModelOperation } from '../../../../_core/_models/model-operation';
 import { ModelOperationQuery } from '../../../../_core/_queries/model-operation.query';
 import { ModelOperationService } from '../../../../_core/_services/model-operation.service';
 import { CustomNgSnotifyService } from '../../../../_core/_services/snotify.service';
-
+@UntilDestroy()
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -20,7 +21,6 @@ export class AddComponent implements OnInit {
   processTypeList: Array<Select2OptionData>;
   modelName: string = "";
   modelno: string = "";
-  private readonly unsubscribe$: Subject<void> = new Subject();
   constructor(
     private modelOperationService: ModelOperationService,
     private snotify: CustomNgSnotifyService,
@@ -61,16 +61,13 @@ export class AddComponent implements OnInit {
     // this.modelOperations.sequence = 0;
   }
 
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
 
   save(modelOperation: ModelOperation) {
     modelOperation.create_by = JSON.parse(localStorage.getItem('user')).name;
+    modelOperation.update_by = JSON.parse(localStorage.getItem('user')).name;
     modelOperation.create_time = new Date(Date());
     modelOperation.update_time = modelOperation.create_time;
-    this.modelOperationService.createModelOperation(modelOperation).pipe(takeUntil(this.unsubscribe$))
+    this.modelOperationService.createModelOperation(modelOperation).pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Create Model Operation Successful");
         this.router.navigate(["/maintain/model-operation/list"]);

@@ -47,8 +47,6 @@ namespace SmartTool_API.Controllers
         [HttpPost("createModel")]
         public async Task<IActionResult> CreateModel([FromBody] ModelDTO modelDto)
         {
-            modelDto.update_by = GetUserClaim();
-            modelDto.create_by = GetUserClaim();
             modelDto.factory_id = factory;
             string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
             if (modelDto.model_picture == null || modelDto.model_picture == "")
@@ -90,8 +88,6 @@ namespace SmartTool_API.Controllers
         [HttpPost("updateModel")]
         public async Task<IActionResult> updateModel([FromBody] ModelDTO modelDto)
         {
-            modelDto.update_by = GetUserClaim();
-            modelDto.update_time = DateTime.Now;
             string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
             if (modelDto.model_picture.Length > 100)
             {

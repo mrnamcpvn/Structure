@@ -1,16 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select2OptionData } from "ng-select2";
-import { DateFormatter } from "ngx-bootstrap/datepicker";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { ModelOperationEditParam } from "../../../../_core/_models/mode-operationEditParam";
 import { ModelOperation } from "../../../../_core/_models/model-operation";
 import { ModelOperationQuery } from "../../../../_core/_queries/model-operation.query";
 import { ModelOperationService } from "../../../../_core/_services/model-operation.service";
 import { CustomNgSnotifyService } from "../../../../_core/_services/snotify.service";
-
+@UntilDestroy()
 @Component({
   selector: "app-edit",
   templateUrl: "./edit.component.html",
@@ -21,7 +20,7 @@ export class EditComponent implements OnInit {
   modelName: string = "";
   stageList: Array<Select2OptionData>;
   processTypeList: Array<Select2OptionData>;
-  private readonly unsubscribe$: Subject<void> = new Subject();
+
   constructor(
     private modelOperationService: ModelOperationService,
     private snotify: CustomNgSnotifyService,
@@ -69,7 +68,7 @@ export class EditComponent implements OnInit {
     modelOperation.update_by = JSON.parse(localStorage.getItem('user')).name;
     modelOperation.update_time = new Date(Date());
     this.modelOperationService.updateModelOperation(modelOperation)
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.snotify.success("Model Operation was successfully update.", "Success!");
         this.router.navigate(["/maintain/model-operation/list"]);
@@ -94,10 +93,10 @@ export class EditComponent implements OnInit {
       critical_quality: false,
       sequence: 0,
       critical_efficiency: false,
-      create_time: "",
-      update_time: "",
       create_by: "",
-      update_by: ""
+      create_time: Date,
+      update_by: "",
+      update_time: Date
     });
   }
 

@@ -35,9 +35,8 @@ namespace SmartTool_API._Services.Services
             _roleUserRepository = roleUserRepository;
         }
 
-        public async Task<OperationResult> AddUser(UserDTO user, string updateBy)
+        public async Task<OperationResult> AddUser(UserDTO user)
         {
-            user.update_by = updateBy;
             user.update_time = DateTime.Now;
             var data = _mapper.Map<Users>(user);
             _userRepository.Add(data);
@@ -125,9 +124,8 @@ namespace SmartTool_API._Services.Services
             return operationResult = new OperationResult { Caption = "Fail", Message = "Update Password Failed", Success = false };
         }
 
-        public async Task<OperationResult> UpdateUser(UserDTO user, string updateBy)
+        public async Task<OperationResult> UpdateUser(UserDTO user)
         {
-            user.update_by = updateBy;
             user.update_time = DateTime.Now;
             var data = _mapper.Map<Users>(user);
             _userRepository.Update(data);

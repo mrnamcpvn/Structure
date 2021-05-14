@@ -65,16 +65,19 @@ namespace SmartTool_API._Services.Services
         public async Task<PagedList<DefectReasonDTO>> SearchDefectReason(PaginationParam paginationParam, DefectReasonParam defectReasonParam)
         {
             var query = _defectReason.FindAll();
-            if(!string.IsNullOrEmpty(defectReasonParam.active)){
+            if (!string.IsNullOrEmpty(defectReasonParam.active))
+            {
                 //active selected
-                if(defectReasonParam.active != "all"){
+                if (defectReasonParam.active != "all")
+                {
                     query = query.Where(a => a.defect_reason_id.Contains(defectReasonParam.defect_Reason));
                     query = query.Where(a => a.is_active == defectReasonParam.active.ToBool());
                 }
                 //all
-                else{
+                else
+                {
                     //defect reason id input trim != empty
-                    if(!String.IsNullOrEmpty(defectReasonParam.defect_Reason))
+                    if (!String.IsNullOrEmpty(defectReasonParam.defect_Reason))
                         query = query.Where(a => a.defect_reason_id.Contains(defectReasonParam.defect_Reason) || a.defect_reason_name.Contains(defectReasonParam.defect_Reason));
                 }
             }

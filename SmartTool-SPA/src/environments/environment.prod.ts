@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:5000/api/',
-  imageUrl: 'http://localhost:5000/uploaded/',
-  sigalRUrl: 'http://localhost:5000/',
+  apiUrl: 'http://10.4.6.6:2022/api/',
+  imageUrl: 'http://10.4.6.6:2022/uploaded/',
+  sigalRUrl: 'http://10.4.6.6:2022/',
   factory: 'SHC',
 };

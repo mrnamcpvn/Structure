@@ -13,7 +13,7 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   login(model: any) {
     return this.http.post(this.baseUrl + "login", model).pipe(
       map((response: any) => {
@@ -28,12 +28,12 @@ export class AuthService {
     );
   }
 
-  loggedIn(){
+  loggedIn() {
     const token = localStorage.getItem('token');
     const currentUser = JSON.parse(localStorage.getItem('user'));
-    if(currentUser == null || currentUser.role == undefined)
+    if (currentUser == null || currentUser.role == undefined)
       return false;
-    
+
     return !this.jwtHelper.isTokenExpired(token);
   }
 }
