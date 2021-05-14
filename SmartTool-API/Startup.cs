@@ -144,6 +144,8 @@ namespace SmartTool_API
                 endpoints.MapControllers();
                 endpoints.MapHub<BroadcastHub>("/notify", options => options.Transports = HttpTransportType.WebSockets);
             });
+
+            app.UseStaticFiles();
         }
     }
 }

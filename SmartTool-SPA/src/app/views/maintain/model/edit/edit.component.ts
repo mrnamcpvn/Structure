@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
   editModelForm: FormGroup;
   url: string = environment.imageUrl;
   modelTypeList: Array<Select2OptionData>;
-
+  model: Model;
   constructor(
     private modelService: ModelService,
     private snotify: CustomNgSnotifyService,
@@ -32,9 +32,9 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    let model = this.modelQuery.getActive();
+    this.model = this.modelQuery.getActive() as Model;
 
-    model ? this.editModelForm.patchValue(model) : this.router.navigate(['/maintain/model/list']);
+    this.model ? this.editModelForm.patchValue(this.model) : this.router.navigate(['/maintain/model/list']);
 
     this.modelService.getAllModelType().subscribe();
     this.modelQuery.select(state => state.modelTypes).subscribe(modelTypes => {

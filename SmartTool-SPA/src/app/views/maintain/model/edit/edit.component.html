@@ -9,7 +9,8 @@
               class="fa fa-chevron-left"></i>
             Back</button>
         </div>
-        <form class="form-horizontal" [formGroup]="editModelForm" (ngSubmit)="editModelForm.valid && onSubmit(editModelForm.getRawValue())">
+        <form class="form-horizontal" [formGroup]="editModelForm"
+          (ngSubmit)="editModelForm.valid && onSubmit(editModelForm.getRawValue())">
           <div class="card-body">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="model_no">Model No <span class="red_star"> *</span></label>
@@ -97,7 +98,7 @@
                   <input type="file" class="uploadFile img" value="Upload Photo"
                     style="width: 0px; height: 0px; overflow: hidden;" (change)="onSelectFile($event)" #fileImageB4 />
                 </label>
-                <img [src]="url" width="100%" width="60" />
+                <img [src]="url+model.model_picture" width="100%" width="60" />
               </div>
             </div>
           </div>

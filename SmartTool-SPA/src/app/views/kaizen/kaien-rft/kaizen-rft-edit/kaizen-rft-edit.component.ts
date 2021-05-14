@@ -65,6 +65,7 @@ export class KaizenRftEditComponent implements OnInit {
       else {
         this.url_after = this.urlImage;
       }
+
       this.getListStage();
       this.getListModelNo();
       this.getListKaizenFrom();
@@ -80,8 +81,7 @@ export class KaizenRftEditComponent implements OnInit {
     this.router.navigate(['/kaizen/kaizen-rft']);
   }
   cancel() {
-    this.dataKaizen.rft_before_percent = null;
-    this.dataKaizen.rft_after_percent = null;
+    this.backList();
   }
 
   getListStage() {

@@ -29,9 +29,9 @@ export class KaizenEditComponent implements OnInit {
   listdataModelNo: any;
   isvideoB4: boolean = false;
   isvideoAfter: boolean = false;
-  model_no:string="";
-  serialNo:string ="";
-  isLoaddata =false;
+  model_no: string = "";
+  serialNo: string = "";
+  isLoaddata = false;
   constructor(private _kaizenService: KaizenService,
     private snotify: CustomNgSnotifyService,
     private router: Router,
@@ -44,12 +44,10 @@ export class KaizenEditComponent implements OnInit {
     this.serialNo = this.route.snapshot.params['serial_no'];
     this.loaddata();
   }
-  loaddata()
-  {
+  loaddata() {
     this.spinner.show();
-    this._kaizenService.getKaizenEdit(this.model_no,this.serialNo).subscribe(res=>{
+    this._kaizenService.getKaizenEdit(this.model_no, this.serialNo).subscribe(res => {
       this.dataKaizen = res;
-      console.log(res);
       if (this.dataKaizen.before_media != "") {
         if (this.dataKaizen.before_media.split(".").pop() == "mp4" ||
           this.dataKaizen.before_media.split(".").pop() == "MP4") {
@@ -71,12 +69,15 @@ export class KaizenEditComponent implements OnInit {
       else {
         this.url_after = this.urlImage;
       }
+      // console.log(this.url_before);
+      // console.log(this.url_after);
+
       this.getListStage();
       this.getListModelNo();
       this.getListKaizenFrom();
-      this.isLoaddata =true;
+      this.isLoaddata = true;
       this.spinner.hide();
-    },error=>{
+    }, error => {
       this.snotify.error("Can not load Kaizen");
       this.spinner.hide();
     });
@@ -85,6 +86,7 @@ export class KaizenEditComponent implements OnInit {
     this.router.navigate(['/kaizen/kaizen/']);
   }
   cancel() {
+    this.backList();
   }
   onSelectFile(event, number) {
     if (event.target.files && event.target.files[0]) {
@@ -148,7 +150,7 @@ export class KaizenEditComponent implements OnInit {
     this.spinner.show();
     this._kaizenService.update(this.dataKaizen).subscribe(
       res => {
-        if(res.success) {
+        if (res.success) {
           this.snotify.success(res.message);
           this.spinner.hide();
           this.router.navigate(['/kaizen/kaizen/']);
@@ -209,8 +211,7 @@ export class KaizenEditComponent implements OnInit {
   processChange() {
     this.getListOpera();
   }
-  changedate( event: Date)
-  {
-    this.dataKaizen.start_date= this.functionUtility.returnDayNotTime(event);
+  changedate(event: Date) {
+    this.dataKaizen.start_date = this.functionUtility.returnDayNotTime(event);
   }
 }
