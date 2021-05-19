@@ -7,13 +7,10 @@ namespace SmartTool_API.Models
     [Key]
     [StringLength(50)]
     public string factory_id { get; set; }
-    [Required]
     [StringLength(50)]
     public string factory_name { get; set; }
-    [Required]
     [StringLength(50)]
     public string customer_name { get; set; }
-    [Required]
     [StringLength(50)]
     public string location { get; set; }
   }

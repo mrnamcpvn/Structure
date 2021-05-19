@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers;

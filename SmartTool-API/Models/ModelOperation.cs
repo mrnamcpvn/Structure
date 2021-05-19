@@ -22,16 +22,12 @@ namespace SmartTool_API.Models
     [StringLength(50)]
      [Column(Order = 3)]
     public string operation_id { get; set; }
-    [Required]
     [StringLength(20)]
     public string process_type_id { get; set; }
-    [Required]
     [StringLength(200)]
     public string operation_name_local { get; set; }
-    [Required]
     [StringLength(200)]
     public string operation_name_en { get; set; }
-    [Required]
     [StringLength(200)]
     public string operation_name_zh { get; set; }
     [StringLength(50)]
@@ -39,12 +35,10 @@ namespace SmartTool_API.Models
     public bool critical_quality { get; set; }
     public bool critical_efficiency { get; set; }
     public int sequence { get; set; }
-    [Required]
     [StringLength(50)]
     public string create_by { get; set; }
     [Column(TypeName = "datetime")]
     public DateTime create_time { get; set; }
-    [Required]
     [StringLength(50)]
     public string update_by { get; set; }
     [Column(TypeName = "datetime")]
