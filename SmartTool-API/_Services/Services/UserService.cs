@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using SmartTool_API._Repositories.Interfaces;
-using SmartTool_API._Services.Interfaces;
-using SmartTool_API.DTO;
-using SmartTool_API.Helpers;
+  using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
+using SmartTool_API._Services.Interfaces;
+using SmartTool_API.Helpers;
+using SmartTool_API.DTO;
+
 namespace SmartTool_API._Services.Services
 {
     public class UserService : IUserService

@@ -1,57 +1,50 @@
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { FormsModule } from '@angular/forms';
-import { AlertifyService } from './_core/_services/alertify.service';
-import { AuthGuard } from './_core/_guards/auth.guard';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
-import { IconModule, IconSetModule, IconSetService } from '@coreui/icons-angular';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
-import { AppComponent } from './app.component';
-
-// Import containers
-import { DefaultLayoutComponent } from './containers';
-
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
-
-const APP_CONTAINERS = [
-  DefaultLayoutComponent
-];
-
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { JwtModule } from "@auth0/angular-jwt";
 import {
   AppAsideModule,
   AppBreadcrumbModule,
-  AppHeaderModule,
   AppFooterModule,
+  AppHeaderModule,
   AppSidebarModule,
-} from '@coreui/angular';
-
-// Import routing module
-import { AppRoutingModule } from './app.routing';
-
+} from "@coreui/angular";
+import { IconSetService } from "@coreui/icons-angular";
+import { ChartsModule } from "ng2-charts";
 // Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts';
-import { AuthService } from './_core/_services/auth.service';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { JwtModule } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
-
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { PaginationModule } from "ngx-bootstrap/pagination";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarModule,
+} from "ngx-perfect-scrollbar";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { AppComponent } from "./app.component";
+// Import routing module
+import { AppRoutingModule } from "./app.routing";
+// Import containers
+import { DefaultLayoutComponent } from "./containers";
+import { P404Component } from "./views/error/404.component";
+import { P500Component } from "./views/error/500.component";
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
+import { AuthGuard } from "./_core/_guards/auth.guard";
+import { ModelOperation } from "./_core/_model/model-operation";
+import { AlertifyService } from "./_core/_services/alertify.service";
+import { AuthService } from "./_core/_services/auth.service";
+import { UserService } from "./_core/_services/user.service";
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+};
+const APP_CONTAINERS = [DefaultLayoutComponent];
+export function tokenGetter() {
+  return localStorage.getItem("tokenSmartTooling");
+}
 @NgModule({
   imports: [
     HttpClientModule,
@@ -73,9 +66,9 @@ import { HttpClientModule } from '@angular/common/http';
     ChartsModule,
     JwtModule.forRoot({
       config: {
-        // tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:5001'],
-        disallowedRoutes: ['localhost:5001/api/auth']
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:5000"],
+        disallowedRoutes: ["localhost:5000/api/auth"],
       },
     }),
   ],
@@ -85,18 +78,20 @@ import { HttpClientModule } from '@angular/common/http';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   providers: [
     AuthService,
     AuthGuard,
     AlertifyService,
+    ModelOperation,
+    UserService,
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
     IconSetService,
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

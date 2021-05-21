@@ -1,81 +1,95 @@
 using Microsoft.EntityFrameworkCore;
 using SmartTool_API.Models;
-using SmartTool_API.Models;
 
 namespace SmartTool_API.Data
 {
-    public class DataContext : DbContext
+    public partial class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        public DbSet<DefectReason> DefectReason { get; set; }
-        public DbSet<Model> Model { get; set; }
-        public DbSet<Factory> Factory {get;set;}
-        public DbSet<Efficiency> Efficiency { get; set; }
-        public DbSet<Kaizen> Kaizen { get; set; }
-        public DbSet<ModelType> ModelType { get; set; }
-        public DbSet<ModelOperation> ModelOperation { get; set; }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Roles> Roles { get; set; }
-        public DbSet<RoleUser> RoleUser { get; set; }
-        public DbSet<ProcessType> ProcessType { get; set; }
-        public DbSet<VW_ModelKaizen> VW_ModelKaizen { get; set; }
-        public DbSet<VW_RFTReportDetail> VW_RFTReportDetail { get; set; }
-        public DbSet<VW_RFT_AVG> VW_RFT_AVG { get; set; }
-        public DbSet<Measurement_RFT> Measurement_RFT { get; set; }
+        public virtual DbSet<Defect_Reason> Defect_Reason { get; set; }
+        public virtual DbSet<Efficiency> Efficiency { get; set; }
+        public virtual DbSet<Factory> Factory { get; set; }
+        public virtual DbSet<Kaizen> Kaizen { get; set; }
+        public virtual DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form { get; set; }
+        public virtual DbSet<Measurement_RFT> Measurement_RFT { get; set; }
+        public virtual DbSet<Model> Model { get; set; }
+        public virtual DbSet<Model_Operation> Model_Operation { get; set; }
+        public virtual DbSet<Model_Type> Model_Type { get; set; }
+        public virtual DbSet<Process_Type> Process_Type { get; set; }
+        public virtual DbSet<RoleUser> RoleUser { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
-        public DbSet<KaizenBenefitsApplicationForm> KaizenBenefitsApplicationForm {get;set;}
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DefectReason>().HasKey(x => new { x.factory_id, x.defect_reason_id });
-            modelBuilder.Entity<Model>().HasKey(x => new { x.factory_id, x.model_no });
-            modelBuilder.Entity<ModelType>().HasKey(x => new { x.factory_id, x.model_type_id });
-            modelBuilder.Entity<RoleUser>().HasKey(x => new { x.user_account, x.role_unique });
-            modelBuilder.Entity<VW_ModelKaizen>().HasNoKey();
-            modelBuilder.Entity<VW_RFTReportDetail>().HasNoKey();
-            modelBuilder.Entity<VW_RFT_AVG>().HasNoKey();
-            modelBuilder.Entity<Efficiency>().HasKey(x => new
-            {
-                x.factory_id,
-                x.upper_id,
-                x.season,
-                x.month
-            });
-            modelBuilder.Entity<KaizenBenefitsApplicationForm>().HasKey(x => new
-            {
-                x.factory_id,
-                x.model_no,
-                x.serial_no,
-                x.to_factory_id
-            });
-            modelBuilder.Entity<Kaizen>().HasKey(x => new
-            {
-                x.factory_id,
-                x.model_no,
-                x.serial_no
-            });
-            modelBuilder.Entity<Measurement_RFT>().HasKey(x => new
-             {
-                 x.factory_id, x.model_no, x.stage_id, x.operation_id 
-             });
-            modelBuilder.Entity<Stage>().HasKey(x => new
-            {
-                x.factory_id,
-                x.stage_id
+            modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CS_AS");
 
-            });
-            modelBuilder.Entity<ModelOperation>().HasKey(x => new
+            modelBuilder.Entity<Defect_Reason>(entity =>
             {
-                x.factory_id,
-                x.model_no,
-                x.stage_id,
-                x.operation_id
+                entity.HasKey(e => new { e.factory_id, e.defect_reason_id });
             });
-             modelBuilder.Entity<ProcessType>().HasKey(x => new
+
+            modelBuilder.Entity<Efficiency>(entity =>
             {
-                x.factory_id,
-                x.process_type_id,
+                entity.HasKey(e => new { e.factory_id, e.upper_id, e.season, e.month });
             });
+
+            modelBuilder.Entity<Kaizen>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_no, e.serial_no });
+            });
+
+            modelBuilder.Entity<Kaizen_Benefits_Application_Form>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_no, e.serial_no, e.to_factory_id });
+
+                entity.Property(e => e.proposed_by_dept).IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<Measurement_RFT>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_no, e.stage_id, e.operation_id });
+            });
+
+            modelBuilder.Entity<Model>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_no });
+            });
+
+            modelBuilder.Entity<Model_Operation>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_no, e.stage_id, e.operation_id })
+                    .HasName("PK_Model_Process");
+            });
+
+            modelBuilder.Entity<Model_Type>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.model_type_id });
+            });
+
+            modelBuilder.Entity<Process_Type>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.process_type_id });
+            });
+
+            modelBuilder.Entity<RoleUser>(entity =>
+            {
+                entity.HasKey(e => new { e.user_account, e.role_unique })
+                    .HasName("PK_RoleUser_1");
+            });
+
+            modelBuilder.Entity<Stage>(entity =>
+            {
+                entity.HasKey(e => new { e.factory_id, e.stage_id });
+            });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

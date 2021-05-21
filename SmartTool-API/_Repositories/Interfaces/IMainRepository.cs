@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace SmartTool_API._Repositories.Interfaces
 {
-    public interface IMainRepository<T>  where T : class
+    public interface IMainRepository<T> where T : class
     {
         T FindById(object id);
 
         T FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
-
 
         IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties);
 

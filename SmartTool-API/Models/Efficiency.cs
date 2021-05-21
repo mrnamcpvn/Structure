@@ -1,43 +1,37 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
-    public class Efficiency
+    public partial class Efficiency
     {
-        [Key]
-        [Column(Order = 0)]
-        public string factory_id { get; set; }
-
-        [Key]
-        [Column(Order = 1)]
-        public string upper_id { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
-        public string season { get; set; }
-
-        [Key]
-        [Column(Order = 3)]
-        public int month { get; set; }
-
-        [Column(TypeName = "decimal(5, 2)")]
-        public decimal? efficiency_target { get; set; }
-        
-        [Column(TypeName = "decimal(5, 2)")]
-        public decimal? efficiency_actual { get; set; }
-
-        public int sequence { get; set; }
-
-        
-
-        public string create_by { get; set; }
-
-        public DateTime create_time { get; set; }
-
-        public string update_by { get; set; }
-
-        public DateTime update_time { get; set; }
+[Key]
+[StringLength(50)]
+public string factory_id { get; set; }
+[Key]
+[StringLength(10)]
+public string upper_id { get; set; }
+[Key]
+[StringLength(4)]
+public string season { get; set; }
+[Key]
+public int month { get; set; }
+[Column(TypeName = "decimal(18, 2)")]
+public decimal? efficiency_target { get; set; }
+[Column(TypeName = "decimal(18, 2)")]
+public decimal? efficiency_actual { get; set; }
+public int sequence { get; set; }
+[Required]
+[StringLength(50)]
+public string create_by { get; set; }
+[Column(TypeName = "datetime")]
+public DateTime create_time { get; set; }
+[Required]
+[StringLength(50)]
+public string update_by { get; set; }
+[Column(TypeName = "datetime")]
+public DateTime update_time { get; set; }
     }
 }

@@ -2,7 +2,7 @@ namespace SmartTool_API.DTO
 {
     public class CrossSiteSharingEditDTO
     {
-        public KaizenBenefitsApplicationFormDTO crossSiteSharingDTO {get;set;}
+        public Kaizen_Benefits_Application_FormDTO crossSiteSharingDTO {get;set;}
         public bool kaizen_type_eliminate { get; set; }
         public bool kaizen_type_reduce { get; set; }
         public bool kaizen_type_combine { get; set; }

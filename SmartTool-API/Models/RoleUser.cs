@@ -1,18 +1,22 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
-    public class RoleUser
+    public partial class RoleUser
     {
-        [Key][Column(Order = 0)]
-        public string user_account { get; set; }
-        [Key][Column(Order = 0)]
-        public string  role_unique { get; set; }
-
-        public string create_by { get; set; }
-
-        public DateTime create_time { get; set; }
+[Key]
+[StringLength(50)]
+public string user_account { get; set; }
+[Key]
+[StringLength(50)]
+public string role_unique { get; set; }
+[Required]
+[StringLength(50)]
+public string create_by { get; set; }
+[Column(TypeName = "datetime")]
+public DateTime create_time { get; set; }
     }
 }

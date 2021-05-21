@@ -35,21 +35,19 @@ export class ModelService {
         }),
       );
   }
-
-  getAllModelType() {
-    return this.http.get<any>(this.baseUrl + 'model/model-type', {});
-  }
-
   createModel(model: Model) {
     console.log('Service: ', model);
     return this.http.post(this.baseUrl + 'model/createModel/', model);
   }
 
-  updateModel(model: Model) {
-    return this.http.post(this.baseUrl + 'model/updateModel/', model);
+  getAllModelType() {
+    return this.http.get<any>(this.baseUrl + 'model/model-type', {});
   }
 
 
+  updateModel(model: Model) {
+    return this.http.post(this.baseUrl + 'model/updateModel/', model);
+  }
   getModelNoEdit(modelNo: string) {
     return this.http.get<Model>(this.baseUrl + 'model/edit/' + modelNo);
   }

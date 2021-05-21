@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
-using SmartTool_API._Repositories.Interfaces;
+  using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
+using SmartTool_API.Models;
 using SmartTool_API._Services.Interfaces;
-using SmartTool_API.DTO;
+  
 using Microsoft.EntityFrameworkCore;
+using SmartTool_API.DTO;
 
 namespace SmartTool_API._Services.Services
 {
@@ -20,10 +22,12 @@ namespace SmartTool_API._Services.Services
             _repoRoles = repoRoles;
             _repoUsers = repoUsers;
         }
+
         public async Task<UserForLoggedDTO> GetUser(string username, string password)
         {
             var user = _repoUsers.FindSingle(x => x.account.Trim() == username.Trim() && x.is_active == true);
 
+            // kiểm tra xem username đó có ko
             if (user == null)
             {
                 return null;
@@ -33,11 +37,8 @@ namespace SmartTool_API._Services.Services
                 return null;
             }
             var roleUser = _repoRoleUser.FindAll(x => x.user_account == user.account);
-
             var role = _repoRoles.FindAll();
-
             var roleName = await roleUser.Join(role, x => x.role_unique, y => y.role_unique, (x, y)
-
             => new RoleDTO { Name = y.role_unique, Position = y.role_sequence }).ToListAsync();
 
             var result = new UserForLoggedDTO
@@ -46,8 +47,10 @@ namespace SmartTool_API._Services.Services
                 Email = user.email,
                 Username = user.account,
                 Name = user.name,
+                // Nik = user.,
                 Role = roleName.OrderBy(x => x.Position).Select(x => x.Name).ToList()
             };
+
             return result;
         }
     }

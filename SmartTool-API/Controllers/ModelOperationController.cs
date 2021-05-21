@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
-using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
+using SmartTool_API.DTO;
 
 namespace SmartTool_API.Controllers
 {
@@ -17,10 +17,10 @@ namespace SmartTool_API.Controllers
         private readonly IRFTService _iRFTService;
         private string username;
         private string factory;
-        public ModelOperationController(IModelOperationService modelOperationService, IRFTService iRFTService,  IConfiguration configuration)
+        public ModelOperationController(IModelOperationService ModelOperationService, IRFTService iRFTService,  IConfiguration configuration)
         {
             _iRFTService = iRFTService;
-            _modelOperationService = modelOperationService;
+            _modelOperationService = ModelOperationService;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
@@ -28,7 +28,7 @@ namespace SmartTool_API.Controllers
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
-        [HttpPost("modelOperation-list")]
+        [HttpPost("ModelOperation-list")]
         public async Task<IActionResult> Search([FromQuery] PaginationParams param, ModelOperationParam modelParam)
         {
             var lists = await _modelOperationService.SearchModelOperation(param, modelParam);
@@ -46,13 +46,13 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetAllProcessType() => Ok(await _modelOperationService.GetAllProcessType());
 
         [HttpPost("create-operation")]
-        public async Task<IActionResult> CreateModelOperation([FromBody] ModelOperationDTO modelOperationDto)
+        public async Task<IActionResult> CreateModelOperation([FromBody] ModelOperationDTO ModelOperationDto)
         {
-            modelOperationDto.update_by = GetUserClaim();
-            modelOperationDto.create_by = GetUserClaim();
-            modelOperationDto.create_time = DateTime.Now;
-            modelOperationDto.factory_id = factory;
-            if (await _modelOperationService.Add(modelOperationDto))
+            ModelOperationDto.update_by = GetUserClaim();
+            ModelOperationDto.create_by = GetUserClaim();
+            ModelOperationDto.create_time = DateTime.Now;
+            ModelOperationDto.factory_id = factory;
+            if (await _modelOperationService.Add(ModelOperationDto))
             {
                 return NoContent();
             }
@@ -60,9 +60,9 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("getModelOperation")]
-        public async Task<IActionResult> GetModelOperation([FromBody] ModelOperationEditParam modelOperationEditParam)
+        public async Task<IActionResult> GetModelOperation([FromBody] ModelOperationEditParam ModelOperationEditParam)
         {
-            var modelRepo = await _modelOperationService.GetModelOperation(modelOperationEditParam);
+            var modelRepo = await _modelOperationService.GetModelOperation(ModelOperationEditParam);
             if (modelRepo != null)
             {
                 return Ok(modelRepo);
@@ -71,11 +71,11 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("updateModelOperation")]
-        public async Task<IActionResult> UpdateModelOperation(ModelOperationDTO modelOperationDTO)
+        public async Task<IActionResult> UpdateModelOperation(ModelOperationDTO ModelOperationDTO)
         {
-            modelOperationDTO.update_by = GetUserClaim();
-            modelOperationDTO.update_time = DateTime.Now;
-            if (await _modelOperationService.Update(modelOperationDTO))
+            ModelOperationDTO.update_by = GetUserClaim();
+            ModelOperationDTO.update_time = DateTime.Now;
+            if (await _modelOperationService.Update(ModelOperationDTO))
                 return NoContent();
             return BadRequest($"Updating Model Operation failed on save");
         }

@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
-using SmartTool_API.Models;
 using SmartTool_API.DTO;
+using SmartTool_API.Models;
+  
 namespace SmartTool_API._Repositories.Interfaces
 {
-    public interface IKaizenBenefitsApplicationFormRepository : IMainRepository<KaizenBenefitsApplicationForm>
+    public interface IKaizenBenefitsApplicationFormRepository : IMainRepository<Kaizen_Benefits_Application_Form>
     {
-          Task<bool> CheckKaizenDescriptionExist(KaizenBenefitsApplicationFormDTO model,string factory);
+          Task<bool> CheckKaizenDescriptionExist(Kaizen_Benefits_Application_FormDTO model,string factory);
     }
 }

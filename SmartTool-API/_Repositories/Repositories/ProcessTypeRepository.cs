@@ -1,16 +1,19 @@
 using Microsoft.Extensions.Configuration;
-using SmartTool_API._Repositories.Interfaces;
-using SmartTool_API.Data;
+  using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
 using SmartTool_API.Models;
+ 
 
 namespace SmartTool_API._Repositories.Repositories
 {
-  public class ProcessTypeRepository : MainRepository<ProcessType>, IProcessTypeRepository
-  {
-    private readonly DataContext _context;
-    public ProcessTypeRepository(DataContext context, IConfiguration configuration) : base(context, configuration)
+    public class ProcessTypeRepository: MainRepository<Process_Type>, IProcessTypeRepository
     {
-      _context = context;
+         private readonly DataContext _context;
+
+        public ProcessTypeRepository(DataContext context,CBDataContext CBcontext,SHCDataContext SHCcontext,
+                            SPCDataContext SPCcontext,TSHDataContext TSHcontext,IConfiguration configuration) : 
+                            base(context,CBcontext,SHCcontext,SPCcontext,TSHcontext,configuration)
+        {
+            _context = context;
+        }
     }
-  }
 }
