@@ -21,9 +21,9 @@ namespace SmartTool_API._Services.Services
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
         private string factory;
-        public ModelEfficiencyService(  IEfficiencyRepository repoModelEficiency, 
+        public ModelEfficiencyService(  IEfficiencyRepository repoModelEficiency,
                                         IModelRepository repoModel,
-                                        IMapper mapper, 
+                                        IMapper mapper,
                                         MapperConfiguration configMapper,
                                         IConfiguration configuration)
         {
@@ -50,7 +50,7 @@ namespace SmartTool_API._Services.Services
                 modelEfficiency.factory_id = factory;
                 if(await CheckExist(effParam)){
                     _repoModelEficiency.Update(modelEfficiency);
-                }else 
+                }else
                 {
                     modelEfficiency.create_time = DateTime.Now;
                     modelEfficiency.create_by = username;
@@ -75,7 +75,6 @@ namespace SmartTool_API._Services.Services
                                             .Select(x => new {Name = x.model_name})
                                             .Distinct().ToListAsync();
         }
-
         public async Task<List<ModelEfficiencyDTO>> ModelEfficiencyEdit(ModelEfficiencyEditParam modelParam)
         {
             var pred_ModelEfficiency = PredicateBuilder.New<Efficiency>(true);

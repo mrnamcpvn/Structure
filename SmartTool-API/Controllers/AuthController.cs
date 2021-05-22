@@ -10,7 +10,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using SmartTool_API._Services.Interfaces;
-using SmartTool_API.DTO;
 
 namespace SmartTool_API.Controllers
 {

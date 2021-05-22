@@ -20,6 +20,13 @@ export const routes: Routes = [
             (x) => x.ModelOperationModule
           ),
       },
+      {
+        path: "model-efficiency",
+        loadChildren: () =>
+          import("./model-efficiency/model-efficiency.module").then(
+            (x) => x.ModelEfficiencyModule
+          ),
+      },
     ],
   },
 ];

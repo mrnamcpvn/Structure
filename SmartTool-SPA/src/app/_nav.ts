@@ -21,12 +21,12 @@ export class NavItem {
     const navItemMaintain = {
       name: "1. MAINTAIN",
       url: "maintain",
-      icons: "cil-menu",
+      icon: "cid-hamburger-menu",
+      class: "menu-margin",
       children: [],
     };
     if (user != null) {
       user.role.forEach((element) => {
-        // ====Setup Menu con cho Maintain
         if (element === "ksmt.Model") {
           const children = {
             name: "1.1 Model",
@@ -40,6 +40,24 @@ export class NavItem {
           const children = {
             name: "1.2 Model Oparation",
             url: "/maintain/model-operation/list",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navItemMaintain.children.push(children);
+        }
+        if (element == "ksmt.ModelEfficiency") {
+          const children = {
+            name: "1.3 Model Efficiency",
+            url: "/maintain/model-efficiency/edit",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navItemMaintain.children.push(children);
+        }
+        if (element == "ksmt.DefectReason") {
+          const children = {
+            name: "1.4 Defect Reason",
+            url: "/maintain/defect-reason/list",
             class: "menu-margin",
           };
           this.hasMaintain = true;
