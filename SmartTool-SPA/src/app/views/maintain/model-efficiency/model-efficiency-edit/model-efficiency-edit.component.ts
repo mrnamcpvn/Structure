@@ -28,14 +28,14 @@ export class ModelEfficiencyEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createListModel();
     this.listEfficiencys = [];
+    this.createListModel();
   }
 
   loadData() {
     this.modelEfficiencyService.getModelEfficiency(this.paramSearch).subscribe(
       (res) => {
-        this.listEfficiencys.forEach((item) => {
+        this.listEfficiencys.forEach((item, i) => {
           res.forEach((r) => {
             if (r.month == item.month) {
               item.efficiency_actual = r.efficiency_actual;
@@ -43,7 +43,7 @@ export class ModelEfficiencyEditComponent implements OnInit {
               item.update_by = r.update_by;
               item.update_time = r.update_time;
               item.create_by = r.create_by;
-              item.create_time = r.created_time;
+              item.create_time = r.create_time;
             }
           });
         });

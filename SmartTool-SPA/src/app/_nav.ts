@@ -12,7 +12,7 @@ export class NavItem {
   contructor() {}
 
   getNav(user: any) {
-    if (user == null) {
+    if (user != null) {
       return [];
     }
     this.navItems = [];
@@ -27,7 +27,7 @@ export class NavItem {
     };
     if (user != null) {
       user.role.forEach((element) => {
-        if (element === "ksmt.Model") {
+        if (element == "ksmt.Model") {
           const children = {
             name: "1.1 Model",
             url: "/maintain/model/list",
@@ -36,9 +36,9 @@ export class NavItem {
           this.hasMaintain = true;
           navItemMaintain.children.push(children);
         }
-        if (element === "ksmt.ModelOperation") {
+        if (element == "ksmt.ModelOperation") {
           const children = {
-            name: "1.2 Model Oparation",
+            name: "1.2 Model Operation",
             url: "/maintain/model-operation/list",
             class: "menu-margin",
           };
@@ -64,6 +64,7 @@ export class NavItem {
           navItemMaintain.children.push(children);
         }
       });
+
       if (this.hasMaintain) {
         this.navItems.push(navItemMaintain);
       }

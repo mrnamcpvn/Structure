@@ -82,7 +82,7 @@ namespace SmartTool_API
             services.AddScoped<IKaizenService, KaizenService>();
             services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
 
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
                         {
                             o.RequireHttpsMetadata = false;
