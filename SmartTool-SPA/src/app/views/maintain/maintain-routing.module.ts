@@ -27,6 +27,13 @@ export const routes: Routes = [
             (x) => x.ModelEfficiencyModule
           ),
       },
+      {
+        path: "defect-reason",
+        loadChildren: () =>
+          import("./defect-reason/defect-reason.module").then(
+            (x) => x.DefectReasonModule
+          ),
+      },
     ],
   },
 ];

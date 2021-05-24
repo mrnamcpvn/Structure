@@ -12,9 +12,7 @@ export class NavItem {
   contructor() {}
 
   getNav(user: any) {
-    if (user != null) {
-      return [];
-    }
+    if (user == null) return [];
     this.navItems = [];
     this.hasMaintain = false;
 

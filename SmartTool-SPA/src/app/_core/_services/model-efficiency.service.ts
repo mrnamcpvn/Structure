@@ -8,10 +8,11 @@ import { ModelEfficiencyEditParam } from "../_model/efficiency-editParam";
 })
 export class ModelEfficiencyService {
   baseUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   getModelName(upperId: string) {
-    return this.http.get<any>(this.baseUrl + "/modelefficiency/modelName", {
+    return this.http.get<any>(this.baseUrl + "modelEfficiency/modelName", {
       params: {
         upperId: upperId,
       },
@@ -19,7 +20,7 @@ export class ModelEfficiencyService {
   }
 
   getUpperId() {
-    return this.http.get<any>(this.baseUrl + "modelefficiency/upperId", {});
+    return this.http.get<any>(this.baseUrl + "modelEfficiency/upperId", {});
   }
 
   getModelEfficiency(modelEfficiencyEditPram: ModelEfficiencyEditParam) {

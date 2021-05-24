@@ -23,6 +23,7 @@ namespace SmartTool_API.Controllers
     {
         _configuration = configuration;
         _defectReasonService = defectReasonService;
+        factory = configuration.GetSection("AppSettings:Factory").Value;
     }
 
     //get user
@@ -36,13 +37,13 @@ namespace SmartTool_API.Controllers
         Response.AddPagination(defectReason.CurrentPage, defectReason.PageSize, defectReason.TotalCount, defectReason.TotalPages);
         return Ok(defectReason);
     }
-    [HttpGet("all" , Name = "GetAllDefectReasons")]
+    [HttpGet("GetAllDefectReasons")]
     public async Task<IActionResult> GetAll(){
         var defectReason = await _defectReasonService.GetAllAsync();
         return Ok(defectReason);
     }
     [HttpPost("search")]
-    public async Task<IActionResult> Search([FromBody]PaginationParams param , DefectReasonParam filter) {
+    public async Task<IActionResult> Search([FromQuery]PaginationParams param , DefectReasonParam filter) {
         var lists = await _defectReasonService.SearchDefectReason(param, filter);
         Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalPages, lists.TotalCount);
         return Ok(lists);

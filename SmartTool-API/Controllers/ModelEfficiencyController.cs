@@ -22,16 +22,17 @@ namespace SmartTool_API.Controllers
     {
         _modelEfficiencyService = modelEfficiencyService;
         _configuration = configuration;
+        factory = configuration.GetSection("AppSettings:Factory").Value;
     }
     private string GetUserClaim(){
         return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 
-    [HttpGet("uppperId")]
-    public async Task<IActionResult> GetAllProcessType()=> Ok(await _modelEfficiencyService.GetAllUpperID());
+    [HttpGet("upperId")]
+    public async Task<IActionResult> GetAllProcessType() => Ok(await _modelEfficiencyService.GetAllUpperID());
 
     [HttpGet("modelName")]
-    public async Task<IActionResult> GetModelName(string uppperId) => Ok(await _modelEfficiencyService.GetModelName(uppperId , factory ));
+    public async Task<IActionResult> GetModelName(string upperId) => Ok(await _modelEfficiencyService.GetModelName(upperId , factory));
 
     [HttpPost("getModelEfficiency")]
     public async Task<IActionResult> GetModelEfficiency(ModelEfficiencyEditParam modelEfficiencyEditPram){

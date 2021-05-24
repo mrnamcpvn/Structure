@@ -14,7 +14,6 @@ import {
 } from "@coreui/angular";
 import { IconSetService } from "@coreui/icons-angular";
 import { ChartsModule } from "ng2-charts";
-// Import 3rd party components
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { PaginationModule } from "ngx-bootstrap/pagination";
@@ -34,7 +33,8 @@ import { P500Component } from "./views/error/500.component";
 import { LoginComponent } from "./views/login/login.component";
 import { RegisterComponent } from "./views/register/register.component";
 import { AuthGuard } from "./_core/_guards/auth.guard";
-import { ModelOperation } from "./_core/_model/model-operation";
+import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
+import { ModelResolver } from "./_core/_resolvers/model.resolver";
 import { AlertifyService } from "./_core/_services/alertify.service";
 import { AuthService } from "./_core/_services/auth.service";
 import { UserService } from "./_core/_services/user.service";
@@ -42,9 +42,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
 const APP_CONTAINERS = [DefaultLayoutComponent];
+
 export function tokenGetter() {
   return localStorage.getItem("tokenSmartTooling");
 }
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -84,8 +86,9 @@ export function tokenGetter() {
     AuthService,
     AuthGuard,
     AlertifyService,
-    ModelOperation,
     UserService,
+    ModelResolver,
+    ModelEditResolver,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

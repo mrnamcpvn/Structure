@@ -17,7 +17,7 @@ export class ModelEfficiencyEditComponent implements OnInit {
   listEfficiencys: Efficiency[];
   disableUpper: boolean = true;
   disableSave: boolean = true;
-  inputSeason: any = {};
+  inputSeason: any;
   modelNames: any = {};
   upperList: Array<Select2OptionData>;
   constructor(
@@ -35,7 +35,7 @@ export class ModelEfficiencyEditComponent implements OnInit {
   loadData() {
     this.modelEfficiencyService.getModelEfficiency(this.paramSearch).subscribe(
       (res) => {
-        this.listEfficiencys.forEach((item, i) => {
+        this.listEfficiencys.forEach((item, index) => {
           res.forEach((r) => {
             if (r.month == item.month) {
               item.efficiency_actual = r.efficiency_actual;
@@ -69,7 +69,7 @@ export class ModelEfficiencyEditComponent implements OnInit {
   getListUpperId() {
     this.modelEfficiencyService.getUpperId().subscribe((res) => {
       this.upperList = res.map((item) => {
-        return { id: item.upper_id, texr: item.upper_id };
+        return { id: item.upper_id, text: item.upper_id };
       });
     });
   }
@@ -88,7 +88,7 @@ export class ModelEfficiencyEditComponent implements OnInit {
     this.resetData();
     this.disableSave = true;
     this.paramSearch.season = "" + this.inputSeason;
-    if (this.paramSearch.upper_id != 0) {
+    if (this.paramSearch.upper_id != "") {
       this.loadData();
       this.disableSave = false;
     }
@@ -97,15 +97,19 @@ export class ModelEfficiencyEditComponent implements OnInit {
   changeModelName() {
     const modelName =
       this.paramSearch.upper_id === "all" ? "" : this.paramSearch.upper_id;
+    console.log(modelName);
     this.modelEfficiencyService.getModelName(modelName).subscribe((res) => {
+      console.log(res);
+
       this.modelNames = res;
+      console.log("modelName:", this.modelNames);
     });
   }
 
   save() {
     this.listEfficiencys.forEach((el) => {
       el.upper_id = this.paramSearch.upper_id;
-      el.season_year = this.inputSeason;
+      el.season_year = this.inputSeason.toString();
       el.create_time = "";
     });
 
@@ -123,11 +127,11 @@ export class ModelEfficiencyEditComponent implements OnInit {
   }
 
   resetData() {
-    this.listEfficiencys.forEach((element) => {
-      element.efficiency_target = null;
-      element.efficiency_actual = null;
-      element.update_by = null;
-      element.update_time = null;
+    this.listEfficiencys.forEach((el) => {
+      el.efficiency_target = null;
+      el.efficiency_actual = null;
+      el.update_by = null;
+      el.update_time = null;
     });
     this.disableSave = true;
   }

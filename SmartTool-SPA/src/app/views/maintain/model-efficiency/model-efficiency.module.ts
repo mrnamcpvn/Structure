@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelect2Module } from "ng-select2";
@@ -10,10 +11,11 @@ import { ModelEfficiencyRoutingModule } from "./model-efficiency-routing.module"
 @NgModule({
   declarations: [ModelEfficiencyEditComponent],
   imports: [
+    CommonModule,
     FormsModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    PaginationModule,
+    PaginationModule.forRoot(),
     ModelEfficiencyRoutingModule,
     AlertModule.forRoot(),
     NgSelect2Module,
