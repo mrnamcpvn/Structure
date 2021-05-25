@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using SmartTool_API._Services.Interfaces;
-  
- 
+
+
+
   using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
 using SmartTool_API.Models;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
- 
+
 using System;
 using Microsoft.EntityFrameworkCore;
 using SmartTool_API.Helpers;
 using SmartTool_API.DTO;
+using SmartTool_API._Services.Interfaces;
 
 namespace SmartTool_API._Services.Services
 {
@@ -169,7 +170,7 @@ namespace SmartTool_API._Services.Services
             var stages = await _stageRepository.FindAll(x=>x.factory_id ==factory && x.is_active ==true).ToListAsync();
             return stages.OrderBy(x=>x.sequence);
         }
-        public async Task<object> Getprocess(string modelNO,string stage,string factory)
+        public async Task<object> GetProcess(string modelNO,string stage,string factory)
         {
             var Process =  _processTypeRepository.FindAll(x=>x.factory_id ==factory );
             var Opera = _modelOperationRepository.FindAll(x=>x.factory_id ==factory);
@@ -190,7 +191,7 @@ namespace SmartTool_API._Services.Services
         {
             var Opera =  _modelOperationRepository.FindAll(x=>x.factory_id ==factory);
              if (!String.IsNullOrEmpty(modelNO))
-            Opera = Opera.Where(x=>x.model_no == modelNO); 
+            Opera = Opera.Where(x=>x.model_no == modelNO);
              if (!String.IsNullOrEmpty(stage))
             Opera = Opera.Where(x=>x.stage_id == stage);
             if (!String.IsNullOrEmpty(process))
@@ -242,5 +243,5 @@ namespace SmartTool_API._Services.Services
                         }).OrderBy(x=>x.serial_no).ToListAsync();
                 return _mapper.Map<List<KaizenDTO>>(data).FirstOrDefault();
         }
-    }
+  }
 }
