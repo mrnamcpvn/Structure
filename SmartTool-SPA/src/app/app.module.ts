@@ -37,7 +37,6 @@ import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
 import { ModelResolver } from "./_core/_resolvers/model.resolver";
 import { AlertifyService } from "./_core/_services/alertify.service";
 import { AuthService } from "./_core/_services/auth.service";
-import { UserService } from "./_core/_services/user.service";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -86,7 +85,6 @@ export function tokenGetter() {
     AuthService,
     AuthGuard,
     AlertifyService,
-    UserService,
     ModelResolver,
     ModelEditResolver,
     {

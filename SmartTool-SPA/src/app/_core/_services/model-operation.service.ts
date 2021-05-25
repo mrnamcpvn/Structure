@@ -12,7 +12,7 @@ import { PaginatedResult } from "../_model/pagination";
 })
 export class ModelOperationService {
   baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   search(
     page?,
@@ -31,7 +31,8 @@ export class ModelOperationService {
     return this.http
       .post<any>(url, modelParam, { observe: "response", params })
       .pipe(
-        map((response) => { paginatedResult.result = response.body;
+        map((response) => {
+          paginatedResult.result = response.body;
           if (response.headers.get("Pagination") != null) {
             paginatedResult.pagination = JSON.parse(
               response.headers.get("Pagination")

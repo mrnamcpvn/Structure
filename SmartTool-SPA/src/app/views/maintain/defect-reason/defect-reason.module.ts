@@ -21,7 +21,7 @@ import { DefectReasonRoutingModule } from "./defect-reason-routing.module";
     FormsModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    PaginationModule,
+    PaginationModule.forRoot(),
     AlertModule.forRoot(),
     NgSelect2Module,
     DefectReasonRoutingModule,

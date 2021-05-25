@@ -35,7 +35,7 @@ export class DefectReasonListComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
-    this.paramSearch.activeList = "";
+    this.paramSearch.active = "";
     this.paramSearch.defect_Reason = "";
     this.loadDefectReasons();
     this.spinner.hide();

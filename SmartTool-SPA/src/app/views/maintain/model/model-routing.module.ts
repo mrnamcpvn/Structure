@@ -1,34 +1,34 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AddComponent } from './add/add.component';
-import { EditComponent } from './edit/edit.component';
-import { ListComponent } from './list/list.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AddComponent } from "./add/add.component";
+import { EditComponent } from "./edit/edit.component";
+import { ListComponent } from "./list/list.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     data: {
-      title: 'Model',
+      title: "Model",
     },
     children: [
       {
-        path: 'list',
+        path: "list",
         data: {
-          title: 'List Model',
+          title: "List Model",
         },
         component: ListComponent,
       },
       {
-        path: 'add',
+        path: "add",
         data: {
-          title: 'Add new Model',
+          title: "Add new Model",
         },
         component: AddComponent,
       },
       {
-        path: 'edit/:modelNo',
+        path: "edit/:modelNo",
         data: {
-          title: 'Edit Model',
+          title: "Edit Model",
         },
         component: EditComponent,
       },

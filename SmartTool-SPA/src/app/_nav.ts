@@ -9,20 +9,31 @@ export const navItems: INavData[] = [];
 export class NavItem {
   navItems: INavData[] = [];
   hasMaintain: boolean;
+  hasKaizen: boolean;
   contructor() {}
 
   getNav(user: any) {
     if (user == null) return [];
     this.navItems = [];
     this.hasMaintain = false;
+    this.hasKaizen = false;
 
     const navItemMaintain = {
       name: "1. MAINTAIN",
       url: "maintain",
-      icon: "cid-hamburger-menu",
+      icon: "icon-list",
       class: "menu-margin",
       children: [],
     };
+    //////////
+    const navItemKaizen = {
+      name: "2. KAIZEN",
+      url: "kaizen",
+      icon: "icon-list",
+      class: "menu-margin",
+      children: [],
+    };
+
     if (user != null) {
       user.role.forEach((element) => {
         if (element == "ksmt.Model") {
@@ -61,10 +72,23 @@ export class NavItem {
           this.hasMaintain = true;
           navItemMaintain.children.push(children);
         }
+        ///////////////////////////////////////
+        if (element == "ksmt.Kaizen") {
+          const children = {
+            name: "2.1 Kaizen",
+            url: "/kaizen/kaizen/kaizen-list",
+            class: "menu-margin",
+          };
+          this.hasKaizen = true;
+          navItemKaizen.children.push(children);
+        }
       });
 
       if (this.hasMaintain) {
         this.navItems.push(navItemMaintain);
+      }
+      if (this.hasKaizen) {
+        this.navItems.push(navItemKaizen);
       }
     }
     return this.navItems;
