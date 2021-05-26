@@ -31,24 +31,68 @@ export class KaizenListComponent implements OnInit {
     private router: Router,
     private alertify: AlertifyService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getModelListNo();
   }
-
   getModelListNo() {
     this.kaizenService.getDataModelNo().subscribe((res) => {
       this.listDataModelNo = res;
-      console.log(this.listDataModelNo);
+      this.listModelNo = res.map((item) => {
+        return { id: item.model_no, text: item.model_no };
+      });
     });
   }
 
-  addNew() {}
+  changeModelNo(e: any) {
+    this.upperID = "";
+    this.modelName = "";
+    if (e != "") {
+      this.upperID = this.listDataModelNo.find((x) => x.model_no == e).upper_id;
+      this.modelName = this.listDataModelNo.find(
+        (x) => x.model_no == e
+      ).model_name;
+      this.checkAddnew = true;
+    } else {
+      this.checkAddnew = false;
+    }
+    this.getData();
+  }
 
-  edit() {}
+  addNew(kaizen: Kaizen) {
+    this.kaizenService.changeModel(this.modelNo, this.modelName);
+    this.router.navigate(["/kaizen/kaizen-add"]);
+  }
 
-  changeModelNo(e: any) {}
+  getData() {
+    this.spinner.show();
+    this.kaizenService
+      .search(this.pagination.currentPage, this.modelNo)
+      .subscribe(
+        (res) => {
+          this.pagination = res.pagination;
+          this.dataKaizen = res.result;
+          this.spinner.hide();
+          console.log("Data:", this.dataKaizen);
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      );
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
+  }
 
-  pageChanged() {}
+  edit(kaizen) {
+    this.router.navigate([
+      "/kaizen/kaizen-edit/" + kaizen.model_no + "/" + kaizen.serial_no,
+    ]);
+  }
+
+  pageChanged(event) {
+    this.pagination.currentPage = event.page;
+    this.getData();
+  }
 }

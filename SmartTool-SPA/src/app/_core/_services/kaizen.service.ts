@@ -68,8 +68,10 @@ export class KaizenService {
   getDataStage() {
     return this.http.get<any>(this.baseUrl + "kaizen/getstage");
   }
-  getProcess() {
-    this.http.get<any>(this.baseUrl + "kaizen/getprocess");
+  getProcess(modelNo: string, stage: string) {
+    return this.http.get<any>(this.baseUrl + "kaizen/getprocess", {
+      params: { modelNo: modelNo, stage: stage },
+    });
   }
   getOpera(modelNo: string, stage: string, process: string) {
     return this.http.get<any>(this.baseUrl + "kaizen/getopera", {
@@ -86,11 +88,11 @@ export class KaizenService {
   changeKaizen(kaizen: Kaizen) {
     this.kaizenSource.next(kaizen);
   }
-  getKaizenEdit(modelNo: string, seriaNo: string) {
+  getKaizenEdit(modelNo: string, serialNo: string) {
     return this.http.get<Kaizen[]>(this.baseUrl + "kaizen/getKaizenEdit", {
       params: {
         modelNo: modelNo,
-        seriaNo: seriaNo,
+        serialNo: serialNo,
       },
     });
   }

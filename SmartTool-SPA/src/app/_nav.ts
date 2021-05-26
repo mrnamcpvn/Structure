@@ -22,15 +22,13 @@ export class NavItem {
       name: "1. MAINTAIN",
       url: "maintain",
       icon: "icon-list",
-      class: "menu-margin",
       children: [],
     };
     //////////
     const navItemKaizen = {
       name: "2. KAIZEN",
       url: "kaizen",
-      icon: "icon-list",
-      class: "menu-margin",
+      icon: "cil-chart-pie",
       children: [],
     };
 
@@ -40,6 +38,7 @@ export class NavItem {
           const children = {
             name: "1.1 Model",
             url: "/maintain/model/list",
+            icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasMaintain = true;
@@ -49,6 +48,7 @@ export class NavItem {
           const children = {
             name: "1.2 Model Operation",
             url: "/maintain/model-operation/list",
+            icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasMaintain = true;
@@ -58,6 +58,7 @@ export class NavItem {
           const children = {
             name: "1.3 Model Efficiency",
             url: "/maintain/model-efficiency/edit",
+            icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasMaintain = true;
@@ -67,6 +68,7 @@ export class NavItem {
           const children = {
             name: "1.4 Defect Reason",
             url: "/maintain/defect-reason/list",
+            icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasMaintain = true;
@@ -77,6 +79,7 @@ export class NavItem {
           const children = {
             name: "2.1 Kaizen",
             url: "/kaizen/kaizen/kaizen-list",
+            icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasKaizen = true;
