@@ -15,14 +15,16 @@ export const routes: Routes = [
             (x) => x.KaizenChildModule
           ),
       },
-      // {
-      //   path: "kaizen-rft",
-      //   data: {
-      //     title: "Kaizen RFT",
-      //   },
-      //   loadChildren: () =>
-      //     import("./kaizen/kaizen-rft.module").then((x) => x.KaizenRFTModule),
-      // },
+      {
+        path: "kaizen-rft",
+        data: {
+          title: "Kaizen RFT",
+        },
+        loadChildren: () =>
+          import("./kaizen-rft/kaizen-rft.module").then(
+            (x) => x.KaizenRFTModule
+          ),
+      },
     ],
   },
 ];

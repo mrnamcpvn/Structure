@@ -85,6 +85,16 @@ export class NavItem {
           this.hasKaizen = true;
           navItemKaizen.children.push(children);
         }
+        if (element == "ksmt.Kaizen") {
+          const children = {
+            name: "2.2 Kaizen RFT",
+            url: "/kaizen/kaizen-rft/kaizen-rft-list",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasKaizen = true;
+          navItemKaizen.children.push(children);
+        }
       });
 
       if (this.hasMaintain) {

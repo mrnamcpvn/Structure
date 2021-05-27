@@ -102,7 +102,6 @@ namespace SmartTool_API.Controllers
                     base64 = base64.Trim('\0');
                     fileName = factory + "_" + kaizenDTO.model_no + "_" + kaizenDTO.serial_no + "_" + "Before" + ".jpg";
                 }
-
                 byte[] KaizenData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
                 {
@@ -116,6 +115,7 @@ namespace SmartTool_API.Controllers
             {
                 kaizenDTO.before_media = "";
             }
+
             if (kaizenDTO.after_media != null)
             {
                 var source = kaizenDTO.after_media;

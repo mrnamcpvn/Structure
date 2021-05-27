@@ -8,11 +8,11 @@ import { KaizenService } from "../../../../_core/_services/kaizen.service";
 import { FunctionUtility } from "../../../../_core/_utility/function-utility";
 
 @Component({
-  selector: "app-kaizen-edit",
-  templateUrl: "./kaizen-edit.component.html",
-  styleUrls: ["./kaizen-edit.component.scss"],
+  selector: "app-kaizen-rft-edit",
+  templateUrl: "./kaizen-rft-edit.component.html",
+  styleUrls: ["./kaizen-rft-edit.component.scss"],
 })
-export class KaizenEditComponent implements OnInit {
+export class KaizenRftEditComponent implements OnInit {
   _modelNo: string = "";
   modelName: string = "";
   dataKaizen: any = {};
@@ -122,7 +122,7 @@ export class KaizenEditComponent implements OnInit {
       (res) => {
         if (res.success) {
           this.alertify.success(res.message);
-          this.router.navigate(["/kaizen/kaizen/kaizen-list"]);
+          this.router.navigate(["/kaizen/kaizen/kaizen-edit"]);
         }
       },
       (error) => {

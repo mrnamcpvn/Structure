@@ -7,7 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-  using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
+using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTO;
@@ -27,13 +27,13 @@ namespace SmartTool_API._Services.Services
         private readonly MapperConfiguration _configMapper;
         private string factory;
 
-        public RFTService(  IStageRepository iStageRepo, 
-                            IMeasurement_RFTRepository iMeasurementRepo, 
-                            IModelOperationRepository iModelOperaRepo, 
-                            IModelRepository iModelRepo, IMapper mapper, 
-                            MapperConfiguration configMapper, 
-                            IConfiguration configuration, 
-                            IProcessTypeRepository repoProcessType, 
+        public RFTService(IStageRepository iStageRepo,
+                            IMeasurement_RFTRepository iMeasurementRepo,
+                            IModelOperationRepository iModelOperaRepo,
+                            IModelRepository iModelRepo, IMapper mapper,
+                            MapperConfiguration configMapper,
+                            IConfiguration configuration,
+                            IProcessTypeRepository repoProcessType,
                             IDefectReasonRepository iDefectReasonRepo)
         {
             _iStageRepo = iStageRepo;
@@ -47,33 +47,36 @@ namespace SmartTool_API._Services.Services
             _repoProcessType = repoProcessType;
         }
 
-        public async Task<object> GetAllModel() {
+        public async Task<object> GetAllModel()
+        {
             return await _iModelRepo.FindAll(x => x.factory_id == factory && x.is_active)
                                             .OrderByDescending(x => x.prod_season).OrderByDescending(x => x.volume)
                                             .Select(x => new { x.model_no, x.model_name, x.upper_id })
                                             .Distinct().ToListAsync();
         }
 
-        public async Task<object> GetAllStage() {
-            var model =  _iStageRepo.FindAll(x => x.factory_id == factory && x.is_active)
+        public async Task<object> GetAllStage()
+        {
+            var model = _iStageRepo.FindAll(x => x.factory_id == factory && x.is_active)
                                             .Select(x => new { x.stage_id, x.stage_name, x.sequence })
                                             .Distinct();
-            var model2 =   await model.OrderBy(x => x.sequence).ToListAsync();                        
+            var model2 = await model.OrderBy(x => x.sequence).ToListAsync();
             return model2;
         }
 
-        public async Task<object> GetAllProcessType(string modelNo, string stage) {
+        public async Task<object> GetAllProcessType(string modelNo, string stage)
+        {
             var MOp = _iModelOperaRepo.FindAll(x => x.critical_quality && x.factory_id == factory && x.model_no == modelNo && x.stage_id == stage);
             var MRFT = _iMeasurementRepo.FindAll(x => x.factory_id == factory && x.model_no == modelNo && x.stage_id == stage);
             var process = _repoProcessType.FindAll(x => x.factory_id == factory && x.is_active);
 
-            var oprationdata = await (  from T1 in MOp
-                                        join T2 in MRFT on new { Factory = T1.factory_id, model_no = T1.model_no, stage_id = T1.stage_id, operation_id = T1.operation_id }
-                                        equals new { Factory = T2.factory_id, model_no = T2.model_no, stage_id = T2.stage_id, operation_id = T2.operation_id }
-                                        into groupjoin
-                                        from a in groupjoin.DefaultIfEmpty()
-                                        orderby T1.sequence
-                                        select new { t2op = a.operation_id })
+            var oprationdata = await (from T1 in MOp
+                                      join T2 in MRFT on new { Factory = T1.factory_id, model_no = T1.model_no, stage_id = T1.stage_id, operation_id = T1.operation_id }
+                                      equals new { Factory = T2.factory_id, model_no = T2.model_no, stage_id = T2.stage_id, operation_id = T2.operation_id }
+                                      into groupjoin
+                                      from a in groupjoin.DefaultIfEmpty()
+                                      orderby T1.sequence
+                                      select new { t2op = a.operation_id })
                                         .Where(x => x.t2op == null).ToListAsync();
             if (oprationdata.Count == 0) // �L��ƪ�^0
             {
@@ -82,11 +85,11 @@ namespace SmartTool_API._Services.Services
             else // ��^process���
             {
                 var prodata = await (from T1 in MOp
-                                join T2 in process on new { Factory = T1.factory_id, process_type_id = T1.process_type_id }
-                                equals new { Factory = T2.factory_id, process_type_id = T2.process_type_id }
-                                into groupjoin
-                                from a in groupjoin.DefaultIfEmpty()
-                                select new { T1.process_type_id, a.process_type_name_local })
+                                     join T2 in process on new { Factory = T1.factory_id, process_type_id = T1.process_type_id }
+                                     equals new { Factory = T2.factory_id, process_type_id = T2.process_type_id }
+                                     into groupjoin
+                                     from a in groupjoin.DefaultIfEmpty()
+                                     select new { T1.process_type_id, a.process_type_name_local })
                                 .Distinct().ToListAsync();
                 return prodata;
             }
@@ -95,42 +98,45 @@ namespace SmartTool_API._Services.Services
             //                               .Select(x => new { x.process_type_id, x.process_type_name_local }).Distinct().ToListAsync();
         }
 
-        public async Task<object> GetProcessNOperation(string modelno, string stage, string operation) {
+        public async Task<object> GetProcessNOperation(string modelno, string stage, string operation)
+        {
             var MOp = _iModelOperaRepo.FindAll(x => x.critical_quality && x.factory_id == factory && x.model_no == modelno && x.stage_id == stage && x.operation_id == operation);
             var process = _repoProcessType.FindAll().Where(x => x.factory_id == factory && x.is_active);
             var data = await (from T1 in MOp
-                                join T2 in process on T1.process_type_id equals T2.process_type_id
-                                into groupjoin
-                                from B in groupjoin.DefaultIfEmpty()
-                                select new
-                                {
-                                    T1.operation_id,
-                                    T1.operation_name_local,
-                                    B.process_type_id,
-                                    B.process_type_name_local
-                                }).ToListAsync();
+                              join T2 in process on T1.process_type_id equals T2.process_type_id
+                              into groupjoin
+                              from B in groupjoin.DefaultIfEmpty()
+                              select new
+                              {
+                                  T1.operation_id,
+                                  T1.operation_name_local,
+                                  B.process_type_id,
+                                  B.process_type_name_local
+                              }).ToListAsync();
             return data;
         }
 
-        public async Task<object> GetAllDefectReason() {
+        public async Task<object> GetAllDefectReason()
+        {
             return await _iDefectReasonRepo.FindAll(x => x.factory_id == factory && x.is_active)
                 .OrderBy(x => x.sequence)
                 .Select(x => new { x.defect_reason_id, x.defect_reason_name })
                 .ToListAsync();
         }
 
-        public async Task<object> GetOperationName(string modelNo, string stage, string processtype) {
+        public async Task<object> GetOperationName(string modelNo, string stage, string processtype)
+        {
             var MOp = _iModelOperaRepo.FindAll(x => x.critical_quality && x.factory_id == factory && x.model_no == modelNo && x.stage_id == stage && x.process_type_id == processtype);
             var MRFT = _iMeasurementRepo.FindAll(x => x.factory_id == factory && x.model_no == modelNo && x.stage_id == stage);
 
             var data = await (from T1 in MOp
-                                join T2 in MRFT on new { Factory = T1.factory_id, model_no = T1.model_no, stage_id = T1.stage_id, operation_id = T1.operation_id }
-                                equals new { Factory = T2.factory_id, model_no = T2.model_no, stage_id = T2.stage_id, operation_id = T2.operation_id }
-                                into groupjoin
-                                from a in groupjoin.DefaultIfEmpty()
-                                    //where T2.operation_id == null
-                                orderby T1.sequence
-                                select new { T1.operation_id, T1.operation_name_local, t2op = a.operation_id })
+                              join T2 in MRFT on new { Factory = T1.factory_id, model_no = T1.model_no, stage_id = T1.stage_id, operation_id = T1.operation_id }
+                              equals new { Factory = T2.factory_id, model_no = T2.model_no, stage_id = T2.stage_id, operation_id = T2.operation_id }
+                              into groupjoin
+                              from a in groupjoin.DefaultIfEmpty()
+                                  //where T2.operation_id == null
+                              orderby T1.sequence
+                              select new { T1.operation_id, T1.operation_name_local, t2op = a.operation_id })
                                 .Where(x => x.t2op == null)
                                 .ToListAsync();
 
@@ -140,7 +146,8 @@ namespace SmartTool_API._Services.Services
             //    .Select(x => new { x.operation_id, x.operation_name_local }).ToListAsync();
         }
 
-        public async Task<PagedList<Measurement_RFTDTO>> Search(PaginationParams param, string modelNo, string stage) {
+        public async Task<PagedList<Measurement_RFTDTO>> Search(PaginationParams param, string modelNo, string stage)
+        {
             var queryMeasurement = _iMeasurementRepo.FindAll(x => x.factory_id == factory);
             var queryModelOpera = _iModelOperaRepo.FindAll();
             if (!String.IsNullOrEmpty(modelNo))
@@ -150,20 +157,22 @@ namespace SmartTool_API._Services.Services
                 queryMeasurement = queryMeasurement.Where(x => x.stage_id == stage);
 
             var dataGroup = queryMeasurement
-                .Join(queryModelOpera, 
-                        x => new { x.factory_id, x.model_no, x.operation_id }, 
+                .Join(queryModelOpera,
+                        x => new { x.factory_id, x.model_no, x.operation_id },
                         y => new { y.factory_id, y.model_no, y.operation_id }, (x, y) => x)
                         .ProjectTo<Measurement_RFTDTO>(_configMapper);
-            return await PagedList<Measurement_RFTDTO>.CreateAsync(dataGroup,param.PageNumber,param.PageSize);
+            return await PagedList<Measurement_RFTDTO>.CreateAsync(dataGroup, param.PageNumber, param.PageSize);
         }
 
-        public async Task<bool> Add(Measurement_RFTDTO model) {
+        public async Task<bool> Add(Measurement_RFTDTO model)
+        {
             var measurement = _mapper.Map<Measurement_RFT>(model);
             _iMeasurementRepo.Add(measurement);
             return await _iMeasurementRepo.SaveAll();
         }
 
-        public async Task<bool> Update(Measurement_RFTDTO model) {
+        public async Task<bool> Update(Measurement_RFTDTO model)
+        {
             var measurement = _mapper.Map<Measurement_RFT>(model);
             _iMeasurementRepo.Update(measurement);
             return await _iMeasurementRepo.SaveAll();

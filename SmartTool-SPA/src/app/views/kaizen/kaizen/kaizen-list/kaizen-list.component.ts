@@ -31,7 +31,7 @@ export class KaizenListComponent implements OnInit {
     private router: Router,
     private alertify: AlertifyService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getModelListNo();
