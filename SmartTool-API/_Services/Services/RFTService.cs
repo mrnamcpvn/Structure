@@ -78,11 +78,11 @@ namespace SmartTool_API._Services.Services
                                       orderby T1.sequence
                                       select new { t2op = a.operation_id })
                                         .Where(x => x.t2op == null).ToListAsync();
-            if (oprationdata.Count == 0) // �L��ƪ�^0
+            if (oprationdata.Count == 0)
             {
                 return oprationdata;
             }
-            else // ��^process���
+            else
             {
                 var prodata = await (from T1 in MOp
                                      join T2 in process on new { Factory = T1.factory_id, process_type_id = T1.process_type_id }
@@ -93,12 +93,8 @@ namespace SmartTool_API._Services.Services
                                 .Distinct().ToListAsync();
                 return prodata;
             }
-            //return await _repoProcessType.FindAll().Where(x => x.factory_id == factory && x.is_active)
-            //                                .OrderBy(x => x.sequence)
-            //                               .Select(x => new { x.process_type_id, x.process_type_name_local }).Distinct().ToListAsync();
         }
-
-        public async Task<object> GetProcessNOperation(string modelno, string stage, string operation)
+        public async Task<object> GetProcessOperation(string modelno, string stage, string operation)
         {
             var MOp = _iModelOperaRepo.FindAll(x => x.critical_quality && x.factory_id == factory && x.model_no == modelno && x.stage_id == stage && x.operation_id == operation);
             var process = _repoProcessType.FindAll().Where(x => x.factory_id == factory && x.is_active);
@@ -141,9 +137,6 @@ namespace SmartTool_API._Services.Services
                                 .ToListAsync();
 
             return data;
-            //return await _iModelOperaRepo.FindAll().Where(x => x.critical_quality && x.factory_id == factory && x.model_no == modelNo && x.stage_id == stage && x.process_type_id == processtype)
-            //    .OrderBy(x => x.sequence)
-            //    .Select(x => new { x.operation_id, x.operation_name_local }).ToListAsync();
         }
 
         public async Task<PagedList<Measurement_RFTDTO>> Search(PaginationParams param, string modelNo, string stage)

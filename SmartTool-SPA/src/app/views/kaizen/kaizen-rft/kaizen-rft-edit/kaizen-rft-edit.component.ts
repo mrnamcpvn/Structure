@@ -122,7 +122,7 @@ export class KaizenRftEditComponent implements OnInit {
       (res) => {
         if (res.success) {
           this.alertify.success(res.message);
-          this.router.navigate(["/kaizen/kaizen/kaizen-edit"]);
+          this.router.navigate(["/kaizen/kaizen/kaizen-list"]);
         }
       },
       (error) => {

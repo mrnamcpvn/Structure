@@ -6,6 +6,6 @@ namespace SmartTool_API._Repositories.Interfaces
 {
     public interface IMeasurement_RFTRepository : IMainRepository<Measurement_RFT>
     {
-            Task<bool> CheckExistsRTF(ModelOperationDTO operation);
+        Task<bool> CheckExistsRTF(ModelOperationDTO operation);
     }
 }

@@ -18,7 +18,7 @@ namespace SmartTool_API._Services.Interfaces
 
         Task<object> GetAllProcessType(string modelNo, string stage);
 
-        Task<object> GetProcessNOperation(string modelno,string stage,string operation);
+        Task<object> GetProcessOperation(string modelno, string stage, string operation);
 
         Task<object> GetAllDefectReason();
 
