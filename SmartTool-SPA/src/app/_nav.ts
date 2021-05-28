@@ -10,6 +10,7 @@ export class NavItem {
   navItems: INavData[] = [];
   hasMaintain: boolean;
   hasKaizen: boolean;
+  hasMeasurement: boolean;
   contructor() {}
 
   getNav(user: any) {
@@ -29,6 +30,13 @@ export class NavItem {
       name: "2. KAIZEN",
       url: "kaizen",
       icon: "cil-chart-pie",
+      children: [],
+    };
+    //////////
+    const navItemMeasurement = {
+      name: "3. MEASUREMENT",
+      url: "measurement",
+      icon: "icon-grid",
       children: [],
     };
 
@@ -95,6 +103,17 @@ export class NavItem {
           this.hasKaizen = true;
           navItemKaizen.children.push(children);
         }
+        /////////////////////////////////
+        if (element == "ksmt.RFT") {
+          const children = {
+            name: "RFT",
+            url: "/measurement/list",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasMeasurement = true;
+          navItemMeasurement.children.push(children);
+        }
       });
 
       if (this.hasMaintain) {
@@ -102,6 +121,9 @@ export class NavItem {
       }
       if (this.hasKaizen) {
         this.navItems.push(navItemKaizen);
+      }
+      if (this.hasMeasurement) {
+        this.navItems.push(navItemMeasurement);
       }
     }
     return this.navItems;

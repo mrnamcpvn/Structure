@@ -29,7 +29,7 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllMeasure([FromBody] PaginationParams param, string modelNo, string stage)
+        public async Task<IActionResult> GetAllMeasure([FromQuery] PaginationParams param, string modelNo, string stage)
         {
             var lists = await _iRFTService.Search(param, modelNo, stage);
             Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
@@ -71,7 +71,7 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetAllStage() => Ok(await _iRFTService.GetAllStage());
 
         [HttpPost("Edit")]
-        public async Task<IActionResult> UpdateRFT([FromBody] Measurement_RFTDTO measurement_RFTDTO)
+        public async Task<IActionResult> UpdateRFT(Measurement_RFTDTO measurement_RFTDTO)
         {
             measurement_RFTDTO.update_by = GetUserClaim();
             measurement_RFTDTO.update_time = DateTime.Now;

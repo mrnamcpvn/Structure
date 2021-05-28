@@ -75,6 +75,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import("./views/kaizen/kaizen.module").then((m) => m.KaizenModule),
       },
+      {
+        canActivate: [AuthGuard],
+        runGuardsAndResolvers: "always",
+        path: "measurement",
+        loadChildren: () =>
+          import("./views/measurement/rft.module").then((m) => m.RftModule),
+      },
     ],
   },
   { path: "**", component: P404Component },

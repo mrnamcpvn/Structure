@@ -1,6 +1,6 @@
 {
   "compileOnSave": false,
-  "formatOnSave" : true,
+  "formatOnSave": true,
   "compilerOptions": {
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
@@ -11,12 +11,7 @@
     "experimentalDecorators": true,
     "module": "es2020",
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "esnext",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["esnext", "dom"]
   }
 }
