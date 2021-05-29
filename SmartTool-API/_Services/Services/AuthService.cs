@@ -1,9 +1,10 @@
 using System.Linq;
 using System.Threading.Tasks;
-  using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
+using SmartTool_API._Repositories.Interfaces;
+using SmartTool_API.Data;
 using SmartTool_API.Models;
 using SmartTool_API._Services.Interfaces;
-  
+
 using Microsoft.EntityFrameworkCore;
 using SmartTool_API.DTO;
 
@@ -14,8 +15,8 @@ namespace SmartTool_API._Services.Services
         private readonly IUserRepository _repoUsers;
         private readonly IRoleRepository _repoRoles;
         private readonly IRoleUserRepository _repoRoleUser;
-        public AuthService( IUserRepository repoUsers, 
-                            IRoleRepository repoRoles, 
+        public AuthService(IUserRepository repoUsers,
+                            IRoleRepository repoRoles,
                             IRoleUserRepository repoRoleUser)
         {
             _repoRoleUser = repoRoleUser;

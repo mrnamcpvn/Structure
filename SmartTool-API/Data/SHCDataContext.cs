@@ -1,11 +1,19 @@
-using Microsoft.EntityFrameworkCore;
 using SmartTool_API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartTool_API.Data
 {
     public partial class SHCDataContext : DbContext
     {
-        public SHCDataContext(DbContextOptions<SHCDataContext> options) : base(options) { }
+        public SHCDataContext()
+        {
+        }
+
+        public SHCDataContext(DbContextOptions<SHCDataContext> options)
+            : base(options)
+        {
+        }
+
         public virtual DbSet<Defect_Reason> Defect_Reason { get; set; }
         public virtual DbSet<Efficiency> Efficiency { get; set; }
         public virtual DbSet<Factory> Factory { get; set; }
@@ -20,7 +28,14 @@ namespace SmartTool_API.Data
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<VW_ModelKaizen> VW_ModelKaizen { get; set; }
+        public virtual DbSet<VW_RFTReportDetail> VW_RFTReportDetail { get; set; }
+        public virtual DbSet<VW_RFT_AVG> VW_RFT_AVG { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CS_AS");
@@ -84,8 +99,27 @@ namespace SmartTool_API.Data
                 entity.HasKey(e => new { e.factory_id, e.stage_id });
             });
 
+            modelBuilder.Entity<VW_ModelKaizen>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("VW_ModelKaizen");
+            });
+
+            modelBuilder.Entity<VW_RFTReportDetail>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("VW_RFTReportDetail");
+            });
+
+            modelBuilder.Entity<VW_RFT_AVG>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("VW_RFT_AVG");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

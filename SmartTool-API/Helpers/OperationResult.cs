@@ -8,7 +8,7 @@ namespace SmartTool_API.Helpers
 
         public OperationResult()
         {
-            
+
         }
     }
 }

@@ -23,7 +23,6 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API._Services.Services;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers.AutoMapper;
-using SmartTooli_API._Services.Services;
 
 namespace SmartTool_API
 {
@@ -69,6 +68,9 @@ namespace SmartTool_API
             services.AddScoped<IStageRepository, StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
             services.AddScoped<IKaizenBenefitsApplicationFormRepository, KaizenBenefitsApplicationFormRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
 
             //Services
             services.AddScoped<IAuthService, AuthService>();
@@ -81,7 +83,7 @@ namespace SmartTool_API
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddScoped<IKaizenService, KaizenService>();
             services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
-
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
                         {

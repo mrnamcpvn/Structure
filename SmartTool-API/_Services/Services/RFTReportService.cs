@@ -5,15 +5,11 @@ using System.Threading.Tasks;
 using LinqKit;
 using AutoMapper;
 using SmartTool_API._Services.Interfaces;
-
-
-
 using Microsoft.EntityFrameworkCore;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Data;
 using SmartTool_API.Models;
 using Microsoft.Extensions.Configuration;
-using SmartTooling_API.Helpers;
 using SmartTool_API.Helpers;
 
 namespace SmartTool_API._Services.Services
@@ -28,8 +24,8 @@ namespace SmartTool_API._Services.Services
         private readonly IConfiguration _configuration;
 
         public RFTReportService(IModelRepository repoModel,
-                                // IViewRFTReportDetailRepository rftreportdetailRepository, 
-                                // IViewRFTAVGRepository repoViewRFTAVG, 
+                                // IViewRFTReportDetailRepository rftreportdetailRepository,
+                                // IViewRFTAVGRepository repoViewRFTAVG,
                                 IMapper mapper,
                                 MapperConfiguration configMapper,
                                 IConfiguration configuration)

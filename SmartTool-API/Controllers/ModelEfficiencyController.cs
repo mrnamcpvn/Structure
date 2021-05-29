@@ -11,42 +11,45 @@ namespace SmartTool_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-  public class ModelEfficiencyController : ControllerBase
-  {
-    private readonly IModelEfficiencyService _modelEfficiencyService;
-    private readonly IConfiguration _configuration;
-    private string factory;
-    private string username;
-
-    public ModelEfficiencyController(IModelEfficiencyService modelEfficiencyService, IConfiguration configuration)
+    public class ModelEfficiencyController : ControllerBase
     {
-        _modelEfficiencyService = modelEfficiencyService;
-        _configuration = configuration;
-        factory = configuration.GetSection("AppSettings:Factory").Value;
-    }
-    private string GetUserClaim(){
-        return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-    }
+        private readonly IModelEfficiencyService _modelEfficiencyService;
+        private readonly IConfiguration _configuration;
+        private string factory;
+        private string username;
 
-    [HttpGet("upperId")]
-    public async Task<IActionResult> GetAllProcessType() => Ok(await _modelEfficiencyService.GetAllUpperID());
+        public ModelEfficiencyController(IModelEfficiencyService modelEfficiencyService, IConfiguration configuration)
+        {
+            _modelEfficiencyService = modelEfficiencyService;
+            _configuration = configuration;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
+        }
+        private string GetUserClaim()
+        {
+            return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
 
-    [HttpGet("modelName")]
-    public async Task<IActionResult> GetModelName(string upperId) => Ok(await _modelEfficiencyService.GetModelName(upperId , factory));
+        [HttpGet("upperId")]
+        public async Task<IActionResult> GetAllProcessType() => Ok(await _modelEfficiencyService.GetAllUpperID());
 
-    [HttpPost("getModelEfficiency")]
-    public async Task<IActionResult> GetModelEfficiency(ModelEfficiencyEditParam modelEfficiencyEditPram){
-       modelEfficiencyEditPram.factory = factory;
-       var listEfficiency = await _modelEfficiencyService.ModelEfficiencyEdit(modelEfficiencyEditPram);
-       return Ok(listEfficiency);
+        [HttpGet("modelName")]
+        public async Task<IActionResult> GetModelName(string upperId) => Ok(await _modelEfficiencyService.GetModelName(upperId, factory));
+
+        [HttpPost("getModelEfficiency")]
+        public async Task<IActionResult> GetModelEfficiency(ModelEfficiencyEditParam modelEfficiencyEditPram)
+        {
+            modelEfficiencyEditPram.factory = factory;
+            var listEfficiency = await _modelEfficiencyService.ModelEfficiencyEdit(modelEfficiencyEditPram);
+            return Ok(listEfficiency);
+        }
+
+        [HttpPost("updateModelEfficiency")]
+        public async Task<IActionResult> UpdateModelEfficiency(List<ModelEfficiencyDTO> modelEfficiencyDTO)
+        {
+            var username = GetUserClaim();
+            if (await _modelEfficiencyService.UpdateOrInsert(modelEfficiencyDTO, factory, username))
+                return NoContent();
+            return BadRequest("Updating Model efficiency failed on save !");
+        }
     }
-
-   [HttpPost("updateModelEfficiency")]
-    public async Task<IActionResult> UpdateModelEfficiency(List<ModelEfficiencyDTO> modelEfficiencyDTO){
-       var username = GetUserClaim();
-       if(await _modelEfficiencyService.UpdateOrInsert(modelEfficiencyDTO, factory, username))
-          return NoContent();
-       return BadRequest("Updating Model efficiency failed on save !");
-    }
-  }
 }

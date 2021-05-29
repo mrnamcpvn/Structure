@@ -6,7 +6,7 @@ using AutoMapper;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-  using SmartTool_API._Repositories.Interfaces; using SmartTool_API.Data;
+using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.Helpers;
@@ -14,14 +14,14 @@ using SmartTool_API.DTO;
 
 namespace SmartTool_API._Services.Services
 {
-    public class ModelEfficiencyService: IModelEfficiencyService
+    public class ModelEfficiencyService : IModelEfficiencyService
     {
         private readonly IEfficiencyRepository _repoModelEficiency;
         private readonly IModelRepository _repoModel;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
         private string factory;
-        public ModelEfficiencyService(  IEfficiencyRepository repoModelEficiency,
+        public ModelEfficiencyService(IEfficiencyRepository repoModelEficiency,
                                         IModelRepository repoModel,
                                         IMapper mapper,
                                         MapperConfiguration configMapper,
@@ -48,9 +48,11 @@ namespace SmartTool_API._Services.Services
                 modelEfficiency.update_time = DateTime.Now;
                 modelEfficiency.update_by = username;
                 modelEfficiency.factory_id = factory;
-                if(await CheckExist(effParam)){
+                if (await CheckExist(effParam))
+                {
                     _repoModelEficiency.Update(modelEfficiency);
-                }else
+                }
+                else
                 {
                     modelEfficiency.create_time = DateTime.Now;
                     modelEfficiency.create_by = username;
@@ -72,7 +74,7 @@ namespace SmartTool_API._Services.Services
             return await _repoModel.FindAll(x => x.factory_id.Trim() == factory &&
                                             x.upper_id.Trim() == upperId.Trim())
                                             .OrderBy(x => x.model_name)
-                                            .Select(x => new {Name = x.model_name})
+                                            .Select(x => new { Name = x.model_name })
                                             .Distinct().ToListAsync();
         }
         public async Task<List<ModelEfficiencyDTO>> ModelEfficiencyEdit(ModelEfficiencyEditParam modelParam)

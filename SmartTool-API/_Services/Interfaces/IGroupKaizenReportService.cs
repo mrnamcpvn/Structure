@@ -3,14 +3,12 @@ using System.Threading.Tasks;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
 using SmartTool_API.Models;
-using SmartTooling_API.Helpers;
-
 namespace SmartTool_API._Services.Interfaces
 {
     public interface IGroupKaizenReportService
     {
         Task<List<Factory>> GetAllFactory();
-        Task<PagedList<Model>> Search(PaginationParams param,KaizenReportGroupParam filterParam);
+        Task<PagedList<Model>> Search(PaginationParams param, KaizenReportGroupParam filterParam);
         Task<Model> GetModelByModelNo(string factory_id, string model_No);
         Task<List<string>> GetSeasonByUpper(string factory_id, string upper_id);
 

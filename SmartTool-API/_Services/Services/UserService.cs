@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-  using SmartTool_API._Repositories.Interfaces;
+using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.Helpers;
@@ -22,7 +22,7 @@ namespace SmartTool_API._Services.Services
         private readonly IRoleUserRepository _roleUserRepository;
         private OperationResult operationResult;
 
-        public UserService( IUserRepository userRepository,
+        public UserService(IUserRepository userRepository,
                             IMapper mapper,
                             MapperConfiguration configMapper,
                             IRoleRepository roleRepository,
@@ -50,7 +50,7 @@ namespace SmartTool_API._Services.Services
             var currentUser = _userRepository.FindSingle(x => x.account == user.Account);
             if (currentUser.password != user.OldPassword)
             {
-               return operationResult = new OperationResult { Caption = "Fail", Message = "Current Pasword not match", Success = false };
+                return operationResult = new OperationResult { Caption = "Fail", Message = "Current Pasword not match", Success = false };
             }
             else
             {
@@ -110,12 +110,12 @@ namespace SmartTool_API._Services.Services
             var roleByUserHad = await _roleUserRepository.FindAll(x => x.user_account == account).ToListAsync();
             _roleUserRepository.RemoveMultiple(roleByUserHad);
             var roleByUserNew = roles.Select(x => new RoleUserDTO
-                                            {
-                                                create_by = updateBy,
-                                                create_time = timeNow,
-                                                role_unique = x.role_unique,
-                                                user_account = account
-                                            }).ToList();
+            {
+                create_by = updateBy,
+                create_time = timeNow,
+                role_unique = x.role_unique,
+                user_account = account
+            }).ToList();
             var roleByUserNewMap = _mapper.Map<List<RoleUser>>(roleByUserNew);
             _roleUserRepository.AddMultiple(roleByUserNewMap);
             return await _roleUserRepository.SaveAll();

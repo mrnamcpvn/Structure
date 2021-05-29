@@ -16,7 +16,7 @@ using SmartTool_API.Helpers;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 
-namespace SmartTooli_API._Services.Services
+namespace SmartTool_API._Services.Services
 {
     public class ModelOperationService : IModelOperationService
     {
@@ -29,10 +29,10 @@ namespace SmartTooli_API._Services.Services
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
         private string factory;
-        public ModelOperationService(   IModelOperationRepository repoModelOperation,
-                                        IMapper mapper, 
+        public ModelOperationService(IModelOperationRepository repoModelOperation,
+                                        IMapper mapper,
                                         MapperConfiguration configMapper,
-                                        IModelRepository repoModel, 
+                                        IModelRepository repoModel,
                                         IStageRepository repoStage,
                                         IProcessTypeRepository repoProcessType,
                                         IKaizenRepository repoKaizen,
@@ -113,9 +113,12 @@ namespace SmartTooli_API._Services.Services
         }
         public async Task<bool> Delete(ModelOperationDTO operation)
         {
-            if(await CheckExistKaizenAndRTF(operation)) {
+            if (await CheckExistKaizenAndRTF(operation))
+            {
                 return false;
-            } else {
+            }
+            else
+            {
                 var modelOperation = _mapper.Map<Model_Operation>(operation);
                 _repoModelOperation.Remove(modelOperation);
                 return await _repoModelOperation.SaveAll();
@@ -124,7 +127,7 @@ namespace SmartTooli_API._Services.Services
         public async Task<object> GetAllProcessType()
         {
             return await _repoProcessType.FindAll(x => x.factory_id.Trim() == factory && x.is_active == true)
-            .Select(x => new { x.process_type_id, x.process_type_name_en, x.sequence}).Distinct().OrderBy(x => x.sequence).ToListAsync();
+            .Select(x => new { x.process_type_id, x.process_type_name_en, x.sequence }).Distinct().OrderBy(x => x.sequence).ToListAsync();
         }
 
         public async Task<ModelOperationDTO> GetModelOperation(ModelOperationEditParam modelOperationEditParam)
@@ -136,7 +139,7 @@ namespace SmartTooli_API._Services.Services
 
         public async Task<bool> CheckExistKaizenAndRTF(ModelOperationDTO operation)
         {
-            if(await _repoKaizen.CheckExistsKaizen(operation) || await _repoMeasurement.CheckExistsRTF(operation))
+            if (await _repoKaizen.CheckExistsKaizen(operation) || await _repoMeasurement.CheckExistsRTF(operation))
                 return true;
             return false;
         }

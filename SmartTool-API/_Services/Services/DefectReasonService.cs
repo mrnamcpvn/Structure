@@ -7,11 +7,10 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartTool_API._Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-  using SmartTool_API._Repositories.Interfaces;
+using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
 using SmartTool_API.DTO;
 using SmartTool_API.Helpers;
-using SmartTooling_API.Helpers;
 
 namespace SmartTool_API._Services.Services
 {
@@ -21,9 +20,10 @@ namespace SmartTool_API._Services.Services
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configMapper;
 
-        public DefectReasonService( IDefectReasonRepository defectReasonRepository, 
-                                    IMapper mapper, 
-                                    MapperConfiguration configMapper) {
+        public DefectReasonService(IDefectReasonRepository defectReasonRepository,
+                                    IMapper mapper,
+                                    MapperConfiguration configMapper)
+        {
             _configMapper = configMapper;
             _mapper = mapper;
             _defectReason = defectReasonRepository;

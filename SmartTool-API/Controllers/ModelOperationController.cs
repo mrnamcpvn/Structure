@@ -17,14 +17,15 @@ namespace SmartTool_API.Controllers
         private readonly IRFTService _iRFTService;
         private string username;
         private string factory;
-        public ModelOperationController(IModelOperationService ModelOperationService, IRFTService iRFTService,  IConfiguration configuration)
+        public ModelOperationController(IModelOperationService ModelOperationService, IRFTService iRFTService, IConfiguration configuration)
         {
             _iRFTService = iRFTService;
             _modelOperationService = ModelOperationService;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        private string GetUserClaim() {
+        private string GetUserClaim()
+        {
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 

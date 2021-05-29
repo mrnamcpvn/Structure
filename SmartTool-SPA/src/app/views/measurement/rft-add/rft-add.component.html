@@ -95,7 +95,7 @@
               >
               <div class="col-md-3">
                 <ng-select2
-                  [data]="operationnameTypeList"
+                  [data]="operationNameTypeList"
                   [(ngModel)]="operation"
                   width="100%"
                   name="operation_name"
@@ -146,7 +146,7 @@
               <div class="col-md-3">
                 <ng-select2
                   width="100%"
-                  [data]="defectreasonTypeList"
+                  [data]="defectReasonTypeList"
                   [(ngModel)]="rft.defect_reason_id"
                   name="defect_reason_id"
                   placeholder="Select"
@@ -162,7 +162,7 @@
                 <input
                   type="number"
                   name="rft_percent"
-                  [value]="rftpercent"
+                  [value]="rftPercent"
                   disabled
                   class="form-control"
                   required
