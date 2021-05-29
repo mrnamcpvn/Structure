@@ -11,6 +11,7 @@ export class NavItem {
   hasMaintain: boolean;
   hasKaizen: boolean;
   hasMeasurement: boolean;
+  hasReport: boolean;
   contructor() {}
 
   getNav(user: any) {
@@ -18,6 +19,7 @@ export class NavItem {
     this.navItems = [];
     this.hasMaintain = false;
     this.hasKaizen = false;
+    this.hasReport = false;
 
     const navItemMaintain = {
       name: "1. MAINTAIN",
@@ -39,7 +41,13 @@ export class NavItem {
       icon: "icon-grid",
       children: [],
     };
-
+    ///////////
+    const navItemReport = {
+      name: "4. REPORT",
+      url: "report",
+      icon: "icon-grid",
+      children: [],
+    };
     if (user != null) {
       user.role.forEach((element) => {
         if (element == "ksmt.Model") {
@@ -114,6 +122,57 @@ export class NavItem {
           this.hasMeasurement = true;
           navItemMeasurement.children.push(children);
         }
+        ///////////////////////////////
+        if (element === "ksmt.KaizenReport") {
+          const children = {
+            name: "4.1 Kaizen Report",
+            url: "/report/kaizen-report/main",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navItemReport.children.push(children);
+        }
+        if (element == "ksmt.GroupKaizenReport") {
+          const children = {
+            name: "4.2 Group Kaizen Report",
+            url: "/report/group-kaizen-report/main",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navItemReport.children.push(children);
+        }
+        if (element == "ksmt.RFTReport") {
+          const children = {
+            name: "4.3 RFT Report",
+            url: "/report/rft-report/main",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navItemReport.children.push(children);
+        }
+        if (element == "ksmt.GroupRFTReport") {
+          const children = {
+            name: "4.4 Group RFT Report",
+            url: "/report/group-rft-report/main",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navItemReport.children.push(children);
+        }
+        if (element == "ksmt.CrossSiteSharingApplication") {
+          const children = {
+            name: "4.5 Cross Site Sharing Application",
+            url: "/report/cross-site-sharing-application/main",
+            icon: "cil-hand-point-right",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navItemReport.children.push(children);
+        }
       });
 
       if (this.hasMaintain) {
@@ -124,6 +183,9 @@ export class NavItem {
       }
       if (this.hasMeasurement) {
         this.navItems.push(navItemMeasurement);
+      }
+      if (this.hasReport) {
+        this.navItems.push(navItemReport);
       }
     }
     return this.navItems;

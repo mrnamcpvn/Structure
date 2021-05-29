@@ -82,6 +82,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import("./views/measurement/rft.module").then((m) => m.RftModule),
       },
+      {
+        canActivate: [AuthGuard],
+        runGuardsAndResolvers: "always",
+        path: "report",
+        loadChildren: () =>
+          import("./views/report/report.module").then((m) => m.ReportModule),
+      },
     ],
   },
   { path: "**", component: P404Component },
