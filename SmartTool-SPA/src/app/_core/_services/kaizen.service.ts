@@ -65,6 +65,11 @@ export class KaizenService {
     this.modelNoSource.next(model_no);
     this.modelNameSource.next(model_name);
   }
+  getKaizenDetail(model_no: string, serial_no: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "kaizenReport/getKaizenDetail", {
+      params: { model_no: model_no, serial_no: serial_no },
+    });
+  }
   getDataStage() {
     return this.http.get<any>(this.baseUrl + "kaizen/getstage");
   }

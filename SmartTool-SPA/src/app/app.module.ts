@@ -32,16 +32,16 @@ import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { LoginComponent } from "./views/login/login.component";
 import { RegisterComponent } from "./views/register/register.component";
+import { CrossSiteSharingModule } from "./views/report/cross-site-sharing/cross-site-sharing.module";
+import { GroupKaizenReportModule } from "./views/report/group-kaizen-report/group-kaizen-report.module";
+import { GroupRftReportModule } from "./views/report/group-rft-report/group-rft-report.module";
+import { KaizenReportModule } from "./views/report/kaizen-report/kaizen-report.module";
+import { RftReportModule } from "./views/report/rft-report/rft-report.module";
 import { AuthGuard } from "./_core/_guards/auth.guard";
 import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
 import { ModelResolver } from "./_core/_resolvers/model.resolver";
 import { AlertifyService } from "./_core/_services/alertify.service";
 import { AuthService } from "./_core/_services/auth.service";
-import { CrossSiteSharingModule } from './views/report/cross-site-sharing/cross-site-sharing.module';
-import { KaizenReportModule } from './views/report/kaizen-report/kaizen-report.module';
-import { RftReportModule } from './views/report/rft-report/rft-report.module';
-import { GroupRftReportModule } from './views/report/group-rft-report/group-rft-report.module';
-import { GroupKaizenReportModule } from './views/report/group-kaizen-report/group-kaizen-report.module';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
