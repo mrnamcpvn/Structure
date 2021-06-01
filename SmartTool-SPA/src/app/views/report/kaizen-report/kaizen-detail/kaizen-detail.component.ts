@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../../../../environments/environment";
-import { KaizenService } from "../../../../_core/_services/kaizen.service";
+import { KaizenReportService } from "../../../../_core/_services/kaizen-report.service";
 import { FunctionUtility } from "../../../../_core/_utility/function-utility";
 
 @Component({
@@ -18,13 +18,13 @@ export class KaizenDetailComponent implements OnInit {
   isMediaBefore: string = "";
   isMediaAfter: string = "";
   constructor(
-    private readonly kaizenService: KaizenService,
+    private readonly kaizenReportService: KaizenReportService,
     private readonly router: Router,
     private readonly utility: FunctionUtility
   ) {}
 
   ngOnInit() {
-    this.kaizenService.currentKaizen.subscribe((res) => {
+    this.kaizenReportService.currentKaizen.subscribe((res) => {
       this.kaizen = res;
     });
     if (this.kaizen !== null) {
@@ -35,7 +35,7 @@ export class KaizenDetailComponent implements OnInit {
   }
 
   getKaizenDetail() {
-    this.kaizenService
+    this.kaizenReportService
       .getKaizenDetail(this.kaizen.model_no, this.kaizen.serial_no)
       .subscribe((res) => {
         this.kaizenDetail = res;

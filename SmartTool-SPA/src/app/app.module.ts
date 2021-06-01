@@ -13,6 +13,7 @@ import {
   AppSidebarModule,
 } from "@coreui/angular";
 import { IconSetService } from "@coreui/icons-angular";
+import { HighchartsChartModule } from "highcharts-angular";
 import { ChartsModule } from "ng2-charts";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ModalModule } from "ngx-bootstrap/modal";
@@ -32,11 +33,6 @@ import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { LoginComponent } from "./views/login/login.component";
 import { RegisterComponent } from "./views/register/register.component";
-import { CrossSiteSharingModule } from "./views/report/cross-site-sharing/cross-site-sharing.module";
-import { GroupKaizenReportModule } from "./views/report/group-kaizen-report/group-kaizen-report.module";
-import { GroupRftReportModule } from "./views/report/group-rft-report/group-rft-report.module";
-import { KaizenReportModule } from "./views/report/kaizen-report/kaizen-report.module";
-import { RftReportModule } from "./views/report/rft-report/rft-report.module";
 import { AuthGuard } from "./_core/_guards/auth.guard";
 import { ModelEditResolver } from "./_core/_resolvers/model-edit.resolver";
 import { ModelResolver } from "./_core/_resolvers/model.resolver";
@@ -70,6 +66,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ChartsModule,
+    HighchartsChartModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -77,11 +74,6 @@ export function tokenGetter() {
         disallowedRoutes: ["localhost:5000/api/auth"],
       },
     }),
-    CrossSiteSharingModule,
-    KaizenReportModule,
-    RftReportModule,
-    GroupRftReportModule,
-    GroupKaizenReportModule,
   ],
   declarations: [
     AppComponent,

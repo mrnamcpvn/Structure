@@ -13,20 +13,16 @@ import { KaizenReportService } from "./../../../../_core/_services/kaizen-report
   styleUrls: ["./kaizen-list.component.scss"],
 })
 export class KaizenListComponent implements OnInit {
-  filterPram: any;
-  active: string = "all";
-  model_no: string = "";
+  filterParam: any;
   models: ModelKaizenReport[] = [];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 2,
+    itemsPerPage: 5,
     totalItems: 1,
     totalPages: 1,
   };
-  filterParam = {
-    model_No: this.model_no.toUpperCase(),
-    active: this.active,
-  };
+  model_no: string = "";
+  active: string = "all";
   constructor(
     private kaizenReportService: KaizenReportService,
     private router: Router,
@@ -38,6 +34,10 @@ export class KaizenListComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
+    this.filterParam = {
+      model_No: this.model_no.toUpperCase(),
+      active: this.active,
+    };
     this.kaizenReportService
       .search(
         this.pagination.currentPage,
@@ -72,6 +72,10 @@ export class KaizenListComponent implements OnInit {
     this.active = "all";
   }
   exportExcel() {
-    this.kaizenReportService.exportExcel(this.filterPram);
+    this.filterParam = {
+      model_No: this.model_no.toUpperCase(),
+      active: this.active,
+    };
+    this.kaizenReportService.exportExcel(this.filterParam);
   }
 }

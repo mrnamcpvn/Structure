@@ -9,7 +9,6 @@ import { Pagination } from "../../../../_core/_model/pagination";
 import { AlertifyService } from "../../../../_core/_services/alertify.service";
 import { KaizenReportService } from "../../../../_core/_services/kaizen-report.service";
 import { FunctionUtility } from "../../../../_core/_utility/function-utility";
-
 @Component({
   selector: "app-model-detail",
   templateUrl: "./model-detail.component.html",
@@ -70,6 +69,7 @@ export class ModelDetailComponent implements OnInit {
             100 *
               ((item.ct_before_sec - item.ct_after_sec) / item.ct_before_sec)
           );
+          console.log(item);
           return item;
         });
         this.pagination = res.pagination;
@@ -91,6 +91,7 @@ export class ModelDetailComponent implements OnInit {
     this.kaizenReportService.changeKaizen(model);
     this.router.navigate(["/report/kaizen-report/kaizen-detail"]);
   }
+  
   getDataChart() {
     this.kaizenReportService
       .getDataChart(this.model.upper_id, this.season)
@@ -191,6 +192,6 @@ export class ModelDetailComponent implements OnInit {
   }
 
   backForm() {
-    this.router.navigate(["/report/kaizen-report/model-detail"]);
+    this.router.navigate(["/report/kaizen-report/main"]);
   }
 }

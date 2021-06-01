@@ -30,7 +30,7 @@ export class KaizenReportService {
       params = params.append("pageSize", itemsPerPage);
     }
     return this.http
-      .post<any>(this.baseUrl + "kaizenReport/search/", text, {
+      .post<any>(this.baseUrl + "kaizenReport/Search/", text, {
         observe: "response",
         params,
       })
@@ -60,7 +60,7 @@ export class KaizenReportService {
       params = params.append("pageSize", itemsPerPage);
     }
     return this.http
-      .get<any>(this.baseUrl + "kaizenReport/getKaizens/" + text, {
+      .get<any>(this.baseUrl + "KaizenReport/GetKaizens/" + text, {
         observe: "response",
         params,
       })
@@ -79,7 +79,7 @@ export class KaizenReportService {
 
   exportExcel(param: any) {
     return this.http
-      .post(this.baseUrl + "kaizenreport/exportExcel", param, {
+      .post(this.baseUrl + "KaizenReport/ExportExcel", param, {
         responseType: "blob",
       })
       .subscribe((result: Blob) => {
@@ -115,26 +115,29 @@ export class KaizenReportService {
   }
   getSeasonByUpper(upperId: string): Observable<string[]> {
     return this.http.get<string[]>(
-      this.baseUrl + "kaizenreport/getSeason/" + upperId,
+      this.baseUrl + "kaizenreport/GetSeason/" + upperId,
       {}
     );
   }
   getDataChart(upper_id: string, season: string): Observable<Efficiency[]> {
     return this.http.get<Efficiency[]>(
-      this.baseUrl + "kaizenreport/getEfficiencys",
+      this.baseUrl + "kaizenreport/GetEfficiencys",
       { params: { upper_id: upper_id, season: season } }
     );
   }
 
   getKaizenDetail(model_no: string, serial_no: string): Observable<any> {
-    return this.http.get<any>(this.baseUrl + "kaizenReport/getKaizenDetail", {
-      params: { model_no: model_no, serial_no: serial_no },
+    return this.http.get<any>(this.baseUrl + "KaizenReport/GetKaizenDetail", {
+      params: {
+        model_no: model_no,
+        serial_no: serial_no,
+      },
     });
   }
 
   updateClickTimes(data: any) {
     return this.http.post(
-      this.baseUrl + "kaizenReport/updateClickTimes",
+      this.baseUrl + "KaizenReport/UpdateClickTimes",
       data,
       {}
     );
