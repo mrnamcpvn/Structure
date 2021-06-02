@@ -89,6 +89,12 @@ export const routes: Routes = [
         loadChildren: () =>
           import("./views/report/report.module").then((m) => m.ReportModule),
       },
+      {
+        canActivate: [AuthGuard],
+        path: "user",
+        loadChildren: () =>
+          import("./views/user/user.module").then((m) => m.UserModule),
+      },
     ],
   },
   { path: "**", component: P404Component },

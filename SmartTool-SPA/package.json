@@ -59,6 +59,7 @@
     "ng2-charts": "^2.4.2",
     "ngx-bootstrap": "^6.2.0",
     "ngx-perfect-scrollbar": "^10.1.0",
+    "ngx-print": "^1.2.1",
     "ngx-spinner": "^10.0.1",
     "rxjs": "^6.6.3",
     "select2": "^4.1.0-rc.0",

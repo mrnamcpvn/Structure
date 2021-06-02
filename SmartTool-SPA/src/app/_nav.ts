@@ -12,6 +12,7 @@ export class NavItem {
   hasKaizen: boolean;
   hasMeasurement: boolean;
   hasReport: boolean;
+  hasUser: boolean;
   contructor() {}
 
   getNav(user: any) {
@@ -20,7 +21,7 @@ export class NavItem {
     this.hasMaintain = false;
     this.hasKaizen = false;
     this.hasReport = false;
-
+    this.hasUser = false;
     const navItemMaintain = {
       name: "1. MAINTAIN",
       url: "maintain",
@@ -45,7 +46,14 @@ export class NavItem {
     const navItemReport = {
       name: "4. REPORT",
       url: "report",
-      icon: "icon-grid",
+      icon: "icon-chart",
+      children: [],
+    };
+    ////
+    const navItemUser = {
+      name: "5. USER MANAGER",
+      url: "user",
+      icon: "icon-user",
       children: [],
     };
     if (user != null) {
@@ -166,12 +174,21 @@ export class NavItem {
         if (element == "ksmt.CrossSiteSharingApplication") {
           const children = {
             name: "4.5 Cross Site Sharing Application",
-            url: "/report/cross-site-sharing-application/main",
+            url: "/report/cross-site-sharing/main",
             icon: "cil-hand-point-right",
             class: "menu-margin",
           };
           this.hasReport = true;
           navItemReport.children.push(children);
+        }
+        if (element === "ksmt.UserList") {
+          const children = {
+            name: "5.1 User List",
+            url: "/user",
+            class: "menu-margin",
+          };
+          this.hasUser = true;
+          navItemUser.children.push(children);
         }
       });
 
@@ -186,6 +203,9 @@ export class NavItem {
       }
       if (this.hasReport) {
         this.navItems.push(navItemReport);
+      }
+      if (this.hasUser) {
+        this.navItems.push(navItemUser);
       }
     }
     return this.navItems;

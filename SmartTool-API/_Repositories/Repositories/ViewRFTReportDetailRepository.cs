@@ -5,14 +5,14 @@ using SmartTool_API.Models;
 
 namespace SmartTool_API._Repositories.Repositories
 {
-    public class ViewRFTReportDetailRepository : MainRepository<VW_RFTReportDetail>, IViewRFTReportDetailRepository
+  public class ViewRFTReportDetailRepository : MainRepository<VW_RFTReportDetail>, IViewRFTReportDetailRepository
+  {
+    private readonly DataContext _context;
+    public ViewRFTReportDetailRepository(DataContext context, CBDataContext CBcontext, SHCDataContext SHCcontext,
+                        SPCDataContext SPCcontext, TSHDataContext TSHcontext, IConfiguration configuration) :
+                        base(context, CBcontext, SHCcontext, SPCcontext, TSHcontext, configuration)
     {
-        private readonly DataContext _context;
-        public ViewRFTReportDetailRepository(DataContext context, CBDataContext CBcontext, SHCDataContext SHCcontext,
-                            SPCDataContext SPCcontext, TSHDataContext TSHcontext, IConfiguration configuration) :
-                            base(context, CBcontext, SHCcontext, SPCcontext, TSHcontext, configuration)
-        {
-            _context = context;
-        }
+      _context = context;
     }
+  }
 }

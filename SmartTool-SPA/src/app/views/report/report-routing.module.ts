@@ -48,6 +48,13 @@ const routes: Routes = [
             (x) => x.GroupRftReportModule
           ),
       },
+      {
+        path: "cross-site-sharing",
+        loadChildren: () =>
+          import("./cross-site-sharing/cross.module").then(
+            (m) => m.CrossModule
+          ),
+      },
     ],
   },
 ];

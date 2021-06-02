@@ -5,33 +5,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
-    public partial class VW_RFT_AVG
-    {
-        [Required]
-        [StringLength(50)]
-        public string factory_id { get; set; }
-        [Required]
-        [StringLength(8)]
-        public string model_no { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CR2 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? SMS { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS1 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS2 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? CS3 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? PROD1 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? PROD2 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP1 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP2 { get; set; }
-        [Column(TypeName = "numeric(5, 2)")]
-        public decimal? MP3 { get; set; }
-    }
+  public partial class VW_RFT_AVG
+  {
+    public string factory_id { get; set; }
+    public string model_no { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? CR2 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? SMS { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? CS1 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? CS2 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? CS3 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? PROD1 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? PROD2 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? MP1 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? MP2 { get; set; }
+    [Column(TypeName = "numeric")]
+    public double? MP3 { get; set; }
+  }
 }

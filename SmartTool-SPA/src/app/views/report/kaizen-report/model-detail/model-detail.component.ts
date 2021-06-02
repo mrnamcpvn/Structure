@@ -91,7 +91,7 @@ export class ModelDetailComponent implements OnInit {
     this.kaizenReportService.changeKaizen(model);
     this.router.navigate(["/report/kaizen-report/kaizen-detail"]);
   }
-  
+
   getDataChart() {
     this.kaizenReportService
       .getDataChart(this.model.upper_id, this.season)
