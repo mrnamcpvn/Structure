@@ -26,7 +26,7 @@ export const routes: Routes = [
         component: AddComponent,
       },
       {
-        path: "edit/:modelNo",
+        path: "edit",
         data: {
           title: "Edit Model",
         },

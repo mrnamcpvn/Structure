@@ -23,6 +23,7 @@ import { ModelRoutingModule } from './model-routing.module';
     ModelRoutingModule,
     PaginationModule,
     NgSelect2Module,
+
   ],
   exports: [],
   providers: [],

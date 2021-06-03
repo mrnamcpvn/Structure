@@ -13,6 +13,8 @@ import {
   AppSidebarModule,
 } from "@coreui/angular";
 import { IconSetService } from "@coreui/icons-angular";
+import { AkitaNgRouterStoreModule } from "@datorama/akita-ng-router-store";
+import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { HighchartsChartModule } from "highcharts-angular";
 import { ChartsModule } from "ng2-charts";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
@@ -24,6 +26,7 @@ import {
   PerfectScrollbarModule,
 } from "ngx-perfect-scrollbar";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { environment } from "../environments/environment";
 import { AppComponent } from "./app.component";
 // Import routing module
 import { AppRoutingModule } from "./app.routing";
@@ -74,6 +77,8 @@ export function tokenGetter() {
         disallowedRoutes: ["localhost:5000/api/auth"],
       },
     }),
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule,
   ],
   declarations: [
     AppComponent,
