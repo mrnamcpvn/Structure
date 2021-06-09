@@ -42,7 +42,16 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthService } from './_core/_services/auth.service';
+import { AuthGuard } from './_core/_guards/auth.guard';
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
 
+
+export function tokenGetter() {
+  return localStorage.getItem("tokenSmartTooling");
+}
 @NgModule({
   imports: [
     BrowserModule,
@@ -51,6 +60,7 @@ import { ChartsModule } from 'ng2-charts';
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
+    HttpClientModule,
     AppHeaderModule,
     AppSidebarModule,
     PerfectScrollbarModule,
@@ -59,6 +69,15 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule,
     IconModule,
     IconSetModule.forRoot(),
+    NgxSpinnerModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:5003"],
+        disallowedRoutes: ["localhost:5003/api/auth"],
+    
+      },
+    }),
   ],
   declarations: [
     AppComponent,
@@ -69,6 +88,8 @@ import { ChartsModule } from 'ng2-charts';
     RegisterComponent
   ],
   providers: [
+    AuthService,
+    AuthGuard,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
