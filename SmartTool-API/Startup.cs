@@ -42,6 +42,8 @@ namespace SmartTool_API
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
+            services.AddCors();
+
             //add AutoMapper
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IMapper>(sp =>
@@ -70,14 +72,38 @@ namespace SmartTool_API
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
 
             //Add Service
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthService, AuthService>();         
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDefectReasonService, DefectReasonServcie>();
+
 
             //Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartTool_API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                        },
+                        new string[] { }
+                        }
+                    });
             });
         }
 
@@ -91,10 +117,15 @@ namespace SmartTool_API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTool_API v1"));
             }
 
+
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseHttpsRedirection();
-
             app.UseRouting();
+        
 
+   
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -6,7 +6,7 @@
     <li class="nav-item dropdown mr-30" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
-        <span style="color: #fff;"></span>
+        <span style="color: rgb(36, 35, 35);"></span>
         <img src="assets/img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
@@ -51,13 +51,13 @@
 </app-footer>
 
 
-<div  class="modal fade" tabindex="-1" role="dialog"
+<div bsModal #modalChangePassword="bs-modal"  class="modal fade" tabindex="-1" role="dialog"
 aria-labelledby="dialog-sizes-name1">
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Change Password</h4>
-      <button type="button" class="close pull-right" aria-label="Close" >
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalChangePassword.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -66,7 +66,7 @@ aria-labelledby="dialog-sizes-name1">
         <strong class="float-right">Current Password</strong>
       </label>
       <div class="col-md-7">
-        <input type="password" name="password" class="form-control" />
+        <input type="password" name="password" class="form-control" [(ngModel)]="oldPassword"/>
       </div>
     </div>
     <div class="row mb-2">
@@ -74,7 +74,7 @@ aria-labelledby="dialog-sizes-name1">
         <strong class="float-right">New Password</strong>
       </label>
       <div class="col-md-7">
-        <input type="password" name="password" class="form-control" />
+        <input type="password" name="password" class="form-control" [(ngModel)]="newPassword" />
       </div>
     </div>
     <div class="row mb-2">
@@ -82,14 +82,14 @@ aria-labelledby="dialog-sizes-name1">
         <strong class="float-right">Confirm Password</strong>
       </label>
       <div class="col-md-7">
-        <input type="password" name="password" class="form-control"  />
+        <input type="password" name="password" class="form-control" [(ngModel)]="confirmPassword" />
       </div>
     </div>
     <div class="modal-footer justify-content-start">
-      <button class="btn btn-danger btn-sm" >
+      <button class="btn btn-danger btn-sm" (click)="modalChangePassword.hide()">
         <i class="fa fa-ban" aria-hidden="true"></i> Cancel
       </button>
-      <button class="btn btn-success btn-sm" >
+      <button class="btn btn-success btn-sm" (click)="changePassword()" >
         <i class="fa fa-check" aria-hidden="true"></i> Save
       </button>
     </div>
@@ -98,7 +98,7 @@ aria-labelledby="dialog-sizes-name1">
 </div>
 </div>
 
-<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="true">
-</ngx-spinner> -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="true">
+</ngx-spinner>
 
 

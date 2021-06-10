@@ -1,24 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { AlertifyService } from '../../_core/_services/alertify.service';
 import { AuthService } from '../../_core/_services/auth.service';
+import { Router } from '@angular/router';
+import { AlertifyService } from '../../_core/_services/alertify.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: 'login.component.html',
+  selector: "app-dashboard",
+  templateUrl: "login.component.html",
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   user: any = {};
 
-  constructor( 
-    private authService:  AuthService,
+  constructor(
+    private authService: AuthService,
     private router: Router,
     private alertify: AlertifyService,
     private spinner: NgxSpinnerService
-  ){}
-  ngOnInit(): void {
+  ) {}
+
+  ngOnInit() {
     if (this.authService.loggedIn) this.router.navigate(["/dashboard"]);
   }
 
@@ -41,4 +42,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
- }
+}

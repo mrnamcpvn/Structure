@@ -47,6 +47,9 @@ import { AuthService } from './_core/_services/auth.service';
 import { AuthGuard } from './_core/_guards/auth.guard';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
+import { AlertifyService } from './_core/_services/alertify.service';
+import { FormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 export function tokenGetter() {
@@ -70,6 +73,8 @@ export function tokenGetter() {
     IconModule,
     IconSetModule.forRoot(),
     NgxSpinnerModule,
+    FormsModule,
+    ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -90,6 +95,7 @@ export function tokenGetter() {
   providers: [
     AuthService,
     AuthGuard,
+    AlertifyService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

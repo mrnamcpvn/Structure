@@ -9,3 +9,12 @@ export interface User {
     updated_time: Date;
     active: boolean;
 }
+export class AddUser {
+    account: string = '';
+    password: string = '';
+    email: string = '';
+    name: string = '';
+    updated_by: string = '';
+    updated_time: Date = new Date;
+    is_active: boolean = true;
+}
