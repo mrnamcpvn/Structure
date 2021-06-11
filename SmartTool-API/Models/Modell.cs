@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
-    public class Model
+    public class Modell
     {
          [Key][Column(Order=0)]
         public string factory_id { get; set; }

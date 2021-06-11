@@ -10,7 +10,7 @@ namespace SmartTool_API.Data
         }
 
         public DbSet<Defect_Reason> Defect_Reason { get; set; }
-        public DbSet<Model> Model { get; set; }
+        public DbSet<Modell> Modell { get; set; }
         public DbSet<Factory> Factory {get;set;}
         public DbSet<Efficiency> Efficiency { get; set; }
         public DbSet<Kaizen> Kaizen { get; set; }
@@ -25,7 +25,7 @@ namespace SmartTool_API.Data
         public DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form {get;set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<Defect_Reason>().HasKey(x => new{x.factory_id, x.defect_reason_id});
-            modelBuilder.Entity<Model>().HasKey(x => new { x.factory_id, x.model_no });
+            modelBuilder.Entity<Modell>().HasKey(x => new { x.factory_id, x.model_no });
             modelBuilder.Entity<Model_Type>().HasKey(x => new { x.factory_id, x.model_type_id });
             modelBuilder.Entity<RoleUser>().HasKey(x => new { x.user_account, x.role_unique });
             modelBuilder.Entity<Efficiency>().HasKey(x => new

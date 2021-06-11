@@ -22,6 +22,7 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API._Services.Services;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers.AutoMapper;
+using SmartTooling_API._Repositories.Interfaces;
 
 namespace SmartTool_API
 {
@@ -72,12 +73,16 @@ namespace SmartTool_API
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
             services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
+            services.AddScoped<IModelRepository, ModelRepository>();
 
             //Add Service
             services.AddScoped<IAuthService, AuthService>();         
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDefectReasonService, DefectReasonServcie>();
+            services.AddScoped<IModelService, ModelService>();
+
 
 
             //Swagger
