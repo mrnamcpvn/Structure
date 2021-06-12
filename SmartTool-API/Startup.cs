@@ -76,12 +76,14 @@ namespace SmartTool_API
             services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
             services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IKaizenRepository, KaizenRepository>();
 
             //Add Service
             services.AddScoped<IAuthService, AuthService>();         
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDefectReasonService, DefectReasonServcie>();
             services.AddScoped<IModelService, ModelService>();
+            services.AddScoped<IKaizenService, KaizenService>();
 
 
 

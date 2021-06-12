@@ -20,25 +20,28 @@ namespace SmartTool_API._Services.Services
         private readonly MapperConfiguration _mapperconfig;
         private readonly IKaizenRepository _ikaizenrepo;
         private readonly IModelRepository _modelRepository;
-        private readonly IStageRepository _istageRepo;
-        private readonly IFactoryRepository _ifactoryreppo;
-        private readonly IModelOperationRepository _imodeOperarepo;
-        private readonly IProcessTypeRepository _iprocessTyperepo;
+         private readonly IStageRepository _stageRepository;
+        private readonly IFactoryRepository _factoryRepository;
+        private readonly IModelOperationRepository _modelOperationRepository;
+        private readonly IProcessTypeRepository _processTypeRepo;
         private OperationResult operationResult;
 
-        public KaizenService(IMapper imapper, MapperConfiguration mapperconfig, IKaizenRepository ikaizenrepo, IModelRepository modelRepository, IStageRepository istageRepo, IFactoryRepository ifactoryreppo, IModelOperationRepository imodeOperarepo, IProcessTypeRepository iprocessTyperepo)
+        public KaizenService(IMapper imapper, MapperConfiguration mapperconfig, IKaizenRepository ikaizenrepo,
+                            IModelRepository modelRepository,
+                             IStageRepository stageRepository = null,
+                            IFactoryRepository factoryRepository = null, IModelOperationRepository modelOperationRepository = null, IProcessTypeRepository processTypeRepo = null)
         {
             _imapper = imapper;
             _mapperconfig = mapperconfig;
             _ikaizenrepo = ikaizenrepo;
             _modelRepository = modelRepository;
-            _istageRepo = istageRepo;
-            _ifactoryreppo = ifactoryreppo;
-            _imodeOperarepo = imodeOperarepo;
-            _iprocessTyperepo = iprocessTyperepo;
+            _stageRepository = stageRepository;
+            _factoryRepository = factoryRepository;
+            _modelOperationRepository = modelOperationRepository;
+            _processTypeRepo = processTypeRepo;
         }
 
-    
+
 
         public Task<bool> Add(KaizenDTO model)
         {
@@ -89,7 +92,7 @@ namespace SmartTool_API._Services.Services
 
         public async Task<KaizenDTO> getKaizenEdit(string modelNO, string seriaNO, string factory)
         {
-            var model = _imodeOperarepo.FindAll().Where(x=>x.factory_id==factory && x.model_no==modelNO);
+            var model = _modelOperationRepository.FindAll().Where(x=>x.factory_id==factory && x.model_no==modelNO);
             var kaizen = _ikaizenrepo.FindAll().Where(x=>x.factory_id==factory &&  x.model_no==modelNO && x.serial_no ==seriaNO.ToInt());
 
             var data = await (from a in kaizen
@@ -131,13 +134,13 @@ namespace SmartTool_API._Services.Services
 
         public async Task<object> getKaizenForm()
         {
-            var kaizen = await _ifactoryreppo.FindAll().ToListAsync();
+            var kaizen = await _factoryRepository.FindAll().ToListAsync();
             return kaizen.OrderBy(x=>x.factory_id);
         }
 
         public async Task<object> getOpera(string model, string stage, string process, string factory)
         {
-             var Opera =  _imodeOperarepo.FindAll(x=>x.factory_id ==factory);
+             var Opera =  _modelOperationRepository.FindAll(x=>x.factory_id ==factory);
              if (!String.IsNullOrEmpty(model))
             Opera = Opera.Where(x=>x.model_no == model); 
              if (!String.IsNullOrEmpty(stage))
@@ -149,8 +152,8 @@ namespace SmartTool_API._Services.Services
 
         public async Task<object> getProcess(string modelNO, string stage, string factory)
         {
-            var Process =  _iprocessTyperepo.FindAll(x=>x.factory_id ==factory );
-            var Opera = _imodeOperarepo.FindAll(x=>x.factory_id ==factory);
+            var Process =  _processTypeRepo.FindAll(x=>x.factory_id ==factory );
+            var Opera = _modelOperationRepository.FindAll(x=>x.factory_id ==factory);
              if (!String.IsNullOrEmpty(modelNO))
             Opera = Opera.Where(x=>x.model_no == modelNO);
              if (!String.IsNullOrEmpty(stage))
@@ -167,8 +170,9 @@ namespace SmartTool_API._Services.Services
 
         public async Task<object> getStage(string factory)
         {
-            var stages = await _istageRepo.FindAll(x=>x.factory_id ==factory && x.is_active ==true).ToListAsync();
+            var stages = await _stageRepository.FindAll(x=>x.factory_id ==factory && x.is_active ==true).ToListAsync();
             return stages.OrderBy(x=>x.sequence);
+
         }
 
         public Task<PagedList<KaizenDTO>> GetWithPaginations(PaginationParams param)
@@ -178,7 +182,7 @@ namespace SmartTool_API._Services.Services
 
         public async Task<PagedList<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory)
         {
-            var model = _imodeOperarepo.FindAll().Where(x=>x.factory_id==factory);
+            var model = _modelOperationRepository.FindAll().Where(x=>x.factory_id==factory);
             var Kaizen =  _ikaizenrepo.FindAll(x=>x.factory_id==factory);
             Kaizen = Kaizen.Where(x=>x.model_no ==model_no);
 

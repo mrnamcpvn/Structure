@@ -57,6 +57,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
+      {
+        canActivate: [AuthGuard],
+        path: 'user',
+        loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)
+      },
     ]
   }
 ];

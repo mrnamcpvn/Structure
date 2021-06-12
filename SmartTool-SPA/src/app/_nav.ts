@@ -1,15 +1,80 @@
+import { Injectable } from '@angular/core';
 import { INavData } from '@coreui/angular';
 
-export const navItems: INavData[] = [
-  {
-    name: 'Dashboard',
-    url: '/dashboard',
-    icon: 'icon-speedometer',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
+export const navItems: INavData[] = [];
+
+@Injectable({
+  providedIn: "root", // <- ADD THIS
+})
+export class NavItem {
+  navItems: INavData[] = [];
+  hasMaintain: boolean;
+  hasUserList: boolean;
+  hasKaizen: boolean;
+  hasReport: boolean;
+  hasMeasurement: boolean;
+  constructor() {}
+
+
+  getNav(user: any) {
+    if( user == null) return [];
+
+    this.navItems = [];
+    this.hasUserList = false;
+    this.hasMaintain = false;
+    this.hasKaizen = false;
+    this.hasReport = false;
+    this.hasMeasurement = false;
+
+    //user
+    const navItemUser = {
+      name: "1. USER MANAGER",
+      url: "user",
+      icon: "icon-user",
+      children: [],
+    };
+
+    if(user != null) {
+      user.role.forEach((element) => {
+        //====Setup Menu con cho Maintain
+       if (element === "ksmt.UserList") {
+          const children = {
+            name: "1.1 User List",
+            url: "/user",
+            class: "menu-margin",
+          };
+          this.hasUserList = true;
+          navItemUser.children.push(children);
+        }
+      });
     }
-  },
+
+
+   
+    //thêm user sau cùng nếu có quyền user
+    if (this.hasUserList) {
+      this.navItems.push(navItemUser);
+    }
+
+    return this.navItems;
+  }
+
+}
+
+
+
+
+
+
+  // {
+  //   name: 'Dashboard',
+  //   url: '/dashboard',
+  //   icon: 'icon-speedometer',
+  //   badge: {
+  //     variant: 'info',
+  //     text: 'NEW'
+  //   }
+  // },
   // {
   //   title: true,
   //   name: 'Theme'
@@ -248,4 +313,3 @@ export const navItems: INavData[] = [
   //   variant: 'danger',
   //   attributes: { target: '_blank', rel: 'noopener' }
   // }
-];

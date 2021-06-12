@@ -50,7 +50,7 @@ namespace SmartTool_API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateUser(UsersDTO user)
         {
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -70,7 +70,7 @@ namespace SmartTool_API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("roleuser/{account}")]
+        [HttpPut("roleuser/{account}")]
         public async Task<IActionResult> UpdateRoleByUser(string account, List<RoleByUserDTO> roles)
         {
             if (!(await _userService.CheckExistUser(account)))

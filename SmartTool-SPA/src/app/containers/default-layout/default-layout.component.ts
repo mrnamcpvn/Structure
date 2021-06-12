@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AlertifyService } from '../../_core/_services/alertify.service';
 import { AuthService } from '../../_core/_services/auth.service';
 import { UserService } from '../../_core/_services/user.service';
-import { navItems } from '../../_nav';
+import { NavItem, navItems } from '../../_nav';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,10 +28,10 @@ export class DefaultLayoutComponent {
     private router: Router,
     private spinnerService: NgxSpinnerService,
     private userService: UserService,
-    
-
-
-  ){}
+    private nav: NavItem
+  ){
+    this.navItems = this.nav.getNav(this.currentUser);
+  }
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;

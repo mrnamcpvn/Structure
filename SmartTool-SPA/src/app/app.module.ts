@@ -90,7 +90,8 @@ export function tokenGetter() {
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+
   ],
   providers: [
     AuthService,
