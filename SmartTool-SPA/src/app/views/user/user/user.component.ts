@@ -4,8 +4,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Pagination } from '../../../_core/_models/pagination';
 import { RoleByUser } from '../../../_core/_models/role-by-user';
-import { AddUser } from '../../../_core/_models/user';
+import { AddUser, User } from '../../../_core/_models/user';
 import { AlertifyService } from '../../../_core/_services/alertify.service';
+import { SweetAlertService } from '../../../_core/_services/sweet-alert.service';
 import { UserService } from '../../../_core/_services/user.service';
 
 @Component({
@@ -39,7 +40,8 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private spinnerService: NgxSpinnerService,
     private alertifyService: AlertifyService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private sweetAlertService: SweetAlertService,
   ) { }
 
   ngOnInit(): void {
@@ -66,6 +68,7 @@ export class UserComponent implements OnInit {
         this.alertifyService.success('Add user success!');
         this.spinnerService.hide();
         this.getUser();
+        this.clearUser();
       }, error => {
         this.alertifyService.error('Fail add user!');
         this.spinnerService.hide();
@@ -73,8 +76,9 @@ export class UserComponent implements OnInit {
   }
 
   clear() {
-    this.account = ':))' ;
+    this.account = '' ;
     this.isActive = 'all';
+    this.getUser();
   }
 
   search() {
@@ -113,5 +117,50 @@ export class UserComponent implements OnInit {
       this.listRoleByUser = res;
       this.authorizationModal.show();
     });
+  }
+  saveAuthorization() {
+    const updateRoleByUser = this.listRoleByUser.filter(item => {
+      return item.status === true;
+    });
+    this.spinnerService.show();
+    this.userService.updateRoleByUser(this.userAuthorizationAccount, updateRoleByUser)
+    .subscribe(() => {
+      this.alertifyService.success('Update role user success!');
+      this.spinnerService.hide();
+      this.authorizationModal.hide();
+    }, error => {
+      this.alertifyService.error('Fail update role user!');
+      this.spinnerService.hide();
+    });
+  }
+
+  delete(account: string){
+    // debugger
+    this.sweetAlertService.confirm('Delete User?', 'are you sure you want to delete this record', () =>{
+      const currentUser: any = JSON.parse(localStorage.getItem('userSmartTooling'));
+      // debugger
+      if(account === currentUser.username)
+      this.sweetAlertService.error('The current user cannot be deleted.');
+      else{
+        this.spinnerService.show();
+        this.userService.deleteUser(account).subscribe(res =>{
+          this.spinnerService.hide();
+          if(res.success){
+            this.getUser();
+            this.sweetAlertService.success('done', res.message);
+          }
+          else{
+            this.sweetAlertService.error('fail', res.message);
+          } 
+        }, error =>{
+          console.log(error);
+          this.spinnerService.hide();
+        });
+      }
+    });
+  }
+
+  clearUser(){
+    this.addUser = new AddUser();
   }
 }

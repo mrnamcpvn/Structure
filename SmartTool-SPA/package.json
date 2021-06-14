@@ -59,8 +59,10 @@
     "ngx-spinner": "^11.0.1",
     "rxjs": "^6.6.7",
     "simple-line-icons": "^2.5.5",
+    "sweetalert2": "^11.0.17",
     "ts-helpers": "^1.1.2",
     "tslib": "^2.0.0",
+    "vue-snotify": "^3.2.1",
     "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.3"
   },

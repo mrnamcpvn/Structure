@@ -86,5 +86,11 @@ namespace SmartTool_API.Controllers
 
             throw new Exception("Fail Add User");
         }
+
+        [HttpDelete("{account}")]
+        public async Task<IActionResult> DeleteUser(string account){
+            // var result = await _userService.DeleteUser(account);
+            return Ok(await _userService.DeleteUser(account));
+        }
     }
 }

@@ -5,6 +5,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SweetAlertService } from '../../_core/_services/sweet-alert.service';
 
 
 
@@ -17,7 +18,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     UserRoutingModule,
     ModalModule.forRoot(),
     FormsModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
   ]
 })
 export class UserModule { }

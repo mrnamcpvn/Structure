@@ -51,7 +51,7 @@
                   <th>User Name</th>
                   <th>E-mail Address</th>
                   <th>Authorize</th>
-                  <th>Modify</th>
+                  <th colspan="2">Modify</th>
                 </tr>
               </thead>
               <tbody>
@@ -60,7 +60,7 @@
                   <td>{{user.name}}</td>
                   <td>{{user.email}}</td>
                   <td>
-                    <button class="btn btn-warning btn-sm" (click)="openModalAuthorization(user)" >
+                    <button class="btn btn-warning btn-sm" (click)="openModalAuthorization(user.account)" >
                       <i class="fa fa-key" aria-hidden="true"></i>
                     </button>
                   </td>
@@ -68,6 +68,12 @@
                     <button class="btn btn-primary btn-sm"
                     (click)="openModalEditUser(user)" >
                       <i class="fa fa-edit" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger btn-sm"
+                    (click)="delete(user.account)" >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
@@ -150,9 +156,7 @@
                     <div class="custom-control custom-checkbox">
                     <input type="checkbox"
                         class="custom-control-input"
-                        id="active"
-                        [(ngModel)]="addUser.is_active"
-                    >
+                        id="active" name="active" [(ngModel)]="addUser.is_active">
                     <label class="custom-control-label" for="active"></label>
                     </div>
                 </div>
@@ -178,19 +182,19 @@
     <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-        <h4 class="modal-title pull-left">Add User</h4>
+        <h4 class="modal-title pull-left">Edit User</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalEditUser.hide()" >
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
         <div class="modal-body">
-        <form class="form-horizontal"  #editUserForm="ngForm">
+      
             <div class="row mb-2">
             <label class="col-md-3 col-form-label" for="account">
                 <strong class="float-right">User Account<span class="red_star">  *</span></strong>
             </label>
             <div class="col-md-8">
-                <input type="text" name="account" class="form-control" required [(ngModel)]="editUser.account" disabled/>
+                <input type="text" name="accountedit" class="form-control" required [(ngModel)]="editUser.account" disabled/>
             </div>
             </div>
             <div class="row mb-2">
@@ -198,7 +202,7 @@
                 <strong class="float-right">Password<span class="red_star">  *</span></strong>
             </label>
             <div class="col-md-8">
-                <input type="password" name="password" class="form-control" [(ngModel)]="editUser.password" required/>
+                <input type="password" name="passwordedit" class="form-control" [(ngModel)]="editUser.password" required/>
             </div>
             </div>
             <div class="row mb-2">
@@ -219,7 +223,7 @@
             <div class="col-md-8">
                 <input type="text"
                 class="form-control"
-                name="emailAdd" required [(ngModel)]="editUser.email"/>
+                name="emaileidt" required [(ngModel)]="editUser.email"/>
             </div>
             </div>
             <div class="row mb-2">
@@ -227,24 +231,22 @@
                 <strong class="float-right">Active</strong>
             </label>
             <div class="col-md-8 pt-1">
-                <div class="custom-control custom-checkbox">
-                <input type="checkbox"
-                    class="custom-control-input"
-                    id="active"
-                    [(ngModel)]="editUser.is_active">
-                <label class="custom-control-label" for="active"></label>
-                </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox"
+                class="custom-control-input"
+                id="editActive"
+                [(ngModel)]="editUser.is_active">
+              <label class="custom-control-label" for="editActive"></label>
             </div>
+          </div>
             </div>
-        </form>
-
         </div>
         <div class="modal-footer justify-content-start">
         <button class="btn btn-danger btn-sm"
         (click)="modalEditUser.hide()" >
             <i class="fa fa-ban" aria-hidden="true"></i> Cancel
         </button>
-        <button class="btn btn-success btn-sm" (click)="adduser()" (click)="modalEditUser.hide()" [disabled]="!editUserForm.valid" >
+        <button class="btn btn-success btn-sm" (click)="edituser()" (click)="modalEditUser.hide()">
             <i class="fa fa-check" aria-hidden="true"></i> Save
         </button>
         </div>
@@ -280,7 +282,7 @@
         <div class="row mb-2 mt-3" *ngFor="let item of listRoleByUser">
           <div class="col-md-2 offset-md-3">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="{{item.role_name}}" [(ngModel)]="item.status">
+              <input type="checkbox" name="role" class="custom-control-input" id="{{item.role_name}}" [(ngModel)]="item.status">
               <label class="custom-control-label" for="{{item.role_name}}"></label>
             </div>
           </div>
@@ -294,7 +296,7 @@
           <i class="fa fa-ban" aria-hidden="true"></i> Cancel
         </button>
         <button class="btn btn-success btn-sm"
-         >
+        (click)="saveAuthorization()" >
           <i class="fa fa-check" aria-hidden="true"></i> Save
         </button>
       </div>

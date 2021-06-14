@@ -52,6 +52,7 @@ export class UserService {
   }
 
   editUser(updateUser: AddUser) {
+    debugger
     return this.http.put(this.baseUrl + 'User/update', updateUser);
   }
 
@@ -60,6 +61,11 @@ export class UserService {
   }
 
   updateRoleByUser(account: string, listRoleByUser: RoleByUser[]) {
+    debugger
     return this.http.put(this.baseUrl + 'User/roleuser/' + account, listRoleByUser);
+  }
+  deleteUser(user: string){
+    debugger
+    return this.http.delete<OperationResult>(this.baseUrl + 'User/' + user);
   }
 }

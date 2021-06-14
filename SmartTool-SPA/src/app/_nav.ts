@@ -18,7 +18,6 @@ export class NavItem {
 
   getNav(user: any) {
     if( user == null) return [];
-
     this.navItems = [];
     this.hasUserList = false;
     this.hasMaintain = false;
@@ -33,10 +32,18 @@ export class NavItem {
       icon: "icon-user",
       children: [],
     };
+    //maintain
+    const navMainTain = {
+      name: "2. MAINTAIN",
+      url: "maintain",
+      icon: "icon-list",
+      children: [],
+    };
+    
 
     if(user != null) {
       user.role.forEach((element) => {
-        //====Setup Menu con cho Maintain
+        //====Setup Menu con cho user
        if (element === "ksmt.UserList") {
           const children = {
             name: "1.1 User List",
@@ -46,16 +53,27 @@ export class NavItem {
           this.hasUserList = true;
           navItemUser.children.push(children);
         }
+
+        if (element === "ksmt.DefectReason") {
+          const children = {
+            name: "2.1 Defect Reason",
+            url: "/maintain/defect-reason",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navMainTain.children.push(children);
+        }
       });
-    }
+    }   
 
-
-   
+    
     //thêm user sau cùng nếu có quyền user
     if (this.hasUserList) {
       this.navItems.push(navItemUser);
     }
-
+    if (this.hasMaintain) {
+      this.navItems.push(navMainTain);
+    }
     return this.navItems;
   }
 

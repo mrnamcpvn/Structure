@@ -14,5 +14,7 @@ namespace SmartTool_API._Services.Interfaces
         Task<bool> UpdateRoleByUser(string account, List<RoleByUserDTO> roles, string updateBy);
         Task<bool> CheckExistUser(string account);
         Task<OperationResult> ChangePassword(UserForLoginDto user);
+
+        Task<OperationResult> DeleteUser(string userName);
     }
 }

@@ -50,6 +50,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AlertifyService } from './_core/_services/alertify.service';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SweetAlertService } from './_core/_services/sweet-alert.service';
 
 
 export function tokenGetter() {
@@ -97,6 +98,7 @@ export function tokenGetter() {
     AuthService,
     AuthGuard,
     AlertifyService,
+    SweetAlertService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

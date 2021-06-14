@@ -10,6 +10,7 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<UsersDTO, Users>();
             CreateMap<ModelDTO, Modell>();
             CreateMap<Defect_ReasonDTO, Defect_Reason> ();
+            CreateMap<RoleUserDTO, RoleUser>();
         }
     }
 }

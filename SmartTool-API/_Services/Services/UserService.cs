@@ -75,6 +75,24 @@ namespace SmartTool_API._Services.Services
             }
         }
 
+        public async Task<OperationResult> DeleteUser(string userName)
+        {
+            var user = _userRepository.FindAll(x => x.account == userName).FirstOrDefault();
+
+            if(user != null){
+                var roleByUserHad = await _roleUserRepository.FindAll(x => x.user_account == userName).ToListAsync();
+                _roleUserRepository.RemoveMultiple(roleByUserHad);
+                await _roleUserRepository.SaveAll();
+                _userRepository.Remove(user);
+                await _userRepository.SaveAll();
+                return operationResult = new OperationResult { Caption = "Success", Message = "Delete User Success", Success = true };
+            }
+            else
+            {
+                return operationResult = new OperationResult { Caption = "Success", Message = "Delete User Fail", Success = false };
+            }
+        }
+
         public async Task<PagedList<UsersDTO>> GetListUserPaging(string account, string isActive, int pageNumber = 10, int pageSize = 10)
         {
             var data = _userRepository.FindAll();
@@ -88,7 +106,7 @@ namespace SmartTool_API._Services.Services
                 data = data.Where(x => x.is_active == active);
             }
 
-            var result = data.ProjectTo<UsersDTO>(_configMapper);
+            var result = data.ProjectTo<UsersDTO>(_configMapper).OrderByDescending(x =>x.update_time);
             return await PagedList<UsersDTO>.CreateAsync(result, pageNumber, pageSize);
         }
 
