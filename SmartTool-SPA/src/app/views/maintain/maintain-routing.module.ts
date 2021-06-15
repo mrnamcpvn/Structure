@@ -3,16 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-  path: '',
+    path: '',
     data: {
-      title: 'Maintain'
+      title: ''
     },
-    children:[
+    children: [
+  
       {
-        path:'defect-reason',
+        path: 'defect-reason',
         loadChildren: () => import('./defect-reason/defect-reason.module').then(m => m.DefectReasonModule)
-        
-      }
+      },
+      {
+        path: 'model',
+        loadChildren: () => import('./model/model.module').then(m => m.ModelModule)
+      },
     ]
   }
 ];

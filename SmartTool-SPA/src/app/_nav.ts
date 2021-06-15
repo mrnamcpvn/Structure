@@ -54,10 +54,22 @@ export class NavItem {
           navItemUser.children.push(children);
         }
 
+
+        //Maintain
         if (element === "ksmt.DefectReason") {
           const children = {
             name: "2.1 Defect Reason",
-            url: "/maintain/defect-reason",
+            url: "/maintain/defect-reason/list",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navMainTain.children.push(children);
+        }
+
+        if (element === "ksmt.Model") {
+          const children = {
+            name: "2.2 Model",
+            url: "/maintain/model/list",
             class: "menu-margin",
           };
           this.hasMaintain = true;

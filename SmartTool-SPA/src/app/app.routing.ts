@@ -67,6 +67,7 @@ export const routes: Routes = [
         path:'maintain',
         loadChildren:() => import('./views/maintain/maintain.module').then(m =>m.MaintainModule)
       },
+      
     ]
   }
 ];

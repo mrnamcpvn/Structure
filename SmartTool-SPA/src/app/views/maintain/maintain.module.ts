@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MaintainRoutingModule } from './maintain-routing.module';
 import { DefectReasonModule } from './defect-reason/defect-reason.module';
+import { ModelModule } from './model/model.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { DefectReasonModule } from './defect-reason/defect-reason.module';
     CommonModule,
     MaintainRoutingModule,
     DefectReasonModule,
+    ModelModule,
   ]
 })
 export class MaintainModule { }
