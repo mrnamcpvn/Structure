@@ -84,7 +84,7 @@ namespace SmartTool_API.Controllers
         [HttpPost("createmodel")]
         public async Task<IActionResult> CreateModel([FromBody] ModelDTO modelDto)
         {
-            modelDto.update_by = GetUserClaim();
+             modelDto.update_by = GetUserClaim();
             modelDto.create_by = GetUserClaim();
             modelDto.factory_id = factory;
             string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";

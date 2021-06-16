@@ -8,7 +8,7 @@ namespace SmartTool_API.Helpers.AutoMapper
     {
         public EfToDtoMappingProfile(){
             CreateMap<Users, UsersDTO>();
-            CreateMap<Modell, ModelDTO>();
+            CreateMap<Model, ModelDTO>();
             CreateMap<Defect_Reason, Defect_ReasonDTO> ();
             CreateMap<RoleUser, RoleUserDTO>();
         }

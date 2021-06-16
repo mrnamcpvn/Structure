@@ -2,10 +2,10 @@ using System.Threading.Tasks;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Models;
 
-namespace SmartTooling_API._Repositories.Interfaces
+namespace SmartTool_API._Repositories.Interfaces
 {
-    public interface IModelRepository : IMainRepository<Modell>
+    public interface IModelRepository : IMainRepository<Model>
     {
-        Task<Modell> GetByFactoryAndModelNo(string facID, string modelNo);
+        Task<Model> GetByFactoryAndModelNo(string facID, string modelNo);
     }
 }

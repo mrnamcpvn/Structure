@@ -9,7 +9,6 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
 using SmartTool_API.Models;
-using SmartTooling_API._Repositories.Interfaces;
 
 namespace SmartTool_API._Services.Services
 {

@@ -12,7 +12,7 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
 using SmartTool_API.Models;
-using SmartTooling_API._Repositories.Interfaces;
+
 
 namespace SmartTool_API._Services.Services
 {
@@ -35,7 +35,7 @@ namespace SmartTool_API._Services.Services
 
         public async Task<bool> Add(ModelDTO model)
         {
-            var models= _mapper.Map<Modell>(model);
+            var models= _mapper.Map<Model>(model);
             models.create_time = DateTime.Now;
             _repo.Add(models);
             return await _repo.SaveAll();
@@ -53,13 +53,13 @@ namespace SmartTool_API._Services.Services
 
         public async Task<ModelDTO> GetByFactoryAndModelNo(string factId, string modelNo)
         {
-            var model = _mapper.Map<Modell, ModelDTO>(await _repo.GetByFactoryAndModelNo(factId,modelNo));
+            var model = _mapper.Map<Model, ModelDTO>(await _repo.GetByFactoryAndModelNo(factId,modelNo));
             return model;
         }
 
         public ModelDTO GetById(object id)
         {
-            var model = _mapper.Map<Modell, ModelDTO>(_repo.FindById(id));
+            var model = _mapper.Map<Model, ModelDTO>(_repo.FindById(id));
             return model;
         }
 
@@ -82,7 +82,7 @@ namespace SmartTool_API._Services.Services
 
         public async Task<PagedList<ModelDTO>> SearchModel(PaginationParams paginationParams, ModelParam modelParam)
         {
-            var pred_Model = PredicateBuilder.New<Modell>(true);
+            var pred_Model = PredicateBuilder.New<Model>(true);
             bool active = true;
             if(!String.IsNullOrEmpty(modelParam.active) && modelParam.active != "all"){
                     if(modelParam.active == "0") {
@@ -90,17 +90,16 @@ namespace SmartTool_API._Services.Services
                     } 
                     pred_Model.And(x => x.is_active == active);
 				}
-            if(!String.IsNullOrEmpty(modelParam.model_Search)) {
+			if(!String.IsNullOrEmpty(modelParam.model_Search)) {
 				pred_Model.And(x => x.model_no.Contains(modelParam.model_Search) || x.model_name.Contains(modelParam.model_Search));
 			}
             var list = _repo.FindAll(pred_Model).ProjectTo<ModelDTO>(_config).OrderByDescending(x => x.prod_season);
-
-            return await PagedList<ModelDTO>.CreateAsync(list, paginationParams.PageNumber, paginationParams.PageSize);
+			return await PagedList<ModelDTO>.CreateAsync(list, paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<bool> Update(ModelDTO model)
         {
-            var models = _mapper.Map<Modell>(model);
+            var models = _mapper.Map<Model>(model);
             _repo.Update(models);
             return await _repo.SaveAll();
         }

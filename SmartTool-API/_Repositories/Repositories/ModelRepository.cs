@@ -5,11 +5,11 @@ using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API.Data;
 using SmartTool_API.Models;
-using SmartTooling_API._Repositories.Interfaces;
+
 
 namespace SmartTool_API._Repositories.Repositories
 {
-    public class ModelRepository : MainRepository<Modell>, IModelRepository
+    public class ModelRepository : MainRepository<Model>, IModelRepository
     {
         private readonly DataContext _context;
         public ModelRepository(DataContext context, IConfiguration configuration) : base(context, configuration)
@@ -17,9 +17,9 @@ namespace SmartTool_API._Repositories.Repositories
             _context = context;
         }
 
-        public async Task<Modell> GetByFactoryAndModelNo(string factID, string ModoelNO)
+        public async Task<Model> GetByFactoryAndModelNo(string factID, string ModoelNO)
         {
-            var model = await _context.Modell.Where(x => x.factory_id == factID && x.model_no == ModoelNO).FirstOrDefaultAsync();
+            var model = await _context.Model.Where(x => x.factory_id == factID && x.model_no == ModoelNO).FirstOrDefaultAsync();
             return model;
         }
     }

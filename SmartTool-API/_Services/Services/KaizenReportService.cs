@@ -8,7 +8,6 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
 using SmartTool_API.Models;
-using SmartTooling_API._Repositories.Interfaces;
 
 namespace SmartTool_API._Services.Services
 {
@@ -56,7 +55,7 @@ namespace SmartTool_API._Services.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<PagedList<Modell>> Search(PaginationParams param, KaizenReportParam filter, string factory_id)
+        public Task<PagedList<Model>> Search(PaginationParams param, KaizenReportParam filter, string factory_id)
         {
             throw new System.NotImplementedException();
         }

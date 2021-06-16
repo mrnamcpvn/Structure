@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Select2OptionData } from 'ng-select2';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Model } from '../../../../_core/_models/Model';
+import { Model } from '../../../../_core/_models/model';
 import { PaginatedResult, Pagination } from '../../../../_core/_models/pagination';
 import { AlertifyService } from '../../../../_core/_services/alertify.service';
 import { ModelService } from '../../../../_core/_services/model.service';
@@ -14,18 +15,19 @@ import { ModelService } from '../../../../_core/_services/model.service';
 export class ModelListComponent implements OnInit {
 
   models: Model[];
-  model:any ={};
-  paramSearch ={
+  model: any = {};
+  activeList: Array<Select2OptionData>;
+  noData: boolean = false;
+  paramSearch = {
     active: "all",
-    model_search:""
+    model_search: ""
   };
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 10,
-    totalItems:1,
-    totalPages:1,
-  }
-  noData: boolean =false;
+    totalItems: 1,
+    totalPages: 1,
+  };
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -70,5 +72,32 @@ export class ModelListComponent implements OnInit {
           this.alertify.error("List Model failed loading data");
         }
       );
+  }
+
+  search() {
+    this.spinner.show();
+    this.pagination.currentPage = 1;
+    this.loadeMd();
+    this.spinner.hide();
+  }
+
+  clear(){
+    this.spinner.show();
+    this.paramSearch.model_search ="";
+    this.paramSearch.active="all";
+    this.loadeMd();
+    this.spinner.hide();
+  }
+
+  pageChanged(event: any): void{
+    this.pagination.currentPage = event.page;
+    this.loadeMd();
+  }
+  addMd(){
+    this.router.navigate(["/maintain/model/add"]);
+  }
+
+  edit(modelNo){
+    this.router.navigate(["/maintain/model/edit/" + modelNo]);
   }
 }

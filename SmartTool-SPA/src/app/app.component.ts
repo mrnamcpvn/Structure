@@ -5,6 +5,7 @@ import { IconSetService } from '@coreui/icons-angular';
 import { freeSet } from '@coreui/icons';
 import { AuthService } from './_core/_services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+declare var jQuery: any;
 
 @Component({
   // tslint:disable-next-line
@@ -34,5 +35,11 @@ export class AppComponent implements OnInit {
     if (token) {
       this.authService.decodedToken = this.jwtHelper.decodeToken(token);
     }
+
+    (function ($) {
+      $(document).ready(function () {
+        $.fn.select2.defaults.set('theme', 'bootstrap');
+      });
+    })(jQuery);
   }
 }

@@ -22,7 +22,6 @@ using SmartTool_API._Services.Interfaces;
 using SmartTool_API._Services.Services;
 using SmartTool_API.Data;
 using SmartTool_API.Helpers.AutoMapper;
-using SmartTooling_API._Repositories.Interfaces;
 
 namespace SmartTool_API
 {

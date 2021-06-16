@@ -13,28 +13,28 @@
             <div class="row mt-3">
               <label class="col-md-1 col-form-label" for="model"><span class="float-right">Model</span>  </label>
                 <div class="col-md-3">
-                  <input type="text" name="model-search" id="model" 
+                  <input type="text" name="model-search" id="model" [(ngModel)]="paramSearch.model_search"
                    class="form-control model-search input-upper" placeholder="Search" >
                 </div>
                 <label class="col-md-1 col-form-label" for="active"><span class="float-right">Active</span>  </label>
                 <div class="col-md-3 mt-1">
-                  <select  value="all" class="form-control" id="active">
+                  <select  value="all" class="form-control" id="active" [(ngModel)]="paramSearch.active">
                     <option value="all">All</option>
                     <option value="1">Active</option>
                     <option value="0">InActive</option>
                   </select>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" class="btn  btn-secondary float-left mr-2 mt-1 " ><i class="fa fa-search"></i>
+                  <button type="button" class="btn  btn-secondary float-left mr-2 mt-1 " (click)="search()"><i class="fa fa-search"></i>
                     Search</button>
-                    <button type="button" class="btn  btn-danger float-left mt-1" ><i class="fa fa-ban"></i>
+                    <button type="button" class="btn  btn-danger float-left mt-1" (click)="clear()"><i class="fa fa-ban"></i>
                       Clear</button>
                 </div>
             </div>
           </div>
           <div class="card-body">
             <div class="add-new">
-                <button type="button" class="btn  btn-primary float-left mb-2" ><i class="fa fa-plus"></i>
+                <button type="button" class="btn  btn-primary float-left mb-2" (click)="addMd()" ><i class="fa fa-plus"></i>
                   Add new</button>
             </div>
             <div class="table-responsive">
@@ -56,15 +56,15 @@
                   <tr>
                     <td colspan="9">
                       <alert class="text-center" type="danger">
-                          <strong>No Data</strong>>
-                      </alert>>
+                          <strong>No Data</strong>
+                      </alert>
                     </td>
                   </tr>
                 </tbody>
                 <tbody>
                   <tr *ngFor="let item of models; let i = index">
                     <td>
-                      <button type="button" class="btn btn-primary btn-sm ml-4"  ><i
+                      <button type="button" class="btn btn-primary btn-sm ml-4" (click)="edit(item.model_no)" ><i
                         class="fa fa-edit fa-lg"></i></button>
                     </td>
                     <td>{{item.model_no}}</td>
@@ -79,12 +79,20 @@
                 </tbody>
               </table>
             </div>
-            <!-- <div class="d-flex" *ngIf="pagination.totalPages >= 1">
-                <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
-                [itemsPerPage]="pagination.itemsPerPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
-                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+            <div class="d-flex" *ngIf="pagination.totalPages >= 1">
+                <pagination 
+                [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems" 
+                [(ngModel)]="pagination.currentPage"
+                [itemsPerPage]="pagination.itemsPerPage" 
+                (pageChanged)="pageChanged($event)" 
+                previousText="&lsaquo;"
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;" 
+                [maxSize]=5>
                 </pagination>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

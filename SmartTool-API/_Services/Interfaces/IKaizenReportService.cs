@@ -8,7 +8,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IKaizenReportService
     {
-        Task<PagedList<Modell>> Search(PaginationParams param,KaizenReportParam filter, string factory_id);
+        Task<PagedList<Model>> Search(PaginationParams param,KaizenReportParam filter, string factory_id);
         Task<List<VW_ModelKaizen_Dto>> GetModelKaizens(string factory_id, KaizenReportParam filter);
         Task<List<string>> GetSeasonByUpper(string factory_id,string upper_id);
 

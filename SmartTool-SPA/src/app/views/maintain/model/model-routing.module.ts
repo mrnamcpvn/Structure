@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ModelResolver } from '../../../_core/_resolver/model.resolver';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { ModelListComponent } from './model-list/model-list.component';
@@ -14,7 +15,7 @@ const routes: Routes = [
       {
         path: "list",
         component: ModelListComponent,
-        // resolve: { models: ModelResolver },
+        resolve: { models: ModelResolver },
         data: {
           title: "List Model",
         },

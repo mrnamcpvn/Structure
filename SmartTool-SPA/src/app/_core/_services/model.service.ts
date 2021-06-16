@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Model } from '../_models/Model';
+import { Model } from '../_models/model';
 import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
@@ -35,6 +35,12 @@ export class ModelService {
     );
   }
 
+  addMd(model: object){
+    return this.http.post(this.baseUrl +'model/createmodel', model);
+  }
   
 
+  getModelType(){
+    return this.http.get<any>(this.baseUrl +'model/modeltype', {});
+  }
 }
