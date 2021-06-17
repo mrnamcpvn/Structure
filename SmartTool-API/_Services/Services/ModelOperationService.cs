@@ -5,6 +5,7 @@ using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
+using SmartTool_API.Models;
 
 namespace SmartTool_API._Services.Services
 {
@@ -42,9 +43,21 @@ namespace SmartTool_API._Services.Services
             factory =configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        public Task<bool> Add(Model_OperationDTO model)
+        public async Task<bool> Add(Model_OperationDTO model)
         {
-            throw new System.NotImplementedException();
+            var modelParam =new ModelOperationEditParam();
+            modelParam.factory_id = model.factory_id;
+            modelParam.model_no = model.model_no;
+            modelParam.stage_id = model.stage_id;
+            modelParam.operation_id = model.operation_id;
+            var operation =await GetModel_OperationDTO(modelParam);
+            if(operation == null){
+                var modelOperation = _mapper.Map<Model_Operation>(model);
+                _repoModelOperation.Add(modelOperation);
+                return await _repoModelOperation.SaveAll();
+            }else{
+                return false;
+            }
         }
 
         public Task<bool> CheckExistKaizenAndRTF(Model_OperationDTO operation)
@@ -62,9 +75,11 @@ namespace SmartTool_API._Services.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<Model_OperationDTO> GetModel_OperationDTO(ModelOperationEditParam modelOperationEditParam)
+        public async Task<Model_OperationDTO> GetModel_OperationDTO(ModelOperationEditParam modelOperationEditParam)
         {
-            throw new System.NotImplementedException();
+            var data = await _repoModelOperation.GetByModelOperation(modelOperationEditParam);
+            var models = _mapper.Map<Model_Operation, Model_OperationDTO>(data);
+            return models;
         }
 
         public Task<PagedList<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam)

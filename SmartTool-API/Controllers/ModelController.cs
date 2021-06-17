@@ -44,23 +44,7 @@ namespace SmartTool_API.Controllers
             string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
             if(modelDto.model_picture.Length > 100)
             {
-                var source = modelDto.model_picture;
-                string base64 = source.Substring(source.IndexOf(',') + 1);
-                base64 = base64.Trim('\0');
-                byte[] modelData = Convert.FromBase64String(base64);
-                if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
-                string filePathImages = Path.Combine(folder, fileName);
-                 // kiểm tra file cũ có chưa xóa đi
-                if (System.IO.File.Exists(filePathImages))
-                {
-                    System.IO.File.Delete(filePathImages);
-                }
-                System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = await GetNamePicture(modelDto, folder, 2);
             }
             
             if (await _imodelservice.Update(modelDto))
@@ -93,18 +77,7 @@ namespace SmartTool_API.Controllers
                 modelDto.model_picture = factory+"/Model/"+ fileName;
             } 
             else {
-                var source = modelDto.model_picture;
-                string base64 = source.Substring(source.IndexOf(',') + 1);
-                base64 = base64.Trim('\0');
-                byte[] modelData = Convert.FromBase64String(base64);
-                if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
-                string filePathImages = Path.Combine(folder, fileName);
-                System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = await GetNamePicture(modelDto, folder, 1);
             }
             if (await _imodelservice.Add(modelDto))
             {
@@ -122,6 +95,31 @@ namespace SmartTool_API.Controllers
                 return Ok(modelRepo);
             }
             return NoContent();
+        }
+
+        private async Task<string> GetNamePicture(ModelDTO modelDto, string folder, int checkUpdate) {
+            var source = modelDto.model_picture;
+            string base64 = source.Substring(source.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] modelData = Convert.FromBase64String(base64);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            var fileName = factory + "_" + modelDto.model_no +".jpg";
+            string filePathImages = Path.Combine(folder, fileName);
+
+            if(checkUpdate != 1){
+                // kiểm tra file cũ có chưa xóa đi
+                if (System.IO.File.Exists(filePathImages))
+                {
+                    System.IO.File.Delete(filePathImages);
+                }
+            }
+
+            System.IO.File.WriteAllBytes(filePathImages, modelData);
+            modelDto.model_picture = factory+"/Model/"+ fileName;
+            return await Task.FromResult<string>(modelDto.model_picture);
         }
 
     }

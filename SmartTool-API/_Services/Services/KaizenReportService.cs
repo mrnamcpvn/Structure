@@ -19,8 +19,12 @@ namespace SmartTool_API._Services.Services
         private readonly IKaizenRepository _repoKaizen;
         private readonly IModelOperationRepository _repoModelOperation;
         private readonly IMapper _mapper;
-
-        public KaizenReportService(IModelRepository repoModel, IViewModelKaizenRepository repoViewModelKaizen, IEfficiencyRepository repoEfficiency, IKaizenRepository repoKaizen, IModelOperationRepository repoModelOperation, IMapper mapper)
+        public KaizenReportService( IModelRepository repoModel,
+                                    IMapper mapper,
+                                    IEfficiencyRepository repoEfficiency,
+                                    IKaizenRepository repoKaizen,
+                                    IModelOperationRepository repoModelOperation,
+                                    IViewModelKaizenRepository repoViewModelKaizen)
         {
             _repoModel = repoModel;
             _repoViewModelKaizen = repoViewModelKaizen;
@@ -30,14 +34,33 @@ namespace SmartTool_API._Services.Services
             _mapper = mapper;
         }
 
-        public  Task<List<Efficiency>> GetEfficiencys(string factory_id, string upper_id, string season)
+        public async Task<List<Efficiency>> GetEfficiencys(string factory_id, string upper_id, string season)
         {
-            throw new System.NotImplementedException();
+            var data = await _repoEfficiency.FindAll(x => x.factory_id.Trim() == factory_id.Trim() && x.upper_id.Trim() == upper_id.Trim()
+                    && x.season.Trim() == season.Trim()).OrderBy(x => x.sequence).ToListAsync();
+            return data;
         }
 
-        public  Task<object> GetKaizenDetail(string factory_id, string model_no, string serial_no)
+        public async  Task<object> GetKaizenDetail(string factory_id, string model_no, string serial_no)
         {
-            throw new System.NotImplementedException();
+            var modelOperations = _repoModelOperation.FindAll();
+            var kaizens = _repoKaizen.FindAll();
+            var models = _repoModel.FindAll();
+            var data =await (
+                from a in kaizens
+                join b in models
+                    on new { factoryId= a.factory_id.Trim(), modelNo =a.model_no.Trim()} equals new { factoryId =b.factory_id.Trim(), modelNo =b.model_no.Trim()}
+                join c in modelOperations
+                on new {factoryId =a.factory_id.Trim(), modelNo =a.model_no.Trim(), operationId =a.operation_id.Trim(), stageId =a.stage_id.Trim()}
+                equals new {factoryId =c.factory_id.Trim(), modelNo =c.model_no.Trim(), operationId =c.operation_id.Trim(), stageId =c.stage_id.Trim() }
+                where a.factory_id.Trim() == factory_id.Trim() && a.model_no.Trim() == model_no.Trim() && a.serial_no.ToString() == serial_no.Trim()
+                select new 
+                {
+                    kaizen =a,
+                    Model = b,
+                    modelOperation =c
+                }).FirstOrDefaultAsync();
+            return data;
         }
 
         public Task<PagedList<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no)

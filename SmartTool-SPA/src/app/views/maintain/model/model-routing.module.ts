@@ -28,7 +28,7 @@ const routes: Routes = [
         },
       },
       {
-        path: "edit/:modelNo",
+        path: "edit",
         component: EditComponent,
         // resolve: { model: ModelEditResolver },
         data: {

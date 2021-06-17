@@ -18,6 +18,7 @@ export class DefectReasonEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    localStorage.removeItem('defactreasonSmartTooling');
   }
   loadData(){
     this.defectreasonLocal;

@@ -19,7 +19,8 @@ export class AddComponent implements OnInit {
   
   addModelForm: FormGroup;
   baseUrl: string = environment.imageUrl;
-  defaultImage: string =
+  defaultImage: string = 
+  // '../assets/img/no-image.jpg';
     this.baseUrl + environment.factory + "/Model/no-image.jpg";
   modelTypeList: Array<Select2OptionData>;
 
@@ -34,6 +35,7 @@ export class AddComponent implements OnInit {
   ngOnInit() {
     this.getAllModelType();
     this.initForm();
+    console.log(this.defaultImage);
     
   }
   backlist(){

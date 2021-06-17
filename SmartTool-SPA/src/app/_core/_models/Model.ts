@@ -6,8 +6,8 @@ export class Model{
     model_family: string;
     upper_id: string;
     dev_season: string;
-    pord_season: string;
-    vodume: number;
+    prod_season: string;
+    volume: number;
     volume_percent: number;
     remarks: string;
     model_picture: string;

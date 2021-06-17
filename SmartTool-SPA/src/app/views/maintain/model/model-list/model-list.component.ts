@@ -97,7 +97,8 @@ export class ModelListComponent implements OnInit {
     this.router.navigate(["/maintain/model/add"]);
   }
 
-  edit(modelNo){
-    this.router.navigate(["/maintain/model/edit/" + modelNo]);
+  edit(modelEdit: Model){
+    localStorage.setItem('modelLocalEdit', JSON.stringify(modelEdit));
+    this.router.navigate(["/maintain/model/edit"]);
   }
 }

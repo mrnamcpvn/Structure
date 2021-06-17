@@ -68,21 +68,30 @@ namespace SmartTool_API
                     };
                 });
             //add Repository
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
-            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
-            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
             services.AddScoped<IKaizenRepository, KaizenRepository>();
+            services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
+            services.AddScoped<IFactoryRepository, FactoryRepository>();
+            services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
+            services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
+            services.AddScoped<IStageRepository,StageRepository>();
+            services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
 
             //Add Service
-            services.AddScoped<IAuthService, AuthService>();         
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IDefectReasonService, DefectReasonServcie>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
-            services.AddScoped<IKaizenService, KaizenService>();
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRFTService, RFTService>();
+            services.AddScoped<IDefectReasonService, DefectReasonServcie>();
+            services.AddScoped<IModelOperationService, ModelOperationService>();
+            services.AddScoped<IKaizenService,KaizenService>();
 
 
 

@@ -43,4 +43,8 @@ export class ModelService {
   getModelType(){
     return this.http.get<any>(this.baseUrl +'model/modeltype', {});
   }
+
+  updateModel(mo: object){
+    return this.http.put(this.baseUrl +'model/update', mo);
+  }
 }

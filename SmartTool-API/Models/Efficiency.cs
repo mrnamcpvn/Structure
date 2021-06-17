@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartTool_API.Models
 {
-    public class Efficiency
+   public class Efficiency
     {
-         [Key]
+        [Key]
         [Column(Order = 0)]
         public string factory_id { get; set; }
 
