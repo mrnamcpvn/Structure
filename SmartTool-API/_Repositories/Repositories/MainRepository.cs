@@ -26,7 +26,7 @@ namespace SmartTool_API._Repositories.Repositories
         }
         public void Add(T entity)
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
+            DataSeach = _configuration.GetSection("AppSettings:DataSearch").Value;
 
             _context.Add(entity);
         }
@@ -38,7 +38,7 @@ namespace SmartTool_API._Repositories.Repositories
 
         public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
+            DataSeach = _configuration.GetSection("AppSettings:DataSearch").Value;
 
             IQueryable<T> items = _context.Set<T>();
 
@@ -54,7 +54,7 @@ namespace SmartTool_API._Repositories.Repositories
 
         public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
+            DataSeach = _configuration.GetSection("AppSettings:DataSearch").Value;
             IQueryable<T> items = _context.Set<T>();
             if (includeProperties != null)
             {
@@ -98,7 +98,7 @@ namespace SmartTool_API._Repositories.Repositories
 
         public async Task<bool> SaveAll()
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
+            DataSeach = _configuration.GetSection("AppSettings:DataSearch").Value;
             return await _context.SaveChangesAsync() > 0;
         }
 

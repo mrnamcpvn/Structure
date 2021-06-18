@@ -10,7 +10,7 @@ namespace SmartTool_API._Services.Interfaces
          Task<bool> Add (Model_OperationDTO model);
          Task<bool> Update(Model_OperationDTO model);
          Task<bool> Delete(Model_OperationDTO operation);
-         Task<Model_OperationDTO> GetModel_OperationDTO( ModelOperationEditParam modelOperationEditParam);
+         Task<Model_OperationDTO> GetModel_Operation( ModelOperationEditParam modelOperationEditParam);
          Task<object> GetAllProcessType();
          Task<bool> CheckExistKaizenAndRTF(Model_OperationDTO operation);
     }

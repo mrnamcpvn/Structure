@@ -75,6 +75,16 @@ export class NavItem {
           this.hasMaintain = true;
           navMainTain.children.push(children);
         }
+
+        if (element === "ksmt.ModelOperation") {
+          const children = {
+            name: "2.3 Model Operation",
+            url: "/maintain/model-operation/list",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navMainTain.children.push(children);
+        }
       });
     }   
 

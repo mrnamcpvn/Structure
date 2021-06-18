@@ -1,5 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinqKit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
@@ -50,7 +53,7 @@ namespace SmartTool_API._Services.Services
             modelParam.model_no = model.model_no;
             modelParam.stage_id = model.stage_id;
             modelParam.operation_id = model.operation_id;
-            var operation =await GetModel_OperationDTO(modelParam);
+            var operation =await GetModel_Operation(modelParam);
             if(operation == null){
                 var modelOperation = _mapper.Map<Model_Operation>(model);
                 _repoModelOperation.Add(modelOperation);
@@ -60,36 +63,79 @@ namespace SmartTool_API._Services.Services
             }
         }
 
-        public Task<bool> CheckExistKaizenAndRTF(Model_OperationDTO operation)
+        public async Task<bool> CheckExistKaizenAndRTF(Model_OperationDTO operation)
         {
-            throw new System.NotImplementedException();
+            if(await _repoKaizen.CheckExistsKaizen(operation) || await _repoMeasuremt.CheckExistsRTF(operation)){
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> Delete(Model_OperationDTO operation)
+        public async Task<bool> Delete(Model_OperationDTO operation)
         {
-            throw new System.NotImplementedException();
+            if(await CheckExistKaizenAndRTF(operation)){
+                return false;
+            } else{
+                var modelOperation = _mapper.Map<Model_Operation>(operation);
+                _repoModelOperation.Remove(modelOperation);
+                return await _repoModelOperation.SaveAll();
+            }
         }
 
-        public Task<object> GetAllProcessType()
+        public async Task<object> GetAllProcessType()
         {
-            throw new System.NotImplementedException();
+            return await _repoProcessType.FindAll(x =>x.factory_id.Trim() == factory && x.is_active ==true).Select(z => new{ z.process_type_id, z.process_type_name_en, z.sequence})
+                                                    .Distinct().OrderBy(x =>x.sequence).ToListAsync();
         }
 
-        public async Task<Model_OperationDTO> GetModel_OperationDTO(ModelOperationEditParam modelOperationEditParam)
+        public async Task<Model_OperationDTO> GetModel_Operation(ModelOperationEditParam modelOperationEditParam)
         {
             var data = await _repoModelOperation.GetByModelOperation(modelOperationEditParam);
             var models = _mapper.Map<Model_Operation, Model_OperationDTO>(data);
             return models;
         }
 
-        public Task<PagedList<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam)
+        public async Task<PagedList<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam)
         {
-            throw new System.NotImplementedException();
+            var pr_Model = PredicateBuilder.New<Model_Operation>(true);
+            if(!string.IsNullOrEmpty(modelParam.model_search)){
+                pr_Model.And(x =>x.model_no == modelParam.model_search);
+            }
+            if(!string.IsNullOrEmpty(modelParam.stage)){
+                pr_Model.And(x =>x.stage_id == modelParam.stage);
+            }
+            var listOperation = _repoModelOperation.FindAll(pr_Model).OrderBy(x =>x.sequence).ThenBy(x =>x.operation_id);
+            var listProcess = _repoProcessType.FindAll(z =>z.factory_id.Trim() ==factory && z.is_active ==true);
+            var listData = listOperation.Join(listProcess, x =>x.process_type_id, y =>y.process_type_id, 
+            (x,y) => new Model_OperationDTO{
+                factory_id = x.factory_id,
+                 model_no = x.model_no,
+                 stage_id = x.stage_id,
+                 operation_id = x.operation_id,
+                 process_type_id = y.process_type_id,
+                 process_type_name = y.process_type_name_en,
+                 operation_name_local = x.operation_name_local,
+                 operation_name_en = x.operation_name_en,
+                 operation_name_zh = x.operation_name_zh,
+                 sop_no = x.sop_no,
+                 critical_quality = x.critical_quality,
+                 critical_efficiency = x.critical_efficiency,
+                 sequence = x.sequence,
+                 create_by = x.create_by,
+                 create_time = x.create_time,
+                 update_time = x.update_time,
+                 update_by = x.update_by,
+
+            });
+            return await PagedList<Model_OperationDTO>.CreateAsync(listData,paginationParams.PageNumber, paginationParams.PageSize);
         }
 
-        public Task<bool> Update(Model_OperationDTO model)
+        public async Task<bool> Update(Model_OperationDTO model)
         {
-            throw new System.NotImplementedException();
+            var modelOperation = _mapper.Map<Model_Operation>(model);
+            _repoModelOperation.Update(modelOperation);
+            return await _repoModelOperation.SaveAll();
+
         }
     }
 }
