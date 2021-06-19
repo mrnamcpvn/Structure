@@ -67,6 +67,10 @@ export const routes: Routes = [
         path:'maintain',
         loadChildren:() => import('./views/maintain/maintain.module').then(m =>m.MaintainModule)
       },
+      {
+        path: 'kaizen',
+        loadChildren: () => import('./views/kaizen/kaizen.module').then(m => m.KaizenModule)
+      },
       
     ]
   }

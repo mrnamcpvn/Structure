@@ -54,8 +54,8 @@ namespace SmartTool_API._Repositories.Repositories
 
         public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSearch").Value;
             IQueryable<T> items = _context.Set<T>();
+         
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties)

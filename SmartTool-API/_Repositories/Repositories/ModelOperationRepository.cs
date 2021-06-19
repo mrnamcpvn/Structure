@@ -12,7 +12,8 @@ namespace SmartTool_API._Repositories.Repositories
     public class ModelOperationRepository : MainRepository<Model_Operation>, IModelOperationRepository
     {
         private readonly DataContext _context;
-        public ModelOperationRepository(DataContext context, IConfiguration configuration) : base(context, configuration)
+        public ModelOperationRepository(DataContext context,IConfiguration configuration) : 
+                            base(context,configuration)
         {
             _context = context;
         }

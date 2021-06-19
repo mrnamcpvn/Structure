@@ -35,6 +35,7 @@ namespace SmartTool_API.Controllers
             model_OperationDTO.create_by = GetUserClaim();
             model_OperationDTO.update_time = DateTime.Now;
             model_OperationDTO.create_time = DateTime.Now;
+            model_OperationDTO.factory_id = factory;
             if(await _modelOperationService.Add(model_OperationDTO)){
                 return NoContent();
             }
@@ -42,8 +43,9 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPost("deleteoperation")]
-        public async Task<IActionResult> DeleteModelOperation(Model_OperationDTO model_OperationDTO){
-            if(await _modelOperationService.Delete(model_OperationDTO))
+        public async Task<IActionResult> DeleteModelOperation(Model_OperationDTO operationDTO)
+        {
+            if (await _modelOperationService.Delete(operationDTO))
                 return NoContent();
             return BadRequest($"The Model Operation is already in use, it cannot be deleted");
         }

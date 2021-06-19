@@ -7,6 +7,7 @@ import { ModelOperationEditParam } from '../../../../_core/_models/model-operati
 import { PaginatedResult, Pagination } from '../../../../_core/_models/pagination';
 import { AlertifyService } from '../../../../_core/_services/alertify.service';
 import { ModelOperationService } from '../../../../_core/_services/model-operation.service';
+import { SweetAlertService } from '../../../../_core/_services/sweet-alert.service';
 
 @Component({
   selector: 'app-model-operation-list',
@@ -31,7 +32,8 @@ export class ModelOperationListComponent implements OnInit {
   constructor(private modelOperationService : ModelOperationService,
     private alertify: AlertifyService,
     private router: Router,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private sweetAlertService: SweetAlertService,) { }
 
   ngOnInit(): void {
     this.loadModelNo();
@@ -100,20 +102,29 @@ export class ModelOperationListComponent implements OnInit {
     this.paramSearch.model_search = null;
     this.paramSearch.stage = null;
     this.noData = true;
+    this.modelName = null;
     this.modelOperations = [];
   }
 
 
   delete(item: ModelOperation) {
-    this.alertify.confirm('Delete Model Operation', 'Are you sure you want to delete this Model Operation ?', () => {
+    debugger
+    this.sweetAlertService.confirm('Delete Model Operation', 'Are you sure you want to delete this Model Operation ?', () => {
+      debugger
       this.modelOperationService.deleteModelOperation(item).subscribe(() => {
         this.loadData();
-        this.alertify.success('Model Operation has been deleted');
+        this.sweetAlertService.success('Model Operation has been deleted');
       }, error => {
-        this.alertify.error('This Model Operation is already in use');
+        this.sweetAlertService.error('This Model Operation is already in use');
       });
     });
   }
+
+  
+
+
+
+
   addModelOperation(){
     let modelLocal = {
       modelNo: this.paramSearch.model_search,

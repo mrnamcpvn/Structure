@@ -39,6 +39,13 @@ export class NavItem {
       icon: "icon-list",
       children: [],
     };
+    //Kaizen
+    const navItemKaizen = {
+      name: "3. KAIZEN",
+      url: "kaizen",
+      icon: "icon-pie-chart",
+      children: [],
+    };
     
 
     if(user != null) {
@@ -85,6 +92,17 @@ export class NavItem {
           this.hasMaintain = true;
           navMainTain.children.push(children);
         }
+
+        //kaizen list
+        if (element === "ksmt.Kaizen") {
+          const children = {
+            name: "3.1 Kaizen",
+            url: "/kaizen/kaizen/list",
+            class: "menu-margin",
+          };
+          this.hasKaizen = true;
+          navItemKaizen.children.push(children);
+        }
       });
     }   
 
@@ -95,6 +113,9 @@ export class NavItem {
     }
     if (this.hasMaintain) {
       this.navItems.push(navMainTain);
+    }
+    if (this.hasKaizen) {
+      this.navItems.push(navItemKaizen);
     }
     return this.navItems;
   }

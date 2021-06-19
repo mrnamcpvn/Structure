@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ModelOperation } from '../_models/model-operation';
+import { ModelOperationEditParam } from '../_models/model-operationEditParam';
 import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
@@ -49,5 +50,16 @@ export class ModelOperationService {
   }
   getProcessType() {
     return this.http.get<any>(this.baseUrl + 'modelOperation/getallprocess', {});
+  }
+
+  createModelOperation(modelOperation: ModelOperation) {
+    return this.http.post(this.baseUrl + 'modelOperation/create-operation', modelOperation);
+  }
+
+  getModelOperationEdit(modelOperation: ModelOperationEditParam) {
+    return this.http.post<ModelOperation>(this.baseUrl + 'modelOperation/getModelOperation', modelOperation);
+  }
+  updateModelOperation(modelOperation: ModelOperation) {
+    return this.http.put(this.baseUrl + "modelOperation/updateModelOperation", modelOperation);
   }
 }

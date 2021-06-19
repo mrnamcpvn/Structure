@@ -8,7 +8,7 @@ namespace SmartTool_API._Services.Interfaces
     {
         Task<PagedList<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory);
         Task<KaizenDTO> GetID(string modelNO);
-        Task<object> getfactory(string factory);
+        Task<object> GetModelNo(string factory);
         Task<object> getKaizenForm();
         Task<object> getStage(string factory);
         Task<object> getProcess(string modelNO, string stage, string factory);

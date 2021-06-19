@@ -6,6 +6,6 @@ namespace SmartTool_API._Repositories.Interfaces
 {
     public interface IModelOperationRepository : IMainRepository<Model_Operation>
     {
-         Task<Model_Operation> GetByModelOperation(ModelOperationEditParam modelParam);
+        Task<Model_Operation> GetByModelOperation(ModelOperationEditParam modelParam);
     }
 }

@@ -43,39 +43,38 @@ namespace SmartTool_API._Services.Services
             _repoMeasuremt = repoMeasuremt;
             _mapper = mapper;
             _configMapper = configMapper;
-            factory =configuration.GetSection("AppSettings:Factory").Value;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
         public async Task<bool> Add(Model_OperationDTO model)
         {
-            var modelParam =new ModelOperationEditParam();
+            var modelParam = new ModelOperationEditParam();
             modelParam.factory_id = model.factory_id;
             modelParam.model_no = model.model_no;
             modelParam.stage_id = model.stage_id;
             modelParam.operation_id = model.operation_id;
-            var operation =await GetModel_Operation(modelParam);
-            if(operation == null){
+            var operation = await GetModel_Operation(modelParam);
+            if (operation == null)
+            {
                 var modelOperation = _mapper.Map<Model_Operation>(model);
                 _repoModelOperation.Add(modelOperation);
                 return await _repoModelOperation.SaveAll();
-            }else{
-                return false;
             }
+            else return false;
         }
 
         public async Task<bool> CheckExistKaizenAndRTF(Model_OperationDTO operation)
         {
-            if(await _repoKaizen.CheckExistsKaizen(operation) || await _repoMeasuremt.CheckExistsRTF(operation)){
+            if(await _repoKaizen.CheckExistsKaizen(operation) || await _repoMeasuremt.CheckExistsRTF(operation))
                 return true;
-            }
             return false;
         }
 
         public async Task<bool> Delete(Model_OperationDTO operation)
         {
-            if(await CheckExistKaizenAndRTF(operation)){
+            if(await CheckExistKaizenAndRTF(operation)) {
                 return false;
-            } else{
+            } else {
                 var modelOperation = _mapper.Map<Model_Operation>(operation);
                 _repoModelOperation.Remove(modelOperation);
                 return await _repoModelOperation.SaveAll();

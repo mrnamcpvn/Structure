@@ -77,7 +77,7 @@ namespace SmartTool_API._Services.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<object> getfactory(string factory)
+        public async Task<object> GetModelNo(string factory)
         {
             var Model_no = await _modelRepository.FindAll(x=>x.factory_id ==factory && x.is_active ==true).ToListAsync();
             return Model_no.OrderByDescending(x=>x.prod_season).ThenByDescending(x=>x.volume);
