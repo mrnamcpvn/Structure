@@ -2,7 +2,7 @@ namespace SmartTool_API.Helpers
 {
     public class KaizenReportParam
     {
-        public string defect_Reason {get;set;}
-        public string active {get;set;}
+        public string Model_No {get;set;}
+        public string Active {get;set;}
     }
 }

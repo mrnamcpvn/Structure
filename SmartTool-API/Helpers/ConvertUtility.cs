@@ -26,5 +26,20 @@ namespace SmartTool_API.Helpers
             return result;
         }
 
+         /// <summary>
+        /// Conver ép kiểu theo mẫu, Ví dụ input.ToString("dd/MM/yyyy");
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="tempFormat"></param>
+        /// <returns></returns>
+        public static string ToString (this object value, string tempFormat) {
+            if (value == null) {
+                return string.Empty;
+            }
+
+            return string.Format ("{0:" + tempFormat + "}", value);
+
+        }
+
     }
 }

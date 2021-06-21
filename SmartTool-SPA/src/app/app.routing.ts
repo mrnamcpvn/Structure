@@ -71,6 +71,10 @@ export const routes: Routes = [
         path: 'kaizen',
         loadChildren: () => import('./views/kaizen/kaizen.module').then(m => m.KaizenModule)
       },
+      {
+        path: 'report',
+        loadChildren: () => import('./views/report/report.module').then(m => m.ReportModule)
+      },
       
     ]
   }
