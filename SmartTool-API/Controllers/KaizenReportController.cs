@@ -32,9 +32,9 @@ namespace SmartTool_API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("GetKaizenDetail")]
-        public async Task<IActionResult> GetKaizenDetail(string model_no, string serial_no ){
-            var data = await _ikaizenReport.GetKaizenDetail( factory, model_no,serial_no);
+        [HttpGet("getKaizenDetail")]
+        public async Task<IActionResult> GetKaizenDetails(string model_no, string serial_no) {
+            var data = await _ikaizenReport.GetKaizenDetail(factory, model_no, serial_no);
             return Ok(data);
         }
 

@@ -23,7 +23,7 @@ namespace SmartTool_API.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
             _kaizenService = kaizenService;
-            factory = configuration.GetSection("AppSetting:Factory").Value;
+            factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
         [HttpGet("kaizenlist")]

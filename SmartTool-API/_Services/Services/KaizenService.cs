@@ -1,14 +1,15 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
+using SmartTool_API._Repositories.Interfaces;
+using System.Linq;
+using AutoMapper.QueryableExtensions;
 using SmartTool_API.Models;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartTool_API._Services.Services
 {

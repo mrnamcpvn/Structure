@@ -8,23 +8,23 @@
             <div class="row mt-2">
               <label class="col-md-1 col-form-label" for="audit_Type_ID"> Model No</label>
               <div class="col-md-2 pt-1">
-                <ng-select2   width="100%" name="active">
+                <ng-select2 [data]="listModelNo" [(ngModel)]="modelNo" (ngModelChange)="changeModelNo($event)" width="100%" name="active">
                 </ng-select2>
               </div>
               <label class="col-md-1 col-form-label" for="audit_Type_ID"> Model Name</label>
               <div class="col-md-2">
-                <input type="text"  class="form-control" disabled >
+                <input type="text" [(ngModel)]="modelName" class="form-control" disabled >
               </div>
   
               <label class="col-md-1 col-form-label" for="audit_Type_ID"> Upper ID</label>
               <div class="col-md-2">
-                <input type="text" name="model-search"  id="model" class="form-control model-search" disabled >
+                <input type="text" name="model-search" [(ngModel)]="upperID" id="model" class="form-control model-search" disabled >
               </div>
             </div>
           </div>
           <div class="card-body">
             <div class="add-new">
-              <button type="button" class="btn btn-sm btn-primary float-left mb-2" ><i
+              <button type="button" class="btn btn-sm btn-primary float-left mb-2" [disabled]="!checkAddnew" (click)="addNew()" ><i
                   class="fa fa-plus"></i>
                 Add new</button>
             </div>
@@ -53,7 +53,7 @@
                   </tr>
                 </thead>
                 <tbody >
-                  <tr>
+                  <tr *ngIf="dataKaizen.length === 0">
                       <td colspan="13">
                           <alert class="text-center" type='danger'>
                               <strong>No Data matching!</strong>
@@ -62,24 +62,24 @@
                   </tr>
               </tbody>
                 <tbody>
-                  <tr >
+                  <tr *ngFor="let item of dataKaizen">
                     <td class="text-center">
-                      <button class="btn btn-primary" >
+                      <button class="btn btn-primary" (click)="edit(item)" >
                         <i class="fa fa-edit"></i>
                       </button>
                     </td>
-                    <td>fgh</td>
-                    <td>gh</td>
-                    <td>hgh</td>
-                    <td>ghgghgh</td>
-                    <td>ghghgghg</td>
-                    <td>ghghghgh</td>
-                    <td>ghghghh</td>
-                    <td>ghghh</td>
-                    <td>ghghgh</td>
-                    <td>ghghgh</td>
-                    <td>ghgh</td>
-                    <td>ghghg</td>
+                    <td>{{item.serial_no}}</td>
+                  <td>{{item.kaizen_description}}</td>
+                  <td>{{item.stage_id}}</td>
+                  <td>{{item.start_date | date: "yyyy/MM/dd"}}</td>
+                  <td>{{item.process}}</td>
+                  <td>{{item.process_tct_sec}}</td>
+                  <td>{{item.ct_before_sec}}</td>
+                  <td>{{item.ct_after_sec}}</td>
+                  <td>{{100-(item.ct_before_sec==0?0:item.ct_after_sec/item.ct_before_sec*100)|number : '1.0-0'}}%</td>
+                  <td>{{item.rft_before_percent==null?0:item.rft_before_percent}}%</td>
+                  <td>{{item.rft_after_percent ==null?0:item.rft_after_percent}}%</td>
+                  <td>{{item.line_roll_out_percent}}%</td>
                   </tr>
                 </tbody>
               </table>

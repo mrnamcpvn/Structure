@@ -7,6 +7,7 @@ import { ModelKaizenReport } from '../../../../_core/_models/model-kaizen-report
 import { Pagination } from '../../../../_core/_models/pagination';
 import { KaizenReportService } from '../../../../_core/_services/kaizen-report.service';
 import { FunctionUtility } from '../../../../_core/_utility/function-utility';
+declare var $: any;
 
 @Component({
   selector: 'app-model-detail',
@@ -14,32 +15,30 @@ import { FunctionUtility } from '../../../../_core/_utility/function-utility';
   styleUrls: ['./model-detail.component.scss']
 })
 export class ModelDetailComponent implements OnInit {
-
+  highcharts = Highcharts;
   model: ModelKaizenReport;
-  highcharts= Highcharts;
-  seasons: string[] = [];
-  season: string;
   dataChart: Efficiency[];
   efficiencyTargetData: number[] = [];
   actualModelEfficiencyData: number[] = [];
   monthData: string[] = [];
+  seasons: string[] = [];
+  season: string;
   chartOptions = null;
   dataTable: any = [];
+  url: any = environment.imageUrl;
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 3,
     totalItems: 0,
     totalPages: 0,
   };
-  url: any = environment.imageUrl;
   constructor(
-    private kaizenService: KaizenReportService,
-    private fuctionUtility: FunctionUtility,
     private router: Router,
+    private fuctionUtility: FunctionUtility,
+    private kaizenService: KaizenReportService
   ) { }
 
-  ngOnInit(): void {
-
+  ngOnInit() {
     this.kaizenService.currentModel.subscribe((res) => (this.model = res));
     if (this.model !== null) {
       this.model.volume_string = this.fuctionUtility.convertNumber(this.model.volume);
@@ -52,7 +51,6 @@ export class ModelDetailComponent implements OnInit {
       this.backForm();
     }
   }
-
   getSeasonByUpperID() {
     this.kaizenService
       .getSeasonByUpper(this.model.upper_id)
@@ -64,25 +62,6 @@ export class ModelDetailComponent implements OnInit {
         }
       });
   }
-  getDataTable() {
-    this.kaizenService
-      .getKaizens(
-        this.pagination.currentPage,
-        this.pagination.itemsPerPage,
-        this.model.model_no
-      )
-      .subscribe((res) => {
-        this.dataTable = res.result;
-        this.dataTable.map((obj) => {
-          obj.improv = Math.round(
-            100 * ((obj.ct_before_sec - obj.ct_after_sec) / obj.ct_before_sec)
-          );
-          return obj;
-        });
-        this.pagination = res.pagination;
-      });
-  }
-
   getDataChart() {
     this.kaizenService
       .getDataChart(this.model.upper_id, this.season)
@@ -177,12 +156,40 @@ export class ModelDetailComponent implements OnInit {
         };
       });
   }
-  backForm() {
-    this.router.navigate(["/report/kaizen-report/list"]);
+  getDataTable() {
+    this.kaizenService
+      .getKaizens(
+        this.pagination.currentPage,
+        this.pagination.itemsPerPage,
+        this.model.model_no
+      )
+      .subscribe((res) => {
+        this.dataTable = res.result;
+        this.dataTable.map((obj) => {
+          obj.improv = Math.round(
+            100 * ((obj.ct_before_sec - obj.ct_after_sec) / obj.ct_before_sec)
+          );
+          return obj;
+        });
+        this.pagination = res.pagination;
+      });
+  }
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.getDataTable();
+  }
+  changeSeason() {
+    this.getDataChart();
   }
   kaizenDetail(model: any) {
     this.kaizenService.updateClickTimes(model).subscribe();
     this.kaizenService.changeKaizen(model);
     this.router.navigate(["/report/kaizen-report/kaizen-detail"]);
+  }
+  backForm() {
+    this.router.navigate(["/report/kaizen-report/list"]);
+  }
+  ngAfterViewChecked() {
+    $('.highcharts-credits').html('');
   }
 }

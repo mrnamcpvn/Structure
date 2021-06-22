@@ -7,10 +7,11 @@ import { KaizenDetailComponent } from './kaizen-detail/kaizen-detail.component';
 import { ModelDetailComponent } from './model-detail/model-detail.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ChartsModule } from 'ng2-charts';
 import { HighchartsChartModule } from 'highcharts-angular';
+
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     PaginationModule,
     ChartsModule,
     HighchartsChartModule,
+    ReactiveFormsModule,
   ]
 })
 export class KaizenReportModule { }

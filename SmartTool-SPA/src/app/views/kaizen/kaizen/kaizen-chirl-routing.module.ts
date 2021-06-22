@@ -19,7 +19,7 @@ const routes: Routes = [
       path: 'kaizen-edit/:modelNo/:serial_no',
       data: {title: 'Edit Kaizen'},
       component: KaizenEditComponent
-    },
+  },
 ];
 
 @NgModule({

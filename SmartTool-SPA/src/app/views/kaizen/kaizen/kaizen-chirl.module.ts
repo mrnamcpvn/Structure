@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgSelect2Module } from 'ng-select2';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
       FormsModule,
       KaizenChirlRoutingModule,
       PaginationModule.forRoot(),
+      BsDatepickerModule.forRoot(),
       NgSelect2Module,
       AlertModule.forRoot(),
   ]
