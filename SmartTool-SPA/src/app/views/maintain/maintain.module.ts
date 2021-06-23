@@ -5,6 +5,7 @@ import { MaintainRoutingModule } from './maintain-routing.module';
 import { DefectReasonModule } from './defect-reason/defect-reason.module';
 import { ModelModule } from './model/model.module';
 import { ModelOperationModule } from './model-operation/model-operation.module';
+import { ModelEfficiencyModule } from './model-efficiency/model-efficiency.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ModelOperationModule } from './model-operation/model-operation.module';
     DefectReasonModule,
     ModelModule,
     ModelOperationModule,
+    ModelEfficiencyModule,
   ]
 })
 export class MaintainModule { }

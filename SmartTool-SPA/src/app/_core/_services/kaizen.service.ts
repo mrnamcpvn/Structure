@@ -70,12 +70,19 @@ export class KaizenService {
 
 
   create(kaizen: Kaizen) {
-    debugger
     return this.http.post<OperationResult>(this.baseUrl + 'kaizen/create', kaizen);
   }
   changeKaizen(kaizen:Kaizen)
   {
     this.kaizenSource.next(kaizen);
+  }
+
+  getKaizenEdit(modelNO:string,serialNo:string){
+    return this.http.get<Kaizen[]>(this.baseUrl + 'kaizen/getKaizenEdit', {params :{modelNo:modelNO,serialNo:serialNo}});
+  }
+
+  update(kaizen: Kaizen) {
+    return this.http.post<OperationResult>(this.baseUrl + 'kaizen/update', kaizen);
   }
 
 }

@@ -1,0 +1,78 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <strong>Modify </strong> Model Efficiency
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="row">
+                  <label class="col-md-2 col-form-label" style="text-align: center;" for="season"><strong >Season Year</strong><span class="red_star">  *</span></label>
+                  <div class="col-md-3">
+                    <input type="number" style="height: 30px;" name="season" 
+                      placeholder="Enter Season Year"
+                    class="form-control" min="0" max="99" oninput="validity.valid||(value='');" onKeyPress="if(this.value.length==2) return false;">
+                  </div>
+                  <label class="col-md-2 col-form-label" style="text-align: center;" for="upper-id"><strong >Upper ID</strong><span class="red_star">  *</span></label>
+                  <div class="col-md-3">
+                    <ng-select2   width="100%"   name="upper-id" id="upper-id"  required>
+                    </ng-select2>
+                  </div>
+                </div>
+                <div class="table-summary mt-2 row">
+                  <table class="table table-efficiency table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Season</th>
+                        <th>Month</th>
+                        <th>Efficiency Target (%)</th>
+                        <th>Actual Efficiency (%)</th>
+                        <th>Update By</th>
+                        <th>Update Time</th>
+                      </tr>
+                    </thead>
+                    <tbody class="vertical" >
+                        <tr >
+                          <td>
+                            fhg
+                          </td>
+                          <td>ghgf</td>
+                          <td>
+                            <input type="number" style="height: 30px;" name="efficiency_target"
+                             class="form-control" min="0" step="0.01" oninput="validity.valid||(value='');">
+                          </td>
+                          <td>
+                            <input type="number" style="height: 30px;" name="efficiency_actual"
+                             class="form-control" min="0" step="0.01" oninput="validity.valid||(value='');">
+                          </td>
+                          <td>dfg</td>
+                          <td>dfgs</td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="list-model-name">
+                  <p> <strong>Model Name</strong></p>
+                </div>
+                <div>
+                  <div >
+                    <p class="item-model-name">dsf</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-sm btn-danger"  ><i class="fa fa-ban"></i> Cancel</button>
+            <button type="button" class="btn btn-sm btn-success" ><i class="fa fa-check"></i> Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate" [fullScreen] = "true"></ngx-spinner>
+  

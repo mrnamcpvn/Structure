@@ -99,7 +99,7 @@
               "node_modules/simple-line-icons/dist/styles/simple-line-icons.css",
               "src/scss/style.scss",
               "node_modules/select2/dist/css/select2.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

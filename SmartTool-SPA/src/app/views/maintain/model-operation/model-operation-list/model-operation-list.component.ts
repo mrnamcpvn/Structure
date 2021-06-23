@@ -108,7 +108,6 @@ export class ModelOperationListComponent implements OnInit {
 
 
   delete(item: ModelOperation) {
-    debugger
     this.sweetAlertService.confirm('Delete Model Operation', 'Are you sure you want to delete this Model Operation ?', () => {
       debugger
       this.modelOperationService.deleteModelOperation(item).subscribe(() => {

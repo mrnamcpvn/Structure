@@ -103,7 +103,7 @@
                   <div class="input-group">
                     <input class="form-control" name="Record_Time" placeholder="Start date"
                       [(ngModel)]="dataKaizen.start_date" type="text" bsDatepicker
-                      required>
+                      [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM/DD'}" required>
                     <span class="input-group-text">
                       <span class="fa fa-calendar"></span>
                     </span>

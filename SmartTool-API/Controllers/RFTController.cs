@@ -42,9 +42,13 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetAllDefectReason () => Ok(await _iRFTService.GetAllDefectReason());
         [HttpGet("getoperationname")]
         public async Task<IActionResult> GetOperationName(string modelNo, string stage, string processtype) =>Ok(await _iRFTService.GetOperationName(modelNo, stage,processtype));
-        [HttpPost("search")]
-        public async Task<IActionResult> Search( PaginationParams paginationParams, string modelNo, string stage){
-            return Ok(await _iRFTService.Search(paginationParams, modelNo, stage));
+        
+        [HttpGet]
+        public async Task<IActionResult> GetAllMeasure([FromQuery] PaginationParams param, string modelNo, string stage)
+        {
+            var lists = await _iRFTService.Search(param, modelNo, stage);
+            Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
+            return Ok(lists);
         }
 
         [HttpPost("create")]

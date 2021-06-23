@@ -54,6 +54,14 @@ export class NavItem {
       icon: "icon-chart",
       children: [],
     };
+
+    //Measurement
+    const navMeasurement = {
+      name: "5. MEASUREMENT",
+      url: "measurement",
+      icon: "icon-grid",
+      children: [],
+    };
     
 
     if(user != null) {
@@ -100,12 +108,30 @@ export class NavItem {
           this.hasMaintain = true;
           navMainTain.children.push(children);
         }
+        if (element === "ksmt.ModelEfficiency") {
+          const children = {
+            name: "2.4 Model Efficiency",
+            url: "/maintain/model-efficiency/edit",
+            class: "menu-margin",
+          };
+          this.hasMaintain = true;
+          navMainTain.children.push(children);
+        }
 
         //kaizen list
         if (element === "ksmt.Kaizen") {
           const children = {
             name: "3.1 Kaizen",
             url: "/kaizen/kaizen/list",
+            class: "menu-margin",
+          };
+          this.hasKaizen = true;
+          navItemKaizen.children.push(children);
+        }
+        if (element === "ksmt.KaizenRFT") {
+          const children = {
+            name: "3.2 KaizenRFT",
+            url: "/kaizen/kaizen-rft/list",
             class: "menu-margin",
           };
           this.hasKaizen = true;
@@ -121,6 +147,18 @@ export class NavItem {
           };
           this.hasReport = true;
           navReport.children.push(children);
+        }
+
+
+        //Measurement
+        if (element === "ksmt.RFT") {
+          const children = {
+            name: "5.1 RFT",
+            url: "/measurement/list",
+            class: "menu-margin",
+          };
+          this.hasMeasurement = true;
+          navMeasurement.children.push(children);
         }
       });
     }   
@@ -138,6 +176,9 @@ export class NavItem {
     }
     if (this.hasReport) {
       this.navItems.push(navReport);
+    }
+    if (this.hasMeasurement) {
+      this.navItems.push(navMeasurement);
     }
     return this.navItems;
   }

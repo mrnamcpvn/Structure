@@ -92,6 +92,7 @@ namespace SmartTool_API
             services.AddScoped<IDefectReasonService, DefectReasonServcie>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IKaizenService,KaizenService>();
+            services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
 
 
 
