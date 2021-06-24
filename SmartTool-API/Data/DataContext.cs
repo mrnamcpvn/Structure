@@ -18,8 +18,8 @@ namespace SmartTool_API.Data
         public DbSet<RoleUser> RoleUser { get; set; }
         public DbSet<Process_Type> Process_Type { get; set; }
         public DbSet<VW_ModelKaizen> VW_ModelKaizen { get; set; }
-        // public DbSet<VW_RFTReportDetail> VW_RFTReportDetail { get; set; }
-        // public DbSet<VW_RFT_AVG> VW_RFT_AVG { get; set; }
+        public DbSet<VW_RFTReportDetail> VW_RFTReportDetail { get; set; }
+        public DbSet<VW_RFT_AVG> VW_RFT_AVG { get; set; }
         public DbSet<Measurement_RFT> Measurement_RFT { get; set; }
         public virtual DbSet<Stage> Stage { get; set; }
 
@@ -31,8 +31,8 @@ namespace SmartTool_API.Data
             modelBuilder.Entity<Model_Type>().HasKey(x => new { x.factory_id, x.model_type_id });
             modelBuilder.Entity<RoleUser>().HasKey(x => new { x.user_account, x.role_unique });
             modelBuilder.Entity<VW_ModelKaizen>().HasNoKey();
-            // modelBuilder.Entity<VW_RFTReportDetail>().HasNoKey();
-            // modelBuilder.Entity<VW_RFT_AVG>().HasNoKey();
+            modelBuilder.Entity<VW_RFTReportDetail>().HasNoKey();
+            modelBuilder.Entity<VW_RFT_AVG>().HasNoKey();
             modelBuilder.Entity<Efficiency>().HasKey(x => new
             {
                 x.factory_id,

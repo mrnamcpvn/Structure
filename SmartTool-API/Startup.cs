@@ -82,6 +82,9 @@ namespace SmartTool_API
             services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
             services.AddScoped<IStageRepository,StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+            services.AddScoped<IKaizenBenefitsApplicationFormRepository, KaizenBenefitsApplicationFormRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
 
             //Add Service
             services.AddScoped<IAuthService, AuthService>();
@@ -93,6 +96,8 @@ namespace SmartTool_API
             services.AddScoped<IModelOperationService, ModelOperationService>();
             services.AddScoped<IKaizenService,KaizenService>();
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
+            services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
+            services.AddScoped<IRFTReportService, RFTReportService>();
 
 
 

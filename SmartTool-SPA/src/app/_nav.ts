@@ -148,6 +148,44 @@ export class NavItem {
           this.hasReport = true;
           navReport.children.push(children);
         }
+        if (element === "ksmt.GroupKaizenReport") {
+          const children = {
+            name: "4.2 Group Kaizen Report",
+            url: "/report/group-kaizen-report/list",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navReport.children.push(children);
+        }
+        if (element === "ksmt.RFTReport") {
+          const children = {
+            name: "4.3 RFT Report",
+            url: "/report/rft-report/list",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navReport.children.push(children);
+        }
+
+        if (element === "ksmt.GroupRFTReport") {
+          const children = {
+            name: "4.4 Group RFT Report",
+            url: "/report/group-rft-report/list",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navReport.children.push(children);
+        }
+
+        if (element === "ksmt.CrossSiteSharingApplication") {
+          const children = {
+            name: "4.5 Cross Site Sharing",
+            url: "/report/cross-site-sharing/list",
+            class: "menu-margin",
+          };
+          this.hasReport = true;
+          navReport.children.push(children);
+        }
 
 
         //Measurement
