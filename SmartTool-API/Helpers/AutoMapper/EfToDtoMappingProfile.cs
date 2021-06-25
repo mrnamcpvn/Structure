@@ -20,6 +20,7 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<VW_ModelKaizen, VW_ModelKaizen_Dto>();
             CreateMap<VW_RFT_AVG, VW_RFT_AVGDTO>();
             CreateMap<VW_RFTReportDetail, VW_RFTReportDetailDTO>();
+            CreateMap<Kaizen_Benefits_Application_Form, Kaizen_Benefits_Application_FormDTO>();
         }
     }
 }

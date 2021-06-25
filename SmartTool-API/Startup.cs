@@ -98,6 +98,7 @@ namespace SmartTool_API
             services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
             services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
             services.AddScoped<IRFTReportService, RFTReportService>();
+            services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
 
 
 

@@ -24,6 +24,10 @@ const routes: Routes = [
         path: 'group-rft-report',
         loadChildren: () => import('./group-rft-report/group-rft-report.module').then(m => m.GroupRftReportModule)
       },
+      {
+        path: 'cross-site-sharing',
+        loadChildren: () => import('./cross-site/cross-site.module').then(m => m.CrossSiteModule)
+      },
     ]
   }
 ];

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
+using SmartTool_API.Models;
 
 namespace SmartTool_API._Services.Services
 {
@@ -32,20 +34,17 @@ namespace SmartTool_API._Services.Services
 
         public async Task<CrossSiteSharingEditDTO> GetCrossSiteSharingEdit(string factory, string modelNO, string serialNo)
         {
-            var form = _formRepository.FindAll(x=>x.to_factory_id.Trim() ==factory.Trim()  && x.model_no.Trim() == modelNO && x.serial_no == serialNo.ToInt());
+            var form = _formRepository.FindAll(x=>x.to_factory_id.Trim() ==factory.Trim() 
+             && x.model_no.Trim() == modelNO && x.serial_no == serialNo.ToInt());
             var model = _repoModel.FindAll();
             var kaizen = _kaizen.FindAll();   
             var modelOperation = _modelOperationRepository.FindAll();
-
-            var data = await (from a in form 
-                        join  b in model on new {a.factory_id,a.model_no} equals new {b.factory_id,b.model_no}
-                        
-                        join c in kaizen on new {a.factory_id,a.model_no,a.serial_no} 
-                        equals new {c.factory_id,c.model_no,c.serial_no}
-                        
-                        join d in modelOperation on new {c.factory_id,c.model_no,c.operation_id} 
-                        equals
-                        new {d.factory_id,d.model_no,d.operation_id}
+            var data = await (from a in form join 
+                        b in model on new {a.factory_id,a.model_no} equals new {b.factory_id,b.model_no}
+                        join c in kaizen on new {a.factory_id,a.model_no,a.serial_no} equals 
+                        new {c.factory_id,c.model_no,c.serial_no}
+                        join d in modelOperation on new {c.factory_id,c.model_no,c.operation_id} equals
+                             new {d.factory_id,d.model_no,d.operation_id}
                         select new CrossSiteSharingEditDTO(){
                         crossSiteSharingDTO = _mapper.Map<Kaizen_Benefits_Application_FormDTO>(a),
                          kaizen_type_eliminate = c.kaizen_type_eliminate,
@@ -63,12 +62,50 @@ namespace SmartTool_API._Services.Services
                          operation_name_en = d.operation_name_en,
                          operation_name_zh = d.operation_name_zh
                         }).ToListAsync();
-            return _mapper.Map<List<CrossSiteSharingEditDTO>>(data).FirstOrDefault();
+          return _mapper.Map<List<CrossSiteSharingEditDTO>>(data).FirstOrDefault();
         }
 
-        public Task<List<CrossSiteSharingEditDTO>> GetCrossSiteSharingPDF(List<CrossSiteSharingDTO> filterParam)
+        public async Task<List<CrossSiteSharingEditDTO>> GetCrossSiteSharingPDF(List<CrossSiteSharingDTO> filterParam)
         {
-            throw new System.NotImplementedException();
+            filterParam =  filterParam.Where(x=>x.IsChoise ==true).ToList();
+            var form =await _formRepository.FindAll().ToListAsync();
+            var model = _repoModel.FindAll();
+            var kaizen = _kaizen.FindAll();   
+            var modelOperation = _modelOperationRepository.FindAll();
+            List<CrossSiteSharingEditDTO> result =new List<CrossSiteSharingEditDTO>();
+
+             filterParam.ForEach(item=>{
+           var  form1 = form.Where(x=>x.to_factory_id.Trim() ==item.to_factory_id.Trim() && x.model_no.Trim() == item.model_no && x.serial_no == item.serial_no.ToInt());
+             var data =   (from a in form1 join 
+                            b in model on new {a.factory_id,a.model_no} equals new {b.factory_id,b.model_no}
+                            join c in kaizen on new {a.factory_id,a.model_no,a.serial_no} equals 
+                            new {c.factory_id,c.model_no,c.serial_no}
+                            join d in modelOperation on new {c.factory_id,c.model_no,c.operation_id} equals
+                            new {d.factory_id,d.model_no,d.operation_id}
+                            select new CrossSiteSharingEditDTO(){
+                                crossSiteSharingDTO = _mapper.Map<Kaizen_Benefits_Application_FormDTO>(a),
+
+                                kaizen_type_eliminate = c.kaizen_type_eliminate,
+                                kaizen_type_reduce = c.kaizen_type_reduce,
+                                kaizen_type_combine = c.kaizen_type_combine,
+                                kaizen_type_smart_tool = c.kaizen_type_smart_tool,
+                                kaizen_description = c.kaizen_description,
+                                before_media = c.before_media,
+                                after_media = c.after_media,
+                                ct_before_sec = c.ct_before_sec,
+                                ct_after_sec = c.ct_after_sec,
+                                rft_before_percent = c.rft_before_percent,
+                                rft_after_percent = c.rft_after_percent,
+                                model_name = b.model_name,
+                                operation_name_en = d.operation_name_en,
+                                operation_name_zh = d.operation_name_zh,
+                                before_remarks = c.before_remarks,
+                                after_remarks = c.after_remarks
+                                }).ToList();
+                result.Add(_mapper.Map<List<CrossSiteSharingEditDTO>>(data).FirstOrDefault());
+             }); 
+             return result;
+
         }
 
         public async Task<PagedList<CrossSiteSharingDTO>> Search(PaginationParams param, CrossSiteSharingParam filterParam)
@@ -100,10 +137,41 @@ namespace SmartTool_API._Services.Services
                 return await PagedList<CrossSiteSharingDTO>.CreateAsync(data, param.PageNumber, param.PageSize);
         }
 
-        public Task<OperationResult> UpdateCrossSiteSharing(Kaizen_Benefits_Application_FormDTO model)
+        public async Task<OperationResult> UpdateCrossSiteSharing(Kaizen_Benefits_Application_FormDTO model)
         {
-            throw new System.NotImplementedException();
+            if(model.doc_no =="" || model.doc_no ==null)
+                {
+                    string doc_No = await GetdocNo();
+                    model.fill_in_date = DateTime.Now;
+                    model.doc_no = doc_No;
+                }
+                model.update_time = DateTime.Now;
+                var modelUp = _mapper.Map<Kaizen_Benefits_Application_Form>(model);
+                _formRepository.Update(modelUp);
+                await _formRepository.SaveAll();
+                return  new OperationResult { Caption = "Success", Message = "Update Cross Site Sharing Success", Success = true };
         }
-        
+
+        public async Task<string> GetdocNo(){
+            string doc_no = DateTime.Now.Year.ToString() + (DateTime.Now.Month < 10 ?
+                ("0" + DateTime.Now.Month) : DateTime.Now.Month.ToString()) + (DateTime.Now.Day<10?
+                ("0" + DateTime.Now.Day) : DateTime.Now.Day.ToString()); // ngay bé hon 10 them số 0 trước
+            
+            var item = await _formRepository.FindAll(x => x.doc_no.Contains(doc_no)).OrderByDescending(x => x.doc_no).FirstOrDefaultAsync(); // tim xem item da co trong _formReposi chua
+            if (item != null)
+            {
+                var serinumber = item.doc_no.Substring(8).ToInt();
+
+                var tmp =  (serinumber >= 99) ? (serinumber + 1).ToString(): (serinumber < 9) ? ("00" + (serinumber + 1)) : ("0" + (serinumber + 1));
+
+                doc_no = DateTime.Now.Year.ToString() + (DateTime.Now.Month < 10 ? ("0" + DateTime.Now.Month) : DateTime.Now.Month.ToString())
+                + (DateTime.Now.Day<10? ("0" + DateTime.Now.Day) : DateTime.Now.Day.ToString()) + tmp;
+            } else
+             {
+                doc_no =  DateTime.Now.Year.ToString() + (DateTime.Now.Month < 10 ? ("0" + DateTime.Now.Month) : DateTime.Now.Month.ToString()) 
+                + (DateTime.Now.Day<10? ("0" + DateTime.Now.Day) : DateTime.Now.Day.ToString())  + "001";
+            }
+            return doc_no;
+        }
     }
 }
