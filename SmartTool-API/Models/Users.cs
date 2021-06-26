@@ -13,5 +13,7 @@ namespace SmartTool_API.Models
         public bool is_active { get; set; }
         public string update_by { get; set; }
         public DateTime update_time { get; set; }
+        [StringLength(255)]
+        public string Image { get; set; }
     }
 }

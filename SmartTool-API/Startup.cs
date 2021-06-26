@@ -99,6 +99,7 @@ namespace SmartTool_API
             services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
             services.AddScoped<IRFTReportService, RFTReportService>();
             services.AddScoped<ICrossSiteSharingService, CrossSiteSharingService>();
+            services.AddScoped<IUploadFIleService, UploadFIleService>();
 
 
 
@@ -145,7 +146,7 @@ namespace SmartTool_API
             app.UseRouting();
         
 
-   
+            app.UseStaticFiles();
 
             app.UseAuthentication();
             app.UseAuthorization();

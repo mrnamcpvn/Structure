@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
@@ -42,6 +43,11 @@ namespace SmartTool_API._Services.Services
         public Task<bool> Delete(object id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void DeleteFileUpload(string files, string fileFolder)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<List<Defect_ReasonDTO>> GetAllAsync()
@@ -96,6 +102,16 @@ namespace SmartTool_API._Services.Services
             var derr =_mapper.Map<Defect_Reason>(model);
             _defectReason.Update(derr);
             return await _defectReason.SaveAll(); 
+        }
+
+        public Task<string> UploadFile(IFormFile file, string name, string fileFolder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> UploadFiles(List<IFormFile> files, string name, string fileFolder)
+        {
+            throw new NotImplementedException();
         }
     }
 }

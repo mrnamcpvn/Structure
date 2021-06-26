@@ -10,6 +10,7 @@ using AutoMapper.QueryableExtensions;
 using SmartTool_API.Models;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace SmartTool_API._Services.Services
 {
@@ -246,6 +247,21 @@ namespace SmartTool_API._Services.Services
                 await _ikaizenrepo.SaveAll();
                 return operationResult = new OperationResult { Caption = "Success", Message = "Update Kaizen Success", Success = true };
             }
+        }
+
+        public Task<string> UploadFiles(List<IFormFile> files, string name, string fileFolder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> UploadFile(IFormFile file, string name, string fileFolder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFileUpload(string files, string fileFolder)
+        {
+            throw new NotImplementedException();
         }
     }
 }

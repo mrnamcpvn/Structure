@@ -2,9 +2,11 @@ import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from '../../_core/_models/user';
 import { AlertifyService } from '../../_core/_services/alertify.service';
 import { AuthService } from '../../_core/_services/auth.service';
 import { UserService } from '../../_core/_services/user.service';
+import { commonPerFactory } from '../../_core/_utility/common-fer-factory';
 import { NavItem, navItems } from '../../_nav';
 
 @Component({
@@ -16,11 +18,11 @@ export class DefaultLayoutComponent {
   public navItems = navItems;
   newPassword: string;
   confirmPassword: string;
-  currentUser: any = JSON.parse(localStorage.getItem('userSmartTooling'));
+  currentUser: User = JSON.parse(localStorage.getItem('userSmartTooling'));
   oldPassword: string;
   @ViewChild('modalChangePassword', { static: false }) modalEditUser: ModalDirective;
 
-
+  public imageUser = '';
   
   constructor(
     private authService: AuthService,
@@ -31,6 +33,8 @@ export class DefaultLayoutComponent {
     private nav: NavItem
   ){
     this.navItems = this.nav.getNav(this.currentUser);
+    this.imageUser = this.currentUser.image === null ? commonPerFactory.imageUserDefault
+                                    : commonPerFactory.imageUserUrl + this.currentUser.image;
   }
 
   toggleMinimize(e) {
@@ -53,7 +57,7 @@ export class DefaultLayoutComponent {
       return;
     }
     this.spinnerService.show();
-    this.userService.changePassword(this.currentUser.username, this.oldPassword, this.newPassword)
+    this.userService.changePassword(this.currentUser.account, this.oldPassword, this.newPassword)
       .subscribe(res => {
         debugger
         if (res.success) {

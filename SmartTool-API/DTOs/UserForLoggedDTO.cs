@@ -9,5 +9,6 @@ namespace SmartTool_API.DTOs
         public string Email { get; set; }
         public string Username { get; set; }
         public List<string> Role { get; set; }
+        public string Image { get; set; }
     }
 }

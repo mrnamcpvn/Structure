@@ -161,6 +161,21 @@
                     </div>
                 </div>
                 </div>
+                <div class="form-group">
+                  <div class="avatar-upload">
+                    <div class="avatar-edit">
+                      <input type='file' id="imageUpload" accept="image/*" #fileInput
+                        (change)="uploadFile($event)" />
+                    </div>
+                    <div class="avatar-preview">
+                      <div id="imagePreview" [style.backgroundImage]="'url('+ imageUser +')'"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex" style="justify-content: center;">
+                    <button type="button" class="btn btn-success mr-2" (click)="fileInput.click()">Upload Image</button>
+                    <button type="button" class="btn btn-danger" (click)="removeUploadedFile()">Remove Image</button>
+                  </div>
+                </div>
             </form>
     
             </div>
@@ -239,6 +254,21 @@
               <label class="custom-control-label" for="editActive"></label>
             </div>
           </div>
+            </div>
+            <div class="form-group">
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input type='file' id="imageUpload" accept="image/*" #fileInput
+                    (change)="uploadFile($event)" />
+                </div>
+                <div class="avatar-preview">
+                  <div id="imagePreview" [style.backgroundImage]="'url('+ imageUser +')'"></div>
+                </div>
+              </div>
+              <div class="d-flex" style="justify-content: center;">
+                <button type="button" class="btn btn-success mr-2" (click)="fileInput.click()">Upload Image</button>
+                <button type="button" class="btn btn-danger" (click)="removeUploadedFile()">Remove Image</button>
+              </div>
             </div>
         </div>
         <div class="modal-footer justify-content-start">

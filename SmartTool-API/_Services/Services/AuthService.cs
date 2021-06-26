@@ -45,7 +45,8 @@ namespace SmartTool_API._Services.Services
                 Username = user.account,
                 Name = user.name,
                 // Nik = user.,
-                Role = roleName.OrderBy(x => x.Position).Select(x => x.Name).ToList()
+                Role = roleName.OrderBy(x => x.Position).Select(x => x.Name).ToList(),
+                Image = user.Image
             };
 
             return result;

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
 using SmartTool_API.Helpers;
@@ -15,11 +18,16 @@ namespace SmartTool_API.Controllers
     // [Authorize]
     public class UserController : ControllerBase
     {
+        private readonly IUploadFIleService _upfileService;
         private readonly IUserService _userService;
+        private readonly IUserRepository _userrepository;
 
-        public UserController(IUserService userService)
+
+        public UserController(IUploadFIleService upfileService, IUserService userService, IUserRepository userrepository)
         {
+            _upfileService = upfileService;
             _userService = userService;
+            _userrepository = userrepository;
         }
 
         [HttpPut("changepassword")]
@@ -31,8 +39,10 @@ namespace SmartTool_API.Controllers
 
 
         [HttpPost("adduser")]
-        public async Task<IActionResult> AddUser(UsersDTO user)
+        public async Task<IActionResult> AddUser([FromForm] UsersDTO user)
         {
+            if (user.File != null)
+                user.Image = await _upfileService.UploadFile(user.File, user.account.Trim() + "_", "\\uploaded\\images\\user");
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.AddUser(user, updateBy);
             if (result)
@@ -53,6 +63,15 @@ namespace SmartTool_API.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUser(UsersDTO user)
         {
+            if (user.File != null)
+            {
+                var image = await _userrepository.FindAll(x => x.account == user.account)
+                                                             .Select(x => x.Image)
+                                                             .FirstOrDefaultAsync();
+                if (!string.IsNullOrEmpty(image))
+                    _upfileService.DeleteFileUpload(image, "\\uploaded\\images\\user");
+                user.Image = await _upfileService.UploadFile(user.File, user.account.Trim() + "_", "\\uploaded\\images\\user");
+            }
             var updateBy = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _userService.UpdateUser(user, updateBy);
             if (result)

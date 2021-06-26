@@ -38,7 +38,6 @@ export class UserService {
   }
 
   changePassword(account: string, oldPassword: string, password: string) {
-    debugger
     const user = {
       Account: account,
       OldPassword: oldPassword,
@@ -47,13 +46,28 @@ export class UserService {
     return this.http.put<OperationResult>(this.baseUrl + 'User/changepassword', user);
   }
 
-  addUser(addUser: AddUser) {
-    return this.http.post(this.baseUrl + 'User/adduser', addUser);
+  addUser(addUser: any, file: File) {
+    const formDataadd = this.getFormDataUser(addUser, file);
+    return this.http.post(this.baseUrl + 'User/adduser', formDataadd);
   }
 
-  editUser(updateUser: AddUser) {
-    debugger
-    return this.http.put(this.baseUrl + 'User/update', updateUser);
+  //
+  getFormDataUser(user: any, file: File) {
+    const formData = new FormData();
+    formData.append('account', user.account);
+    formData.append('email', user.email);
+    formData.append('name', user.name);
+    formData.append('is_active', user.is_active);
+    formData.append('File', file);
+    if (user.password !== null)
+      formData.append('Password', user.password);
+    return formData;
+  }
+  //
+
+  editUser(updateUser: AddUser, file: File) {
+    const formDataadd = this.getFormDataUser(updateUser, file);
+    return this.http.put(this.baseUrl + 'User/update', formDataadd);
   }
 
   getRoleByUser(account: string) {

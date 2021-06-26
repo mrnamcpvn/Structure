@@ -8,6 +8,7 @@ export interface User {
     updated_by: string;
     updated_time: Date;
     active: boolean;
+    image: string;
 }
 export class AddUser {
     account: string = '';
@@ -17,4 +18,5 @@ export class AddUser {
     updated_by: string = '';
     updated_time: Date = new Date;
     is_active: boolean = true;
+    image: string;
 }
