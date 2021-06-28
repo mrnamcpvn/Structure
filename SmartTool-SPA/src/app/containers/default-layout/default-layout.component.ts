@@ -18,7 +18,7 @@ export class DefaultLayoutComponent {
   public navItems = navItems;
   newPassword: string;
   confirmPassword: string;
-  currentUser: User = JSON.parse(localStorage.getItem('userSmartTooling'));
+  currentUser: any = JSON.parse(localStorage.getItem('userSmartTooling'));
   oldPassword: string;
   @ViewChild('modalChangePassword', { static: false }) modalEditUser: ModalDirective;
 

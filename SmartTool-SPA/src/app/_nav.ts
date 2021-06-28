@@ -59,7 +59,7 @@ export class NavItem {
     const navMeasurement = {
       name: "5. MEASUREMENT",
       url: "measurement",
-      icon: "icon-grid",
+      icon: "cil-audio-description",
       children: [],
     };
     

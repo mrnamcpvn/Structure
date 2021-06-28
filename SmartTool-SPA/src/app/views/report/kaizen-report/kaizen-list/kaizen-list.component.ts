@@ -73,13 +73,15 @@ export class KaizenListComponent implements OnInit {
     this.models.length = 0;
   }
 
-  exportExcel() {
-    debugger
+  exportExcel(checkExport: number) {
     this.filterParam = {
       model_No: this.model_no.toUpperCase(),
       active: this.active
     };
-    this.kaizenService.exportExcel(this.filterParam);
+    this.kaizenService.exportExcel(this.filterParam, checkExport);
   }
 
+    print() {
+      window.print();
+    }
 }

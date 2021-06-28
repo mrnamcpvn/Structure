@@ -52,19 +52,20 @@ export class GroupKaizenReportService {
     this.modelSource.next(model);
   }
 
-  exportExcel(param: any) {
-    return this.http.post(this.baseUrl + 'groupKaizenReport/exportExcel',param, {responseType: 'blob' })
+  exportExcel(param: any, check?: number) {
+    let params = new HttpParams().set("param", param).set("check", check.toString());
+
+    return this.http.get(this.baseUrl + 'groupKaizenReport/exportExcel', {responseType: 'blob', params })
       .subscribe((result: Blob) => {
-        if (result.type !== 'application/xlsx') {
-          alert(result.type);
-        }
         const blob = new Blob([result]);
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         const currentTime = new Date();
-        const filename = 'Excel_'+ 'GroupKaizenReport' + currentTime.getFullYear().toString() +
+        debugger
+        let fileExtension = check === 1 ? '.xlsx' : '.pdf';
+        const filename ='GroupKaizenReport' + currentTime.getFullYear().toString() +
           (currentTime.getMonth() + 1) + currentTime.getDate() +
-          currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + '.xlsx';
+          currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + fileExtension;
         link.href = url;
         link.setAttribute('download', filename);
         document.body.appendChild(link);

@@ -45,8 +45,8 @@ namespace SmartTool_API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("exportExcel")]
-        public async Task<IActionResult> ExportExcel(KaizenReportParam filter) {
+        [HttpGet("exportExcel")]
+        public async Task<IActionResult> ExportExcel([FromQuery] KaizenReportParam filter, int checkExport) {
             var data = await _ikaizenReport.GetModelKaizens(factory, filter);
             WorkbookDesigner designer = new WorkbookDesigner();
             var path = Path.Combine(__webHostEnvironment.ContentRootPath, "Resources\\Template\\KaizenReport.xlsx");
@@ -56,11 +56,33 @@ namespace SmartTool_API.Controllers
             designer.Process();
 
             MemoryStream stream = new MemoryStream();
-            designer.Workbook.Save(stream, SaveFormat.Xlsx);
+            string fileKind = "";
+            string fileExtension = "";
+
+            if (checkExport == 1)
+            {
+                designer.Workbook.Save(stream, SaveFormat.Xlsx);
+                fileKind = "application/xlsx";
+                fileExtension = ".xlsx";
+            }
+            if (checkExport == 2)
+            {
+                // custom size ( width: in, height: in )
+                //ws.PageSetup.CustomPaperSize(12.5, 8);
+                ws.PageSetup.FitToPagesTall = 0;
+                ws.PageSetup.SetHeader(0, "&D &T");
+                ws.PageSetup.SetHeader(1, "&B Article Category");
+                ws.PageSetup.SetFooter(0, "&B SYSTEM BY MINH HIEU");
+                ws.PageSetup.SetFooter(2, "&P/&N");
+                ws.PageSetup.PrintQuality = 1200;
+                designer.Workbook.Save(stream, SaveFormat.Pdf);
+                fileKind = "application/pdf";
+                fileExtension = ".pdf";
+            }
 
             byte[] result = stream.ToArray();
 
-            return File(result, "application/xlsx", "Excel" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + ".xlsx");
+            return File(result, fileKind, "Article_Category_" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + fileExtension);
         }
 
         [HttpGet("getSeason/{upper_id}")]

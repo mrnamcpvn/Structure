@@ -43,8 +43,8 @@ namespace SmartTool_API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("exportExcel")]
-        public async Task<IActionResult> ExportExcel(KaizenReportGroupParam filterParam) {
+        [HttpGet("exportExcel")]
+        public async Task<IActionResult> ExportExcel([FromQuery] KaizenReportGroupParam filterParam, int check) {
             var data = await _service.GetModelKaizens(filterParam);
             WorkbookDesigner designer = new WorkbookDesigner(); // khai bao bien designer kieu du lieu WorkbookDesigner
             var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Resources\\Template\\KaizenReport.xlsx"); //khai bao 1 path la duong dan vao file excel co san
@@ -54,11 +54,32 @@ namespace SmartTool_API.Controllers
             designer.Process(); //set data vao designer, voi ten result
 
             MemoryStream stream = new MemoryStream();
-            designer.Workbook.Save(stream, SaveFormat.Xlsx);
+            string fileKind = "";
+            string fileExtension = "";
+            if (check == 1)
+            {
+                designer.Workbook.Save(stream, SaveFormat.Xlsx);
+                fileKind = "application/xlsx";
+                fileExtension = ".xlsx";
+            }
+            if (check == 2)
+            {
+                // custom size ( width: in, height: in )
+                //ws.PageSetup.CustomPaperSize(12.5, 8);
+                ws.PageSetup.FitToPagesTall = 0;
+                ws.PageSetup.SetHeader(0, "&D &T");
+                ws.PageSetup.SetHeader(1, "&B Article Category");
+                ws.PageSetup.SetFooter(0, "&B SYSTEM BY MINH HIEU");
+                ws.PageSetup.SetFooter(2, "&P/&N");
+                ws.PageSetup.PrintQuality = 1200;
+                designer.Workbook.Save(stream, SaveFormat.Pdf);
+                fileKind = "application/pdf";
+                fileExtension = ".pdf";
+            }
 
             byte[] result = stream.ToArray();
 
-            return File(result, "application/xlsx", "Excel" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + ".xlsx"); // luu file truyen vao result, dinh dang Xlsx, 
+            return File(result, fileKind, "Excel" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + fileExtension); // luu file truyen vao result, dinh dang Xlsx, 
                                                                                                                         // ten  co Excel_ngay_thang_nam.xlsx
         }
 

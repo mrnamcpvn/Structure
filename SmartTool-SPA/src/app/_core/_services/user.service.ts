@@ -47,6 +47,7 @@ export class UserService {
   }
 
   addUser(addUser: any, file: File) {
+    debugger
     const formDataadd = this.getFormDataUser(addUser, file);
     return this.http.post(this.baseUrl + 'User/adduser', formDataadd);
   }
@@ -65,7 +66,8 @@ export class UserService {
   }
   //
 
-  editUser(updateUser: AddUser, file: File) {
+  editUser(updateUser: any, file: File) {
+    debugger
     const formDataadd = this.getFormDataUser(updateUser, file);
     return this.http.put(this.baseUrl + 'User/update', formDataadd);
   }
@@ -75,11 +77,9 @@ export class UserService {
   }
 
   updateRoleByUser(account: string, listRoleByUser: RoleByUser[]) {
-    debugger
     return this.http.put(this.baseUrl + 'User/roleuser/' + account, listRoleByUser);
   }
   deleteUser(user: string){
-    debugger
     return this.http.delete<OperationResult>(this.baseUrl + 'User/' + user);
   }
 }

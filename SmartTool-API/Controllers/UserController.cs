@@ -61,7 +61,7 @@ namespace SmartTool_API.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateUser(UsersDTO user)
+        public async Task<IActionResult> UpdateUser([FromForm] UsersDTO user)
         {
             if (user.File != null)
             {
@@ -108,6 +108,11 @@ namespace SmartTool_API.Controllers
 
         [HttpDelete("{account}")]
         public async Task<IActionResult> DeleteUser(string account){
+            var image = await _userrepository.FindAll(x => x.account == account)
+                                             .Select(x => x.Image)
+                                             .FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(image))
+                _upfileService.DeleteFileUpload(image, "\\uploaded\\images\\user");
             // var result = await _userService.DeleteUser(account);
             return Ok(await _userService.DeleteUser(account));
         }

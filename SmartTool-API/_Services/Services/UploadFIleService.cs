@@ -44,7 +44,6 @@ namespace SmartTool_API._Services.Services
 
         public async Task<string> UploadFile(IFormFile file, string name, string fileFolder)
         {
-            string fileUploads = "";
             string folder = _webHostEnvironment.WebRootPath + fileFolder;
             var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var randomGiud = Guid.NewGuid().ToString();
@@ -63,8 +62,7 @@ namespace SmartTool_API._Services.Services
                 file.CopyTo(fs);
                 fs.Flush();
             }
-            fileUploads = uploadPicture;
-            return await Task.FromResult(fileUploads);
+            return await Task.FromResult(uploadPicture);
         }
 
         public async Task<string> UploadFiles(List<IFormFile> files, string name, string fileFolder)

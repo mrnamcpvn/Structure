@@ -5,7 +5,7 @@ import { BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { takeUntil } from 'rxjs/operators';
-import { Pagination } from '../../../_core/_models/pagination';
+import { PaginatedResult, Pagination } from '../../../_core/_models/pagination';
 import { RoleByUser } from '../../../_core/_models/role-by-user';
 import { AddUser, User } from '../../../_core/_models/user';
 import { AlertifyService } from '../../../_core/_services/alertify.service';
@@ -79,18 +79,22 @@ export class UserComponent implements OnInit {
       });
   }
 
-  adduser(){
+  loadUserUpdate(): void {
     this.spinnerService.show();
-    this.userService.addUser(this.addUser, this.file)
-      .subscribe(() => {
-        this.alertifyService.success('Add user success!');
+    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage)
+      .subscribe(res => {
+        this.users = res.result;
+        let user = this.users.find(x => x.name === this.currentUser.name );
+        this.resetLocalStore(user);
         this.spinnerService.hide();
-        this.getUser();
-        this.clearUser();
       }, error => {
-        this.alertifyService.error('Fail add user!');
+        console.log(error);
         this.spinnerService.hide();
       });
+  }
+
+  resetUser() {
+    this.imageUser = commonPerFactory.imageUserDefault;
   }
 
   clear() {
@@ -116,7 +120,11 @@ export class UserComponent implements OnInit {
     });
   }
 
-
+  setUser(user: User) {
+    this.user = { ...user };
+    this.imageUser = user.image !== null ? this.imageUserUrl + user.image
+      : commonPerFactory.imageUserDefault;
+  }
 
   uploadFile(event) {
     this.file = event.target.files[0];
@@ -137,31 +145,40 @@ export class UserComponent implements OnInit {
       this.cd.markForCheck();
     }
   }
-  edituser(){
+
+  adduser(){
     this.spinnerService.show();
-      if (this.user.password === undefined)
+    this.userService.addUser(this.addUser, this.file)
+      .subscribe(() => {
+        this.alertifyService.success('Add user success!');
+        this.spinnerService.hide();
+        this.getUser();
+        this.clearUser();
+      }, error => {
+        this.alertifyService.error('Fail add user!');
+        this.spinnerService.hide();
+      });
+  }
+
+  
+  saveEditUser() {
+    this.spinnerService.show();
+    if (this.user.password === undefined)
         this.user.password = null;
       if (this.file === undefined)
         this.file = null;
-      this.userService.editUser(this.user, this.file)
-        .pipe(takeUntil(this.destroyService.destroys$))
-        .subscribe(res => {
-          this.spinnerService.hide();
-          if (this.user.account === this.currentUser.account) {
-            this.sweetAlertService.warning('Wating', 'User updating, please wating page reload');
-            this.getUser();
-          }
-          else if (res.success) {
-            this.getUser();
-            this.sweetAlertService.success('done', res.message);
-            this.modalEditUser.hide();
-          } else {
-            this.sweetAlertService.error('Error!', res.message);
-          }
-        }, error => {
-          console.log(error);
-          this.spinnerService.hide();
-        });
+    this.userService.editUser(this.editUser, this.file)
+      .subscribe(() => {
+        debugger
+        this.alertifyService.success('Update user success!');
+        this.spinnerService.hide();
+        this.modalEditUser.hide();
+        this.loadUserUpdate();
+        this.getUser();
+      }, error => {
+        this.alertifyService.error('Fail update user!');
+        this.spinnerService.hide();
+      });
   }
 
   openModalEditUser(user: AddUser) {
@@ -200,10 +217,8 @@ export class UserComponent implements OnInit {
   }
 
   delete(account: string){
-    // debugger
     this.sweetAlertService.confirm('Delete User?', 'are you sure you want to delete this record', () =>{
       const currentUser: any = JSON.parse(localStorage.getItem('userSmartTooling'));
-      // debugger
       if(account === currentUser.username)
       this.sweetAlertService.error('The current user cannot be deleted.');
       else{
@@ -228,4 +243,13 @@ export class UserComponent implements OnInit {
   clearUser(){
     this.addUser = new AddUser();
   }
+  resetLocalStore(user: any) {
+    this.currentUser.image = user.image;
+    localStorage.removeItem('userSmartTooling');
+    localStorage.setItem('userSmartTooling', JSON.stringify(this.currentUser));
+    setInterval(() => {
+      location.reload();
+    }, 2000);
+  }
+  
 }

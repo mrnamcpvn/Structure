@@ -39,7 +39,7 @@
             <div class="row mb-2">
               <div class="col-12">
                 <button class="btn btn-success btn-sm"
-                   (click)="modalAddUser.show()">
+                   (click)="modalAddUser.show()" (click)="resetUser()">
                   <i class="fa fa-plus" aria-hidden="true"></i> Add User
                 </button>
               </div>
@@ -66,7 +66,7 @@
                   </td>
                   <td>
                     <button class="btn btn-primary btn-sm"
-                    (click)="openModalEditUser(user)" >
+                    (click)="openModalEditUser(user)" (click)="setUser(user)">
                       <i class="fa fa-edit" aria-hidden="true"></i>
                     </button>
                   </td>
@@ -276,7 +276,7 @@
         (click)="modalEditUser.hide()" >
             <i class="fa fa-ban" aria-hidden="true"></i> Cancel
         </button>
-        <button class="btn btn-success btn-sm" (click)="edituser()" (click)="modalEditUser.hide()">
+        <button class="btn btn-success btn-sm" (click)="saveEditUser()" (click)="modalEditUser.hide()">
             <i class="fa fa-check" aria-hidden="true"></i> Save
         </button>
         </div>

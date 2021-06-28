@@ -93,7 +93,7 @@ export class KaizenGroupListComponent implements OnInit {
     this.router.navigate(['/report/group-kaizen-report/model-detail']);
   }
 
-  exportExcel() {
+  exportExcel( check: number) {
     if(this.factory === undefined || this.factory === null) {
       this.alertify.error('Please option factory!');
     } else {
@@ -102,7 +102,7 @@ export class KaizenGroupListComponent implements OnInit {
         model_No: this.model_no.toUpperCase(),
         active: this.active,
       };
-      this.kaizenGroupSerivce.exportExcel(this.filterParam);
+      this.kaizenGroupSerivce.exportExcel(this.filterParam, check);
     }
   }
 }

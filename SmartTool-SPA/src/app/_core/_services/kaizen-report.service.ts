@@ -18,7 +18,7 @@ export class KaizenReportService {
     
    }
 
-   modelSource = new BehaviorSubject<ModelKaizenReport>(null);
+  modelSource = new BehaviorSubject<ModelKaizenReport>(null);
   currentModel = this.modelSource.asObservable();
   kaizenSource = new BehaviorSubject<object>(null);
   currentKaizen = this.kaizenSource.asObservable();
@@ -40,19 +40,21 @@ export class KaizenReportService {
         }),
       );
   }
-  exportExcel(param: any) {
-    return this.http.post(this.baseUrl + 'kaizenreport/exportExcel',param,{responseType: 'blob' })
+  exportExcel(param: any, checkExport?: number) {
+     let params = new HttpParams().set("param", param).set("checkExport", checkExport.toString());
+    //  params =params.append("param", param);
+    //  params = params.append("checkExport", checkExport.toString());
+     debugger
+    return this.http.get(this.baseUrl + 'kaizenreport/exportExcel',{responseType: 'blob',params })
       .subscribe((result: Blob) => {
-        if (result.type !== 'application/xlsx') {
-          alert(result.type);
-        }
         const blob = new Blob([result]);
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         const currentTime = new Date();
-        const filename = 'Excel_'+ 'kaizenReport' + currentTime.getFullYear().toString() +
+        let fileExtension = checkExport === 1 ? '.xlsx' : '.pdf';
+        const filename = 'Excel_kaizenReport' + currentTime.getFullYear().toString() +
           (currentTime.getMonth() + 1) + currentTime.getDate() +
-          currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + '.xlsx';
+          currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + fileExtension;
         link.href = url;
         link.setAttribute('download', filename);
         document.body.appendChild(link);
@@ -93,7 +95,7 @@ export class KaizenReportService {
   }
 
   updateClickTimes(data: any) {
-    return this.http.post(this.baseUrl + 'kaizenReport/updateClickTimes',data, {} );
+    return this.http.post(this.baseUrl + 'kaizenReport/updateClickTimes', data, {} );
   }
   
   getKaizenDetail(model_no: string, serial_no: string): Observable<any> {
