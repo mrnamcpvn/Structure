@@ -44,7 +44,6 @@ export class KaizenReportService {
      let params = new HttpParams().set("param", param).set("checkExport", checkExport.toString());
     //  params =params.append("param", param);
     //  params = params.append("checkExport", checkExport.toString());
-     debugger
     return this.http.get(this.baseUrl + 'kaizenreport/exportExcel',{responseType: 'blob',params })
       .subscribe((result: Blob) => {
         const blob = new Blob([result]);

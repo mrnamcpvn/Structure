@@ -7,6 +7,7 @@ import { DefectReasonAddComponent } from './defect-reason-add/defect-reason-add.
 import { DefectReasonEditComponent } from './defect-reason-edit/defect-reason-edit.component';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -20,6 +21,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     DefectReasonRoutingModule,
     FormsModule,
     PaginationModule,
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
   ]
 })
 export class DefectReasonModule { }

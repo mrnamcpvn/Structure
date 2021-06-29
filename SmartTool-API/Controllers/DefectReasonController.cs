@@ -1,6 +1,9 @@
 using System;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
@@ -15,13 +18,15 @@ namespace SmartTool_API.Controllers
     public class DefectReasonController : ControllerBase
     {
         private readonly IDefectReasonService _defectreason;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private string factory;
         private string username;
 
-        public DefectReasonController(IDefectReasonService defectreason, IConfiguration configuration)
+        public DefectReasonController(IDefectReasonService defectreason, IConfiguration configuration, IWebHostEnvironment webHostEnvironment = null)
         {
             _defectreason = defectreason;
             factory = configuration.GetSection("AppSettings:Factory").Value;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         private string GetUserClaim()
@@ -83,6 +88,34 @@ namespace SmartTool_API.Controllers
             var lists = await _defectreason.SearchDefectReason(param, filter);
             Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
+        }
+
+        //import Excel
+        [HttpPost("import")]
+        public async Task<ActionResult> ImportExcel(IFormFile files)
+        {
+            if (files != null)
+            {
+                string fileNameExtension = (files.FileName.Split("."))[(files.FileName.Split(".")).Length - 1];
+                string fileName = "Upload_Excel_DefectReason_" + DateTime.Now.ToString().Replace(":", "").Replace("/", "").Replace(" ", "") + "." + fileNameExtension;
+
+                string folder = _webHostEnvironment.WebRootPath + $@"\uploaded\excels\DefectReason";
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                string filePath = Path.Combine(folder, fileName);
+                using (FileStream fs = System.IO.File.Create(filePath))
+                {
+                    files.CopyTo(fs);
+                    fs.Flush();
+                }
+                var result = await _defectreason.ImportExcel(filePath, User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                // if (result.Success)
+                //     await _hubContext.Clients.All.LoadDataArticleCate();
+                return Ok(result);
+            }
+            throw new Exception("Import Excel Article Category failed on save");
         }
     }
 }

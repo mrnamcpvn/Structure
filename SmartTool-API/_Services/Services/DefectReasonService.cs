@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
 using SmartTool_API.DTOs;
@@ -20,6 +22,7 @@ namespace SmartTool_API._Services.Services
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _mapperConfiguration;
         private readonly IDefectReasonRepository _defectReason;
+        private OperationResult operationResult;
 
         public DefectReasonServcie(IMapper mapper, MapperConfiguration mapperConfiguration, IDefectReasonRepository defectReason)
         {
@@ -66,10 +69,41 @@ namespace SmartTool_API._Services.Services
             return await PagedList<Defect_ReasonDTO>.CreateAsync(lists, param.PageNumber, param.PageSize);
         }
 
+        public async Task<OperationResult> ImportExcel(string pathFile, string user)
+        {
+            using (var package = new ExcelPackage(new FileInfo(pathFile)))
+            {
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[0];
+                int totalRows = workSheet.Dimension.Rows;
+                for (int i = 2; i <= totalRows; i++)
+                {
+                    Defect_ReasonDTO new_defect_reason = new Defect_ReasonDTO();
+                    new_defect_reason.factory_id ="SHC";
+                    new_defect_reason.defect_reason_id = workSheet.Cells[i, 1].Value.ToString().Trim();
+                    new_defect_reason.defect_reason_name = workSheet.Cells[i, 2].Value.ToString().Trim();
+                    new_defect_reason.sequence = workSheet.Cells[i, 3].Value.ToInt();
+                    new_defect_reason.is_active = workSheet.Cells[i, 4].Value.ToBool();
+                    new_defect_reason.update_by = user;
+                    new_defect_reason.update_time = DateTime.Now;
+
+                    try
+                    {
+                        await Add(new_defect_reason);
+                        operationResult = new OperationResult { Message = "Import Success", Success = true };
+                    }
+                    catch
+                    {
+                        operationResult = new OperationResult { Message = "Import Faild", Success = false };
+                    }
+                }
+            }
+            return await Task.FromResult(operationResult);
+        }
+
         public async Task<PagedList<Defect_ReasonDTO>> Search(PaginationParams param, object text)
         {
             var lists = _defectReason.FindAll().ProjectTo<Defect_ReasonDTO>(_mapperConfiguration).Where(x => x.defect_reason_id.Contains(text.ToString()))
-            .OrderBy(x => x.sequence);
+            .OrderBy(x => x.defect_reason_id);
             return await PagedList<Defect_ReasonDTO>.CreateAsync(lists, param.PageNumber, param.PageSize);
         }
 

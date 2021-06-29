@@ -58,6 +58,13 @@
               >
                 <i class="fa fa-plus"></i> Add new
               </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary float-left mb-2 ml-1"
+                (click)="importExcelModel.show()"
+              >
+              <i class="fa fa-file-excel-o"></i> Import Excel
+              </button>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered">
@@ -72,11 +79,19 @@
                     <th>Update Time</th>
                   </tr>
                 </thead>
+                <tbody *ngIf="defectreasons.length == 0">
+                  <tr >
+                   <td colspan="9">
+                     <div class="alert-table alert alert-warning"> 
+                       No data found !
+                     </div>
+                   </td>
+                 </tr>
+                 </tbody>
                 <tbody
                 id="list{{ idx }}"
                 *ngFor="let defectreason of defectreasons; let idx = index"
-                 
-                >
+                 >
                   <tr>
                     <td>
                       <!-- edit btn -->
@@ -131,6 +146,47 @@
         </div>
       </div>
       <!--/.col-->
+    </div>
+  </div>
+
+
+
+  <div #importExcelModel="bs-modal" bsModal class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <form #importExcel="ngForm">
+          <div class="modal-header">
+            <strong>Import Excel Product Category</strong>
+            <button type="button" class="close pull-right" aria-label="Close"
+              (click)="importExcelModel.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p style="color: red;">* Please select a file '.xlsx' or '.xlsm'
+              <a href="javascript:;" (click)="downloadExcelTemplate()">follow this form here</a>
+            </p>
+            <div class="form-group">
+              <div class="custom-file b-form-file">
+                <label data-browse="Browse" class="custom-file-label">
+                  <p *ngIf="fileImportExcel === null">Choose a file...</p>
+                  <input id="input_uploadFile"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    type="file" (change)="onSelectFile($event)" style="line-height: 1 !important; outline: none;"
+                    [ngClass]="(fileImportExcel !== null) ? 'opacity1' : 'opacity0'">
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="importExcelModel.hide()">Cancel</button>
+            <button type="submit" class="btn btn-success" (click)="[importExcelModel.hide(), import()]"
+              [disabled]="fileImportExcel === null">
+              Import
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   

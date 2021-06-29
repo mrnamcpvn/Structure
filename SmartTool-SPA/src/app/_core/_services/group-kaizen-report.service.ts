@@ -53,17 +53,16 @@ export class GroupKaizenReportService {
   }
 
   exportExcel(param: any, check?: number) {
-    let params = new HttpParams().set("param", param).set("check", check.toString());
-
-    return this.http.get(this.baseUrl + 'groupKaizenReport/exportExcel', {responseType: 'blob', params })
+    debugger
+    let params = new HttpParams().set("factory_id", param.factory_id).set("model_No", param.model_No).set("active", param.active).set("check", check.toString());
+    return this.http.get(this.baseUrl + 'groupkaizenreport/exportExcel',{responseType: 'blob',params })
       .subscribe((result: Blob) => {
         const blob = new Blob([result]);
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         const currentTime = new Date();
-        debugger
         let fileExtension = check === 1 ? '.xlsx' : '.pdf';
-        const filename ='GroupKaizenReport' + currentTime.getFullYear().toString() +
+        const filename = 'Excel_kaizenReport' + currentTime.getFullYear().toString() +
           (currentTime.getMonth() + 1) + currentTime.getDate() +
           currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + fileExtension;
         link.href = url;
@@ -71,6 +70,23 @@ export class GroupKaizenReportService {
         document.body.appendChild(link);
         link.click();
       });
+
+    // return this.http.get(this.baseUrl + 'groupKaizenReport/exportExcel', {responseType: 'blob', params })
+    //   .subscribe((result: Blob) => {
+    //     const blob = new Blob([result]);
+    //     const url = window.URL.createObjectURL(blob);
+    //     const link = document.createElement('a');
+    //     const currentTime = new Date();
+    //     debugger
+    //     let fileExtension = check === 1 ? '.xlsx' : '.pdf';
+    //     const filename ='GroupKaizenReport' + currentTime.getFullYear().toString() +
+    //       (currentTime.getMonth() + 1) + currentTime.getDate() +
+    //       currentTime.toLocaleTimeString().replace(/[ ]|[,]|[:]/g, '').trim() + fileExtension;
+    //     link.href = url;
+    //     link.setAttribute('download', filename);
+    //     document.body.appendChild(link);
+    //     link.click();
+    //   });
   }
 
   getSeasonByUpper(factory_id: string, upper_id: string) {

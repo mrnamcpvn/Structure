@@ -150,8 +150,8 @@ namespace SmartTool_API._Services.Services
             if(!string.IsNullOrEmpty(filterParam.factory_id)) {
                 pred_model_kaizen.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
             }
-            if(!string.IsNullOrEmpty(filterParam.model_no)) {
-                pred_model_kaizen.And(x => x.model_no.Trim().Contains(filterParam.model_no.Trim()));
+            if(!string.IsNullOrEmpty(filterParam.model_No)) {
+                pred_model_kaizen.And(x => x.model_no.Trim().Contains(filterParam.model_No.Trim()));
             }
             var data = await _repoViewModelKaizen.FindAll(pred_model_kaizen)
             .OrderByDescending(x => x.prod_season).ThenBy(x => x.volume).ThenBy(x => x.serial_no)
@@ -189,8 +189,8 @@ namespace SmartTool_API._Services.Services
             if(!string.IsNullOrEmpty(filterParam.factory_id)) {
                 pred_Model.And(x => x.factory_id.Trim() == filterParam.factory_id.Trim());
             }
-            if(!string.IsNullOrEmpty(filterParam.model_no)) {
-                pred_Model.And(x => x.model_no.Trim().Contains(filterParam.model_no.Trim())|| x.model_name.Trim().Contains(filterParam.model_no.Trim()));
+            if(!string.IsNullOrEmpty(filterParam.model_No)) {
+                pred_Model.And(x => x.model_no.Trim().Contains(filterParam.model_No.Trim())|| x.model_name.Trim().Contains(filterParam.model_No.Trim()));
             }
             if(filterParam.active != "all") {
                 pred_Model.And(x => x.is_active == ((filterParam.active == "1") ? true : false));

@@ -9,5 +9,6 @@ namespace SmartTool_API._Services.Interfaces
          Task<bool> CheckDefectReasonExists(string defectreasonID);
 
          Task<PagedList<Defect_ReasonDTO>> SearchDefectReason(PaginationParams paginationParams, DefectReasonParam defectReasonParam);
+         Task<OperationResult> ImportExcel(string pathFile, string user);
     }
 }

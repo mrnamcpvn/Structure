@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { DefectReason } from '../_models/defect-reason';
+import { OperationResult } from '../_models/operation-result';
 import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
@@ -51,6 +52,13 @@ export class DefectReasonService {
   }
   update(der: DefectReason){
     return this.http.put(this.baseURL +"defectReason/update", der)
+  }
+
+  importExcel(fileImportExcel) {
+    debugger
+    const formData = new FormData();
+    formData.append('files', fileImportExcel);
+    return this.http.post<OperationResult>(this.baseURL + "defectReason/import", formData);
   }
 
 }

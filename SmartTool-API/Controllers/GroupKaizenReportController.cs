@@ -79,7 +79,7 @@ namespace SmartTool_API.Controllers
 
             byte[] result = stream.ToArray();
 
-            return File(result, fileKind, "Excel" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + fileExtension); // luu file truyen vao result, dinh dang Xlsx, 
+            return File(result, fileKind, "Group Kaizen Report" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss") + fileExtension); // luu file truyen vao result, dinh dang Xlsx, 
                                                                                                                         // ten  co Excel_ngay_thang_nam.xlsx
         }
 

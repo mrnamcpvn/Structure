@@ -53,13 +53,13 @@
                   </tr>
                 </thead>
                 <tbody *ngIf="noData">
-                  <tr>
-                    <td colspan="9">
-                      <alert class="text-center" type="danger">
-                          <strong>No Data</strong>
-                      </alert>
-                    </td>
-                  </tr>
+                 <tr >
+                  <td colspan="9">
+                    <div class="alert-table alert alert-warning"> 
+                      No data found !
+                    </div>
+                  </td>
+                </tr>
                 </tbody>
                 <tbody>
                   <tr *ngFor="let item of models; let i = index">

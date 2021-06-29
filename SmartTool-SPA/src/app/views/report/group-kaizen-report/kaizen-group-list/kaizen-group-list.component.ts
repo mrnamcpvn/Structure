@@ -97,10 +97,11 @@ export class KaizenGroupListComponent implements OnInit {
     if(this.factory === undefined || this.factory === null) {
       this.alertify.error('Please option factory!');
     } else {
+      debugger
       this.filterParam = {
         factory_id: this.factory,
         model_No: this.model_no.toUpperCase(),
-        active: this.active,
+        active: this.active === 'all' ? '' : this.active,
       };
       this.kaizenGroupSerivce.exportExcel(this.filterParam, check);
     }
