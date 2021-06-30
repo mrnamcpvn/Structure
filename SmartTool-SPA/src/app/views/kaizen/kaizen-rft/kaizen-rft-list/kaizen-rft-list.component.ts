@@ -22,9 +22,10 @@ export class KaizenRftListComponent implements OnInit {
   checkAddnew:boolean= false;
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 1,
+    pageSize: 10,
+    totalCount: 1,
+
   };
   constructor(
     private _kaizenService: KaizenService,

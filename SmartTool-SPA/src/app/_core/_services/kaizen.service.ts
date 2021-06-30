@@ -30,23 +30,23 @@ export class KaizenService {
   }
 
 
-  search(page?, modelNO?): Observable<PaginatedResult<Kaizen[]>>{
-    const paginatedResult: PaginatedResult<Kaizen[]> = new PaginatedResult<Kaizen[]>();
+  search(page?, modelNO?): Observable<PaginatedResult<Kaizen>>{
+    // const paginatedResult: PaginatedResult<Kaizen[]> = new PaginatedResult<Kaizen[]>();
     let params = new HttpParams();
     params = params.append('pageNumber', page);
     params = params.append('pageSize', "10");
     params = params.append('modelNo', modelNO == 'All' ? '' : modelNO);
 
-    return this.http.get<Kaizen[]>(this.baseUrl + 'kaizen/kaizenlist', { observe: 'response', params })
-    .pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-        if (response.headers.get('Pagination') != null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return paginatedResult;
-      }),
-    );
+    return this.http.get<PaginatedResult<Kaizen>>(this.baseUrl + 'kaizen/kaizenlist', { params });
+    // .pipe(
+    //   map(response => {
+    //     paginatedResult.result = response.body;
+    //     if (response.headers.get('Pagination') != null) {
+    //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    //     }
+    //     return paginatedResult;
+    //   }),
+    // );
   }
 
   changeModel( model_no:string,model_name:string ){

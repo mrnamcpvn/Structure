@@ -25,9 +25,9 @@ export class RftListComponent implements OnInit {
   rftcondition: any = {};
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 10,
+    pageSize: 1,
+    totalCount: 1,
   };
   dataMesuar: MeasumentRFT[] = [];
 

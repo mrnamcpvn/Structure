@@ -176,12 +176,12 @@ namespace SmartTool_API._Services.Services
 
         }
 
-        public Task<PagedList<KaizenDTO>> GetWithPaginations(PaginationParams param)
+        public Task<PageListUtility<KaizenDTO>> GetWithPaginations(PaginationParams param)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<PagedList<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory)
+        public async Task<PageListUtility<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory)
         {
             var model = _modelOperationRepository.FindAll().Where(x=>x.factory_id==factory);
             var Kaizen =  _ikaizenrepo.FindAll(x=>x.factory_id==factory);
@@ -221,10 +221,10 @@ namespace SmartTool_API._Services.Services
                            update_time = a.update_time,
                            process = b.process_type_id
                        }).OrderBy(x=>x.serial_no);
-                       return await PagedList<KaizenDTO>.CreateAsync(data, paginationParams.PageNumber, paginationParams.PageSize);
+                       return await PageListUtility<KaizenDTO>.PageListAsync(data, paginationParams.PageNumber, paginationParams.PageSize);
         }
 
-        public Task<PagedList<KaizenDTO>> Search(PaginationParams param, object text)
+        public Task<PageListUtility<KaizenDTO>> Search(PaginationParams param, object text)
         {
             throw new System.NotImplementedException();
         }

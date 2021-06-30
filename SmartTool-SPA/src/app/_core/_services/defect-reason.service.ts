@@ -21,9 +21,9 @@ export class DefectReasonService {
   constructor( private http: HttpClient) { }
 
 
-  getdr( page?, itemsPerPage?, defectreasonParam?: object): Observable<PaginatedResult<DefectReason[]>>
+  getdr( page?, itemsPerPage?, defectreasonParam?: object): Observable<PaginatedResult<DefectReason>>
   {
-    const paginatedResult: PaginatedResult<DefectReason[]> =new PaginatedResult<DefectReason[]>();
+    // const paginatedResult: PaginatedResult<DefectReason[]> =new PaginatedResult<DefectReason[]>();
     let params = new HttpParams();
     if(page != null && itemsPerPage != null)
     {
@@ -31,16 +31,16 @@ export class DefectReasonService {
       params = params.append("pageSize", itemsPerPage);
     }
     let url = this.baseURL +"defectreason/search";
-    return this.http.post<any>(url,defectreasonParam,{observe: "response", params})
-    .pipe(
-      map((response)=>{
-        paginatedResult.result = response.body;
-        if(response.headers.get("Pagination") != null){
-          paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
-        }
-        return paginatedResult;
-      })
-    );
+    return this.http.post<PaginatedResult<DefectReason>>(url,defectreasonParam,{params});
+    // .pipe(
+    //   map((response)=>{
+    //     paginatedResult.result = response.body;
+    //     if(response.headers.get("Pagination") != null){
+    //       paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
+    //     }
+    //     return paginatedResult;
+    //   })
+    // );
   }
 
   adddr(der: DefectReason){

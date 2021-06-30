@@ -30,7 +30,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> Search ([FromQuery] PaginationParams param, string modelNo)
         {
             var lists = await _kaizenService.Search(param, modelNo,factory);
-            Response.AddPagination (lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
 

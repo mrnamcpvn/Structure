@@ -20,9 +20,9 @@ export class KaizenListComponent implements OnInit {
   active: string = 'all';
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
-    totalItems: 0,
-    totalPages: 0
+    totalPage: 0,
+    pageSize: 3,
+    totalCount: 0,
   };
   constructor(
     private spinnerService: NgxSpinnerService,
@@ -41,7 +41,7 @@ export class KaizenListComponent implements OnInit {
       active: this.active
     };
     this.spinnerService.show();
-    this.kaizenService.search(this.pagination.currentPage , this.pagination.itemsPerPage,this.filterParam).subscribe(res => {
+    this.kaizenService.search(this.pagination.currentPage , this.pagination.pageSize,this.filterParam).subscribe(res => {
       this.spinnerService.hide();
       this.models = res.result;
       this.models.map(obj => {

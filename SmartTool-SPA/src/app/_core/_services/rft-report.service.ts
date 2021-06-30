@@ -30,29 +30,28 @@ export class RftReportService {
     page?,
     itemsPerPage?,
     rftreportParam?: any
-  ): Observable<PaginatedResult<RFTReport[]>> {
-    const paginatedResult: PaginatedResult<RFTReport[]> = new PaginatedResult<
-      RFTReport[]
-    >();
+  ): Observable<PaginatedResult<RFTReport>> {
+    // const paginatedResult: PaginatedResult<RFTReport[]> = new PaginatedResult<
+    //   RFTReport[]
+    // >();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append("pageNumber", page);
       params = params.append("pageSize", itemsPerPage);
     }
     let url = this.baseUrl + "rftreport/searchrftreport";
-    return this.http
-      .post<any>(url, rftreportParam, { observe: "response", params })
-      .pipe(
-        map((response) => {
-          paginatedResult.result = response.body;
-          if (response.headers.get("Pagination") != null) {
-            paginatedResult.pagination = JSON.parse(
-              response.headers.get("Pagination")
-            );
-          }
-          return paginatedResult;
-        })
-      );
+    return this.http.post<PaginatedResult<RFTReport>>(url, rftreportParam, { params });
+      // .pipe(
+      //   map((response) => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get("Pagination") != null) {
+      //       paginatedResult.pagination = JSON.parse(
+      //         response.headers.get("Pagination")
+      //       );
+      //     }
+      //     return paginatedResult;
+      //   })
+      // );
   }
 
   rftDetail(model: RFTReport) {

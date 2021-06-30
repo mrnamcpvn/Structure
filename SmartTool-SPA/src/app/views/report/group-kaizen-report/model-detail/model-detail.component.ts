@@ -29,9 +29,9 @@ export class ModelDetailComponent implements OnInit {
   monthData: string[] = [];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
-    totalItems: 0,
-    totalPages: 0,
+    totalPage: 0,
+    pageSize: 3,
+    totalCount: 0,
   };
   constructor(
     private kaizenService: GroupKaizenReportService,
@@ -70,7 +70,7 @@ export class ModelDetailComponent implements OnInit {
   }
 
   getDataTable() {
-    this.kaizenService.getKaizens(this.pagination.currentPage, this.pagination.itemsPerPage, this.model.factory_id, this.model.model_no)
+    this.kaizenService.getKaizens(this.pagination.currentPage, this.pagination.pageSize, this.model.factory_id, this.model.model_no)
     .subscribe(res => {
       console.log(res);
       this.dataTable = res.result;

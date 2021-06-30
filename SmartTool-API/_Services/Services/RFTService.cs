@@ -130,7 +130,7 @@ namespace SmartTool_API._Services.Services
             return data; 
         }
 
-        public async Task<PagedList<Measurement_RFTDTO>> Search(PaginationParams paginationParams, string modelNo, string stageId)
+        public async Task<PageListUtility<Measurement_RFTDTO>> Search(PaginationParams paginationParams, string modelNo, string stageId)
         {
             var queryMea =_iMeasurementRepo.FindAll(x =>x.factory_id ==factory);
             var queryModelOpera = _iModelOperaRepo.FindAll();
@@ -143,7 +143,7 @@ namespace SmartTool_API._Services.Services
                                 x =>  new {x.factory_id, x.model_no, x.operation_id},
                                 y => new {y.factory_id, y.model_no, y.operation_id},
                                 (x,y) =>x).ProjectTo<Measurement_RFTDTO>(_configMapper);
-            return await PagedList<Measurement_RFTDTO>.CreateAsync(datagroup,paginationParams.PageNumber, paginationParams.PageSize);
+            return await PageListUtility<Measurement_RFTDTO>.PageListAsync(datagroup,paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<bool> Update(Measurement_RFTDTO model)

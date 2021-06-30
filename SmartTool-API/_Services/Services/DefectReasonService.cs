@@ -63,10 +63,10 @@ namespace SmartTool_API._Services.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<PagedList<Defect_ReasonDTO>> GetWithPaginations(PaginationParams param)
+        public async Task<PageListUtility<Defect_ReasonDTO>> GetWithPaginations(PaginationParams param)
         {
             var lists = _defectReason.FindAll().ProjectTo<Defect_ReasonDTO>(_mapperConfiguration).OrderByDescending(x => x.update_time);
-            return await PagedList<Defect_ReasonDTO>.CreateAsync(lists, param.PageNumber, param.PageSize);
+            return await PageListUtility<Defect_ReasonDTO>.PageListAsync(lists, param.PageNumber, param.PageSize);
         }
 
         public async Task<OperationResult> ImportExcel(string pathFile, string user)
@@ -100,14 +100,14 @@ namespace SmartTool_API._Services.Services
             return await Task.FromResult(operationResult);
         }
 
-        public async Task<PagedList<Defect_ReasonDTO>> Search(PaginationParams param, object text)
+        public async Task<PageListUtility<Defect_ReasonDTO>> Search(PaginationParams param, object text)
         {
             var lists = _defectReason.FindAll().ProjectTo<Defect_ReasonDTO>(_mapperConfiguration).Where(x => x.defect_reason_id.Contains(text.ToString()))
             .OrderBy(x => x.defect_reason_id);
-            return await PagedList<Defect_ReasonDTO>.CreateAsync(lists, param.PageNumber, param.PageSize);
+            return await PageListUtility<Defect_ReasonDTO>.PageListAsync(lists, param.PageNumber, param.PageSize);
         }
 
-        public async Task<PagedList<Defect_ReasonDTO>> SearchDefectReason(PaginationParams paginationParams, DefectReasonParam defectReasonParam)
+        public async Task<PageListUtility<Defect_ReasonDTO>> SearchDefectReason(PaginationParams paginationParams, DefectReasonParam defectReasonParam)
         {
             var query = _defectReason.FindAll();
             if (!String.IsNullOrEmpty(defectReasonParam.active))
@@ -128,7 +128,7 @@ namespace SmartTool_API._Services.Services
                 }
             }
             var list = query.ProjectTo<Defect_ReasonDTO>(_mapperConfiguration).OrderBy(x => x.sequence);
-            return await PagedList<Defect_ReasonDTO>.CreateAsync(list, paginationParams.PageNumber, paginationParams.PageSize);       
+            return await PageListUtility<Defect_ReasonDTO>.PageListAsync(list, paginationParams.PageNumber, paginationParams.PageSize);       
         }
 
         public async Task<bool> Update(Defect_ReasonDTO model)

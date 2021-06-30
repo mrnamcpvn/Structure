@@ -63,7 +63,6 @@ namespace SmartTool_API.Controllers
         [HttpPost("modeloperation-list")]
         public async Task<IActionResult> Search([FromQuery] PaginationParams paginationParams, ModelOperationParam modelOperationParam){
             var list = await _modelOperationService.searchModelOperation(paginationParams, modelOperationParam);
-            Response.AddPagination(list.CurrentPage, list.PageSize,list.TotalCount, list.TotalPages);
             return Ok(list);
         }
 

@@ -44,3 +44,14 @@
     -webkit-appearance: none;
     appearance: textfield;
   }
+
+  #pagination pagination {
+    float: left;
+  }
+  #pagination #itemRight {
+    float: right;
+    line-height: 2.5;
+    font-weight: bold;
+    display: flex;
+  }
+  

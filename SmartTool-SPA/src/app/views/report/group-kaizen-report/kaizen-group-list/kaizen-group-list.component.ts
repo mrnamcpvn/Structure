@@ -23,9 +23,9 @@ export class KaizenGroupListComponent implements OnInit {
   models: ModelKaizenReport[] = [];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
-    totalItems: 0,
-    totalPages: 0,
+    totalPage: 0,
+    pageSize: 3,
+    totalCount: 0,
   };
   constructor(
     private kaizenGroupSerivce : GroupKaizenReportService,
@@ -58,7 +58,7 @@ export class KaizenGroupListComponent implements OnInit {
       this.kaizenGroupSerivce
         .search(
           this.pagination.currentPage,
-          this.pagination.itemsPerPage,
+          this.pagination.pageSize,
           this.filterParam
         )
         .subscribe((res) => {

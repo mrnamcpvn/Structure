@@ -47,7 +47,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetAllMeasure([FromQuery] PaginationParams param, string modelNo, string stage)
         {
             var lists = await _iRFTService.Search(param, modelNo, stage);
-            Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
 

@@ -28,7 +28,6 @@ namespace SmartTool_API.Controllers
         [HttpPost("search")]
         public async Task<IActionResult> Search([FromQuery]PaginationParams param,CrossSiteSharingParam filterParam) {
             var result = await _service.Search(param,filterParam);
-            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 

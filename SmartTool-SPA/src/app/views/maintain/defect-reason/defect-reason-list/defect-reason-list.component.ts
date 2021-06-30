@@ -17,7 +17,12 @@ export class DefectReasonListComponent implements OnInit {
   defectreasons: DefectReason[];
   fileImportExcel: File = null;
   defectreason: any = {};
-  pagination : Pagination ={currentPage:1, itemsPerPage:10,totalItems:1,totalPages:1};
+  pagination : Pagination ={
+    currentPage: 1,
+    totalPage: 1,
+    pageSize: 10,
+    totalCount: 1,
+  };
 
   constructor( private defectreasonService: DefectReasonService,
                 private spinner: NgxSpinnerService,
@@ -38,8 +43,8 @@ export class DefectReasonListComponent implements OnInit {
   loadData(){
     this.defectreasonService
     .getdr( this.pagination.currentPage,
-              this.pagination.itemsPerPage, this.paramSearch)
-    .subscribe((res : PaginatedResult<DefectReason[]>) =>{
+              this.pagination.pageSize, this.paramSearch)
+    .subscribe((res : PaginatedResult<DefectReason>) =>{
       this.defectreasons = res.result;
       this.pagination = res.pagination;
       this.spinner.hide();

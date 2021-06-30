@@ -8,7 +8,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IRFTReportService
     {
-         Task<PagedList<Model>> SearchRFTReport(PaginationParams paginationParams, RFTReportParam rftReportParam);
+         Task<PageListUtility<Model>> SearchRFTReport(PaginationParams paginationParams, RFTReportParam rftReportParam);
 
         Task<List<VW_RFTReportDetailDTO>> SearchRFTReportDetail(RFTReportParam rftReportParam);
 

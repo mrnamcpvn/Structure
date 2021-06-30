@@ -105,7 +105,7 @@ namespace SmartTool_API._Services.Services
             return data;
         }
 
-        public async Task<PagedList<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no)
+        public async Task<PageListUtility<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no)
         {
             _configuration.GetSection("AppSettings:DataSeach").Value =factory_id.Trim();
             var kaizens =  _repoKaizen.FindAll(x => x.factory_id.Trim() == factory_id.Trim() && 
@@ -135,7 +135,7 @@ namespace SmartTool_API._Services.Services
                             clicks_times = a.clicks_times
                         }).OrderBy(x=>x.serial_no);
                 _configuration.GetSection("AppSettings:DataSeach").Value ="";
-            return await PagedList<KaizenModelDetail>.CreateAsync(data, param.PageNumber, param.PageSize);
+            return await PageListUtility<KaizenModelDetail>.PageListAsync(data, param.PageNumber, param.PageSize);
         }
 
         public Task<Model> GetModelByModelNo(string factory_id, string model_No)
@@ -182,7 +182,7 @@ namespace SmartTool_API._Services.Services
             return data;
         }
 
-        public async Task<PagedList<Model>> Search(PaginationParams param, KaizenReportGroupParam filterParam)
+        public async Task<PageListUtility<Model>> Search(PaginationParams param, KaizenReportGroupParam filterParam)
         {
            var pred_Model = PredicateBuilder.New<Model>(true);
              _configuration.GetSection("AppSettings:DataSeach").Value =filterParam.factory_id.Trim();
@@ -197,7 +197,7 @@ namespace SmartTool_API._Services.Services
             }
             var data = _repoModel.FindAll(pred_Model);
              _configuration.GetSection("AppSettings:DataSeach").Value ="";
-            return await PagedList<Model>.CreateAsync(data, param.PageNumber, param.PageSize);
+            return await PageListUtility<Model>.PageListAsync(data, param.PageNumber, param.PageSize);
         }
     }
 }

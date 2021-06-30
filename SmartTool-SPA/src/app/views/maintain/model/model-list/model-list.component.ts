@@ -22,12 +22,7 @@ export class ModelListComponent implements OnInit {
     active: "all",
     model_search: ""
   };
-  pagination: Pagination = {
-    currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
-  };
+  pagination: Pagination;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -56,11 +51,11 @@ export class ModelListComponent implements OnInit {
     this.modelService
       .searchMd(
         this.pagination.currentPage,
-        this.pagination.itemsPerPage,
+        this.pagination.pageSize,
         this.paramSearch
       )
       .subscribe(
-        (res: PaginatedResult<Model[]>) => {
+        (res: PaginatedResult<Model>) => {
           this.models = res.result;
           this.pagination = res.pagination;
           if (this.models.length == 0) {

@@ -8,7 +8,7 @@ namespace SmartTool_API._Services.Interfaces
     {
          Task<bool> Add(Measurement_RFTDTO model);
          Task<bool> Update(Measurement_RFTDTO model);
-         Task<PagedList<Measurement_RFTDTO>> Search(PaginationParams paginationParams, string modelNo, string stageId);
+         Task<PageListUtility<Measurement_RFTDTO>> Search(PaginationParams paginationParams, string modelNo, string stageId);
          Task<object> GetAllModel();
          Task<object> GetAllStage();
          Task<object> GetAllProcessType(string modelNo, string StageId);

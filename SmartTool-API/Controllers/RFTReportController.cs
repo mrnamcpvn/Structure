@@ -21,7 +21,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> SearchRFTReort([FromQuery] PaginationParams param, RFTReportParam filter)
         {
             var lists = await _serviceRFTReport.SearchRFTReport(param, filter);
-            Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
 

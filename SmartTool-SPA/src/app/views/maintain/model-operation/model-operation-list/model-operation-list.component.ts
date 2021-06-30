@@ -20,9 +20,9 @@ export class ModelOperationListComponent implements OnInit {
   noData:boolean =false;
   pagination : Pagination ={
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 1,
+    pageSize: 10,
+    totalCount: 1,
   }
   listdataModelNo: any;
   modelOperations: ModelOperation[];
@@ -48,9 +48,9 @@ export class ModelOperationListComponent implements OnInit {
       this.spinner.hide();
     } else {
       this.noData = false;
-      this.modelOperationService.search(this.pagination.currentPage, this.pagination.itemsPerPage, this.paramSearch)
+      this.modelOperationService.search(this.pagination.currentPage, this.pagination.pageSize, this.paramSearch)
       .subscribe(
-        (res: PaginatedResult<ModelOperation[]>) => {
+        (res: PaginatedResult<ModelOperation>) => {
           this.modelOperations = res.result;
           this.pagination = res.pagination;
           if(this.modelOperations.length == 0) {

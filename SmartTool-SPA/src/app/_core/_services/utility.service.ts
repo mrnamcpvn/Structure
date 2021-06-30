@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,6 +6,17 @@ import { Injectable } from '@angular/core';
 })
 export class UtilityService {
 
-  constructor() { }
+  constructor(
+    
+  ) { }
+
+  getParamPagination(page?, itemsPerPage?) {
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    return params;
+  }
 
 }

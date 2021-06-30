@@ -76,17 +76,17 @@ namespace SmartTool_API._Services.Services
             .Select(x => new {Id = x.Key.model_type_id, Name = x.Key.model_type_name}).ToListAsync();
         }
 
-        public Task<PagedList<ModelDTO>> GetWithPaginations(PaginationParams param)
+        public Task<PageListUtility<ModelDTO>> GetWithPaginations(PaginationParams param)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<PagedList<ModelDTO>> Search(PaginationParams param, object text)
+        public Task<PageListUtility<ModelDTO>> Search(PaginationParams param, object text)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<PagedList<ModelDTO>> SearchModel(PaginationParams paginationParams, ModelParam modelParam)
+        public async Task<PageListUtility<ModelDTO>> SearchModel(PaginationParams paginationParams, ModelParam modelParam)
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
             bool active = true;
@@ -100,7 +100,7 @@ namespace SmartTool_API._Services.Services
 				pred_Model.And(x => x.model_no.Contains(modelParam.model_Search) || x.model_name.Contains(modelParam.model_Search));
 			}
             var list = _repo.FindAll(pred_Model).ProjectTo<ModelDTO>(_config).OrderByDescending(x => x.prod_season);
-			return await PagedList<ModelDTO>.CreateAsync(list, paginationParams.PageNumber, paginationParams.PageSize);
+			return await PageListUtility<ModelDTO>.PageListAsync(list, paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<bool> Update(ModelDTO model)

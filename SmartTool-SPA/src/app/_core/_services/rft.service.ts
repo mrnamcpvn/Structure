@@ -20,8 +20,8 @@ export class RftService {
     private http: HttpClient
   ) { }
 
-  search(page?, modelNO?, stage?): Observable<PaginatedResult<MeasumentRFT[]>> {
-    const paginatedResult: PaginatedResult<MeasumentRFT[]> = new PaginatedResult<MeasumentRFT[]>();
+  search(page?, modelNO?, stage?): Observable<PaginatedResult<MeasumentRFT>> {
+    // const paginatedResult: PaginatedResult<MeasumentRFT[]> = new PaginatedResult<MeasumentRFT[]>();
     let params = new HttpParams();
     
     params = params.append("pageNumber", page);
@@ -29,21 +29,18 @@ export class RftService {
     params = params.append("modelNo", modelNO == "All" ? "" : modelNO);
     params = params.append("stage", stage == "All" ? "" : stage);
 
-    return this.http.get<MeasumentRFT[]>(this.baseUrl + "RFT", {
-        observe: "response",
-        params,
-      })
-      .pipe(
-        map((response) => {
-          paginatedResult.result = response.body;
-          if (response.headers.get("Pagination") != null) {
-            paginatedResult.pagination = JSON.parse(
-              response.headers.get("Pagination")
-            );
-          }
-          return paginatedResult;
-        })
-      );
+    return this.http.get<PaginatedResult<MeasumentRFT>>(this.baseUrl + "RFT", { params,});
+      // .pipe(
+      //   map((response) => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get("Pagination") != null) {
+      //       paginatedResult.pagination = JSON.parse(
+      //         response.headers.get("Pagination")
+      //       );
+      //     }
+      //     return paginatedResult;
+      //   })
+      // );
   }
 
   geDataModelNo = () => this.http.get<any>(this.baseUrl + "RFT/getallmodel");

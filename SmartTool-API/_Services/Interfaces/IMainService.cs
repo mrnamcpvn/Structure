@@ -15,9 +15,9 @@ namespace SmartTool_API._Services.Interfaces
 
         Task<List<T>> GetAllAsync();
 
-        Task<PagedList<T>> GetWithPaginations(PaginationParams param);
+        Task<PageListUtility<T>> GetWithPaginations(PaginationParams param);
 
-        Task<PagedList<T>> Search(PaginationParams param, object text);
+        Task<PageListUtility<T>> Search(PaginationParams param, object text);
         T GetById(object id);
     }
 }

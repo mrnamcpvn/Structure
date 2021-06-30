@@ -15,24 +15,24 @@ export class ModelOperationService {
 
   constructor( private http: HttpClient) { }
 
-  search(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<ModelOperation[]>> {
-    const paginatedResult: PaginatedResult<ModelOperation[]> = new PaginatedResult<ModelOperation[]>();
+  search(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<ModelOperation>> {
+    // const paginatedResult: PaginatedResult<ModelOperation[]> = new PaginatedResult<ModelOperation[]>();
     let params = new HttpParams();
     if(page != null && itemsPerPage != null){
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
     let url = this.baseUrl + 'modelOperation/modelOperation-list';
-    return this.http.post<any>(url, modelParam, { observe: 'response', params })
-    .pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-        if (response.headers.get('Pagination') != null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return paginatedResult;
-      }),
-    );
+    return this.http.post<PaginatedResult<ModelOperation>>(url, modelParam, {params });
+    // .pipe(
+    //   map(response => {
+    //     paginatedResult.result = response.body;
+    //     if (response.headers.get('Pagination') != null) {
+    //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    //     }
+    //     return paginatedResult;
+    //   }),
+    // );
   }
 
 

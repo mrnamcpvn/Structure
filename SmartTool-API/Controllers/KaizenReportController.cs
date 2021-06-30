@@ -41,7 +41,6 @@ namespace SmartTool_API.Controllers
         [HttpGet("getKaizens/{model_no}")]
         public async Task<IActionResult> GetKaizens([FromQuery]PaginationParams param,string model_no) {
             var result = await _ikaizenReport.GetKaiZens(param, factory, model_no);
-            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 
@@ -94,7 +93,6 @@ namespace SmartTool_API.Controllers
         [HttpPost("search")]
         public async Task<IActionResult> Search([FromQuery]PaginationParams param, KaizenReportParam filter) {
             var result = await _ikaizenReport.Search(param,filter, factory);
-            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 

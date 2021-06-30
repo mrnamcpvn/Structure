@@ -7,6 +7,7 @@ import { OperationResult } from '../_models/operation-result';
 import { PaginatedResult } from '../_models/pagination';
 import { RoleByUser } from '../_models/role-by-user';
 import { AddUser } from '../_models/user';
+import { UtilityService } from './utility.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +15,29 @@ import { AddUser } from '../_models/user';
 export class UserService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private utilityService: UtilityService,) { }
 
-  getUsers(account: string, isActive: string, page?, itemsPerPage?): Observable<PaginatedResult<AddUser[]>> {
-    const paginatedResult: PaginatedResult<AddUser[]> = new PaginatedResult<AddUser[]>();
-    let params = new HttpParams();
+  getUsers(account: string, isActive: string, page?, itemsPerPage?): Observable<PaginatedResult<AddUser>> {
+    // const paginatedResult: PaginatedResult<AddUser[]> = new PaginatedResult<AddUser[]>();
+    // let params = new HttpParams();
+    let params = this.utilityService.getParamPagination(page, itemsPerPage);
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
+    // if (page != null && itemsPerPage != null) {
+    //   params = params.append('pageNumber', page);
+    //   params = params.append('pageSize', itemsPerPage);
+    // }
     isActive = isActive === 'all' ? '' : isActive;
-    return this.http.get<any>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.get<PaginatedResult<AddUser>>(this.baseUrl + 'user?account=' + account + '&isActive=' + isActive, { params });
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
 
   changePassword(account: string, oldPassword: string, password: string) {
@@ -47,7 +50,6 @@ export class UserService {
   }
 
   addUser(addUser: any, file: File) {
-    debugger
     const formDataadd = this.getFormDataUser(addUser, file);
     return this.http.post(this.baseUrl + 'User/adduser', formDataadd);
   }
@@ -67,7 +69,6 @@ export class UserService {
   //
 
   editUser(updateUser: any, file: File) {
-    debugger
     const formDataadd = this.getFormDataUser(updateUser, file);
     return this.http.put(this.baseUrl + 'User/update', formDataadd);
   }

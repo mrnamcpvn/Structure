@@ -22,23 +22,23 @@ export class KaizenReportService {
   currentModel = this.modelSource.asObservable();
   kaizenSource = new BehaviorSubject<object>(null);
   currentKaizen = this.kaizenSource.asObservable();
-  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport[]>> {
-    const paginatedResult: PaginatedResult<ModelKaizenReport[]> = new PaginatedResult<ModelKaizenReport[]>();
+  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport>> {
+    // const paginatedResult: PaginatedResult<ModelKaizenReport[]> = new PaginatedResult<ModelKaizenReport[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    return this.http.post<any>(this.baseUrl + 'kaizenReport/search/', text, { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.post<PaginatedResult<ModelKaizenReport>>(this.baseUrl + 'kaizenReport/search/', text, {params });
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
   exportExcel(param: any, checkExport?: number) {
      let params = new HttpParams().set("param", param).set("checkExport", checkExport.toString());
@@ -74,23 +74,23 @@ export class KaizenReportService {
                                       {params: {upper_id: upper_id, season: season}});
   }
 
-  getKaizens(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<any[]>> {
-    const paginatedResult: PaginatedResult<any[]> = new PaginatedResult<any[]>();
+  getKaizens(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<any>> {
+    // const paginatedResult: PaginatedResult<any[]> = new PaginatedResult<any[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    return this.http.get<any>(this.baseUrl + 'kaizenReport/getKaizens/' + text, { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.get<PaginatedResult<any>>(this.baseUrl + 'kaizenReport/getKaizens/' + text, { params })
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
 
   updateClickTimes(data: any) {

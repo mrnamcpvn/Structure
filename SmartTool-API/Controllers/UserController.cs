@@ -56,7 +56,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetListUserPaging(string account, string isActive, int pageNumber = 1, int pageSize = 10)
         {
             var result = await _userService.GetListUserPaging(account, isActive, pageNumber, pageSize);
-            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
             return Ok(result);
         }
 

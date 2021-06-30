@@ -22,9 +22,9 @@ export class CrossSiteSharingListComponent implements OnInit {
   models:ModelCrossSiteSharing[]=[];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 0,
-    totalPages: 0,
+    totalPage: 10,
+    pageSize: 0,
+    totalCount: 0,
   };
   constructor(
     private crosssitesharingSerivce: CrossSiteSharingService,
@@ -53,7 +53,7 @@ export class CrossSiteSharingListComponent implements OnInit {
     this.crosssitesharingSerivce
       .search(
         this.pagination.currentPage,
-        this.pagination.itemsPerPage,
+        this.pagination.totalPage,
         this.filterParam
       )
       .subscribe((res) => {

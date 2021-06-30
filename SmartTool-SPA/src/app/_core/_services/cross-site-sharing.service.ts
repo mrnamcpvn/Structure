@@ -20,23 +20,23 @@ export class CrossSiteSharingService {
     private http: HttpClient,
   ) { }
 
-  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelCrossSiteSharing[]>> {
+  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelCrossSiteSharing>> {
     const paginatedResult: PaginatedResult<ModelCrossSiteSharing[]> = new PaginatedResult<ModelCrossSiteSharing[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    return this.http.post<any>(this.baseUrl + 'CrossSiteSharing/search/', text, { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.post<PaginatedResult<ModelCrossSiteSharing>>(this.baseUrl + 'CrossSiteSharing/search/', text, {params });
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
 
   getAllFactory() : Observable<Factory[]> {

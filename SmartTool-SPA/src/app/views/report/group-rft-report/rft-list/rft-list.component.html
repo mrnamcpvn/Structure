@@ -97,21 +97,20 @@
                 </tbody>
               </table>
             </div>
-            <div class="d-flex" *ngIf="rftreports.length > 0">
-              <pagination
-                [boundaryLinks]="true"
-                [totalItems]="pagination.totalItems"
-                [(ngModel)]="pagination.currentPage"
-                [itemsPerPage]="pagination.itemsPerPage"
-                (pageChanged)="pageChanged($event)"
-                previousText="&lsaquo;"
-                nextText="&rsaquo;"
-                firstText="&laquo;"
-                lastText="&raquo;"
-                [maxSize]="5"
-              >
+            <div id="pagination" *ngIf="pagination.totalPage > 1">
+              <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
+                [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
               </pagination>
-            </div>
+              <div id="itemRight">
+                <p *ngIf="pagination.totalCount >= (pagination.pageSize * pagination.currentPage)">
+                  Showing {{pagination.pageSize * pagination.currentPage}} in {{pagination.totalCount}} items
+                </p>
+                <p *ngIf="pagination.totalCount < (pagination.pageSize * pagination.currentPage)">
+                  Showing {{pagination.totalCount}} in {{pagination.totalCount}} items
+                </p>
+              </div>
+          </div>
           </div>
         </div>
       </div>

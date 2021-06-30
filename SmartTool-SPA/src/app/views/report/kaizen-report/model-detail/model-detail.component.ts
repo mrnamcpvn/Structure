@@ -28,9 +28,9 @@ export class ModelDetailComponent implements OnInit {
   url: any = environment.imageUrl;
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
-    totalItems: 0,
-    totalPages: 0,
+    totalPage: 0,
+    pageSize: 3,
+    totalCount: 0,
   };
   constructor(
     private router: Router,
@@ -160,7 +160,7 @@ export class ModelDetailComponent implements OnInit {
     this.kaizenService
       .getKaizens(
         this.pagination.currentPage,
-        this.pagination.itemsPerPage,
+        this.pagination.pageSize,
         this.model.model_no
       )
       .subscribe((res) => {

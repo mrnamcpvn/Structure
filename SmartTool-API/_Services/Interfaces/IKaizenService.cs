@@ -6,7 +6,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IKaizenService : IMainService<KaizenDTO>
     {
-        Task<PagedList<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory);
+        Task<PageListUtility<KaizenDTO>> Search(PaginationParams paginationParams, string model_no, string factory);
         Task<KaizenDTO> GetID(string modelNO);
         Task<object> GetModelNo(string factory);
         Task<object> getKaizenForm();

@@ -14,25 +14,25 @@ export class ModelService {
 
   constructor(private http:HttpClient) { }
 
-  searchMd(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<Model[]>>
+  searchMd(page?, itemsPerPage?, modelParam?: object): Observable<PaginatedResult<Model>>
   {
-    const paginatedResult: PaginatedResult<Model[]> = new PaginatedResult<Model[]>();
+    // const paginatedResult: PaginatedResult<Model[]> = new PaginatedResult<Model[]>();
     let params = new HttpParams();
     if(page != null && itemsPerPage != null){
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
     let url = this.baseUrl + 'model/model-list'; 
-    return this.http.post<any>(url, modelParam,{ observe: 'response', params})
-    .pipe(
-      map(response => {
-         paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-      }),
-    );
+    return this.http.post<PaginatedResult<Model>>(url, modelParam,{params});
+    // .pipe(
+    //   map(response => {
+    //      paginatedResult.result = response.body;
+    //       if (response.headers.get('Pagination') != null) {
+    //         paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    //       }
+    //       return paginatedResult;
+    //   }),
+    // );
   }
 
   addMd(model: object){

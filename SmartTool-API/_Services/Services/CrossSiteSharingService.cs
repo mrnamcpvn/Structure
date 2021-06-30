@@ -108,7 +108,7 @@ namespace SmartTool_API._Services.Services
 
         }
 
-        public async Task<PagedList<CrossSiteSharingDTO>> Search(PaginationParams param, CrossSiteSharingParam filterParam)
+        public async Task<PageListUtility<CrossSiteSharingDTO>> Search(PaginationParams param, CrossSiteSharingParam filterParam)
         {
             var form = _formRepository.FindAll();
             var model = _repoModel.FindAll();
@@ -134,7 +134,7 @@ namespace SmartTool_API._Services.Services
                             to_factory_id = a.to_factory_id,
                             IsChoise = false
                         }).OrderBy(x => x.doc_no == null ? 0 : 1).ThenByDescending(x => x.doc_no).ThenBy(x => x.model_no);
-                return await PagedList<CrossSiteSharingDTO>.CreateAsync(data, param.PageNumber, param.PageSize);
+                return await PageListUtility<CrossSiteSharingDTO>.PageListAsync(data, param.PageNumber, param.PageSize);
         }
 
         public async Task<OperationResult> UpdateCrossSiteSharing(Kaizen_Benefits_Application_FormDTO model)

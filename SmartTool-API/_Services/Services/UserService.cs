@@ -93,7 +93,7 @@ namespace SmartTool_API._Services.Services
             }
         }
 
-        public async Task<PagedList<UsersDTO>> GetListUserPaging(string account, string isActive, int pageNumber = 10, int pageSize = 10)
+        public async Task<PageListUtility<UsersDTO>> GetListUserPaging(string account, string isActive, int pageNumber = 10, int pageSize = 10)
         {
             var data = _userRepository.FindAll();
             if (!string.IsNullOrEmpty(account))
@@ -107,7 +107,7 @@ namespace SmartTool_API._Services.Services
             }
 
             var result = data.ProjectTo<UsersDTO>(_configMapper).OrderByDescending(x =>x.update_time);
-            return await PagedList<UsersDTO>.CreateAsync(result, pageNumber, pageSize);
+            return await PageListUtility<UsersDTO>.PageListAsync(result, pageNumber, pageSize);
         }
 
         public async Task<List<RoleByUserDTO>> GetRoleByUser(string account)

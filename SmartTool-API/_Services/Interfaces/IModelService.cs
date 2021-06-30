@@ -6,7 +6,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IModelService : IMainService<ModelDTO>
     {
-         Task<PagedList<ModelDTO>> SearchModel(PaginationParams paginationParams, ModelParam modelParam);
+         Task<PageListUtility<ModelDTO>> SearchModel(PaginationParams paginationParams, ModelParam modelParam);
 
          Task<object> GetModelType();
          Task<ModelDTO> GetByFactoryAndModelNo(string factID, string modelNO);

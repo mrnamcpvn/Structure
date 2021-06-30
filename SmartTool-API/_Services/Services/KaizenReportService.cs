@@ -65,7 +65,7 @@ namespace SmartTool_API._Services.Services
             return data;
         }
 
-        public async Task<PagedList<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no)
+        public async Task<PageListUtility<KaizenModelDetail>> GetKaiZens(PaginationParams param, string factory_id, string model_no, bool isPaging = true)
         {
             var kaizens =  _repoKaizen.FindAll(x => x.factory_id.Trim() == factory_id.Trim() && x.model_no.Trim() == model_no.Trim())
                     .OrderBy(x => x.serial_no);
@@ -92,7 +92,7 @@ namespace SmartTool_API._Services.Services
                             line_roll_out_percent = a.line_roll_out_percent,
                             clicks_times = a.clicks_times
                         }).OrderBy(x=>x.serial_no);
-            return await PagedList<KaizenModelDetail>.CreateAsync(data, param.PageNumber, param.PageSize);
+            return await PageListUtility<KaizenModelDetail>.PageListAsync(data, param.PageNumber, param.PageSize, isPaging);
         }
 
         public async Task<List<VW_ModelKaizen_Dto>> GetModelKaizens(string factory_id, KaizenReportParam filter)
@@ -125,7 +125,7 @@ namespace SmartTool_API._Services.Services
             return data;
         }
 
-        public async Task<PagedList<Model>> Search(PaginationParams param, KaizenReportParam filter, string factory_id)
+        public async Task<PageListUtility<Model>> Search(PaginationParams param, KaizenReportParam filter, string factory_id)
         {
             var pred_Model = PredicateBuilder.New<Model>(true);
             pred_Model.And(x => x.factory_id.Trim() == factory_id.Trim());
@@ -136,7 +136,7 @@ namespace SmartTool_API._Services.Services
                 pred_Model.And(x => x.is_active == ((filter.Active == "1") ? true : false));
             }
             var models = _repoModel.FindAll(pred_Model).OrderByDescending(x => x.prod_season).ThenBy(x => x.volume);
-            return await PagedList<Model>.CreateAsync(models, param.PageNumber, param.PageSize);
+            return await PageListUtility<Model>.PageListAsync(models, param.PageNumber, param.PageSize);
         }
 
         public async Task<bool> UpdateClickTimes(KaizenModelDetail model)

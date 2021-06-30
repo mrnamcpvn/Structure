@@ -64,7 +64,7 @@ namespace SmartTool_API._Services.Services
             return data;
         }
 
-        public async Task<PagedList<Model>> SearchRFTReport(PaginationParams paginationParams, RFTReportParam rftReportParam)
+        public async Task<PageListUtility<Model>> SearchRFTReport(PaginationParams paginationParams, RFTReportParam rftReportParam)
         {
             if (!String.IsNullOrEmpty(rftReportParam.factory_id))
             {
@@ -80,7 +80,7 @@ namespace SmartTool_API._Services.Services
                 data = data.Where(x => x.model_no.Contains(rftReportParam.model_no) || x.model_name.Contains(rftReportParam.model_no)).OrderByDescending(x => x.prod_season).ThenByDescending(x => x.volume).ToList();
             }
              _configuration.GetSection("AppSettings:DataSeach").Value ="";
-            return PagedList<Model>.Create(data, paginationParams.PageNumber, paginationParams.PageSize);
+            return PageListUtility<Model>.PageList(data, paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<List<VW_RFTReportDetailDTO>> SearchRFTReportDetail(RFTReportParam rftReportParam)

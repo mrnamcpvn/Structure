@@ -7,7 +7,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IUserService
     {
-        Task<PagedList<UsersDTO>> GetListUserPaging(string account, string isActive, int pageNumber = 10, int pageSize = 10);
+        Task<PageListUtility<UsersDTO>> GetListUserPaging(string account, string isActive, int pageNumber = 10, int pageSize = 10);
         Task<bool> AddUser(UsersDTO user, string updateBy);
         Task<bool> UpdateUser(UsersDTO user, string updateBy);
         Task<List<RoleByUserDTO>> GetRoleByUser(string account);

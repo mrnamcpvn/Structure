@@ -22,9 +22,9 @@ export class RftListComponent implements OnInit {
   rftreports: RFTReport[] = [];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 0,
+    pageSize: 10,
+    totalCount: 0,
   };
   constructor(
     private alertify: AlertifyService,
@@ -56,11 +56,11 @@ export class RftListComponent implements OnInit {
       this.rftreportService
         .searchRFTReport(
           this.pagination.currentPage,
-          this.pagination.itemsPerPage,
+          this.pagination.pageSize,
           this.paramSearch
         )
         .subscribe(
-          (res: PaginatedResult<RFTReport[]>) => {
+          (res: PaginatedResult<RFTReport>) => {
             this.rftreports = res.result;
             this.pagination = res.pagination;
             this.spinner.hide();

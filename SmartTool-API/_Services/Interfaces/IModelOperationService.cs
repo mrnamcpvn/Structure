@@ -6,7 +6,7 @@ namespace SmartTool_API._Services.Interfaces
 {
     public interface IModelOperationService
     {
-         Task<PagedList<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam);
+         Task<PageListUtility<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam);
          Task<bool> Add (Model_OperationDTO model);
          Task<bool> Update(Model_OperationDTO model);
          Task<bool> Delete(Model_OperationDTO operation);

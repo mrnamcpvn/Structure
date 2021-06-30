@@ -37,9 +37,9 @@ export class UserComponent implements OnInit {
   file: File;
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 1,
+    pageSize: 10,
+    totalCount: 1,
   };
   currentUser: User = JSON.parse(localStorage.getItem('userSmartTooling'));
   addUser: AddUser = new AddUser();
@@ -70,7 +70,7 @@ export class UserComponent implements OnInit {
   getUser() {
     console.log('Page: ',this.pagination);
     this.spinnerService.show();
-    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage)
+    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.pageSize)
       .subscribe(res => {
         this.users = res.result;
         console.log("User: ", this.users)
@@ -81,7 +81,7 @@ export class UserComponent implements OnInit {
 
   loadUserUpdate(): void {
     this.spinnerService.show();
-    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.itemsPerPage)
+    this.userService.getUsers(this.account, this.isActive, this.pagination.currentPage, this.pagination.pageSize)
       .subscribe(res => {
         this.users = res.result;
         let user = this.users.find(x => x.name === this.currentUser.name );
@@ -169,7 +169,6 @@ export class UserComponent implements OnInit {
         this.file = null;
     this.userService.editUser(this.editUser, this.file)
       .subscribe(() => {
-        debugger
         this.alertifyService.success('Update user success!');
         this.spinnerService.hide();
         this.modalEditUser.hide();

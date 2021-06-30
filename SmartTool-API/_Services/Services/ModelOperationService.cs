@@ -94,7 +94,7 @@ namespace SmartTool_API._Services.Services
             return models;
         }
 
-        public async Task<PagedList<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam)
+        public async Task<PageListUtility<Model_OperationDTO>> searchModelOperation(PaginationParams paginationParams, ModelOperationParam modelParam)
         {
             var pr_Model = PredicateBuilder.New<Model_Operation>(true);
             if(!string.IsNullOrEmpty(modelParam.model_search)){
@@ -126,7 +126,7 @@ namespace SmartTool_API._Services.Services
                  update_by = x.update_by,
 
             });
-            return await PagedList<Model_OperationDTO>.CreateAsync(listData,paginationParams.PageNumber, paginationParams.PageSize);
+            return await PageListUtility<Model_OperationDTO>.PageListAsync(listData,paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<bool> Update(Model_OperationDTO model)

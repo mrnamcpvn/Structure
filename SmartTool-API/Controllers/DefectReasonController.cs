@@ -57,7 +57,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetDefectReasons([FromQuery] PaginationParams param)
         {
             var defectreasons = await _defectreason.GetWithPaginations(param);
-            Response.AddPagination(defectreasons.CurrentPage, defectreasons.PageSize, defectreasons.TotalCount, defectreasons.TotalPages);
             return Ok(defectreasons);
         }
 
@@ -86,7 +85,6 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> Search([FromQuery] PaginationParams param, DefectReasonParam filter)
         {
             var lists = await _defectreason.SearchDefectReason(param, filter);
-            Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
 

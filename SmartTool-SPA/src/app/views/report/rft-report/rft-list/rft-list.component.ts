@@ -21,9 +21,9 @@ export class RftListComponent implements OnInit {
   rftreports: RFTReport[] = [];
   pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 10,
-    totalItems: 1,
-    totalPages: 1,
+    totalPage: 0,
+    pageSize: 10,
+    totalCount: 1,
   };
   constructor(
     private spinner: NgxSpinnerService,
@@ -45,11 +45,11 @@ export class RftListComponent implements OnInit {
     this.rftreportService
       .searchRFTReport(
         this.pagination.currentPage,
-        this.pagination.itemsPerPage,
+        this.pagination.pageSize,
         this.paramSearch
       )
       .subscribe(
-        (res: PaginatedResult<RFTReport[]>) => {
+        (res: PaginatedResult<RFTReport>) => {
           this.rftreports = res.result;
           this.pagination = res.pagination;
           this.spinner.hide();
@@ -72,6 +72,10 @@ export class RftListComponent implements OnInit {
   detailRFTReport(model: RFTReport) {
     this.rftreportService.rftDetail(model);
     this.router.navigate(["/report/rft-report/rft-detail"]);
+  }
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.loadrftreports();
   }
 
 }

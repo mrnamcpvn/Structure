@@ -29,23 +29,23 @@ export class GroupKaizenReportService {
     return this.http.get<Factory[]>(this.baseUrl + 'groupKaizenReport/getAllFactory/', {});
   }
 
-  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport[]>> {
-    const paginatedResult: PaginatedResult<ModelKaizenReport[]> = new PaginatedResult<ModelKaizenReport[]>();
+  search(page?, itemsPerPage?, text?: any): Observable<PaginatedResult<ModelKaizenReport>> {
+    // const paginatedResult: PaginatedResult<ModelKaizenReport[]> = new PaginatedResult<ModelKaizenReport[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
-    return this.http.post<any>(this.baseUrl + 'groupKaizenReport/search/', text, { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.post<PaginatedResult<ModelKaizenReport>>(this.baseUrl + 'groupKaizenReport/search/', text, { params });
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
 
   changeModel(model: ModelKaizenReport) {
@@ -53,7 +53,6 @@ export class GroupKaizenReportService {
   }
 
   exportExcel(param: any, check?: number) {
-    debugger
     let params = new HttpParams().set("factory_id", param.factory_id).set("model_No", param.model_No).set("active", param.active).set("check", check.toString());
     return this.http.get(this.baseUrl + 'groupkaizenreport/exportExcel',{responseType: 'blob',params })
       .subscribe((result: Blob) => {
@@ -93,8 +92,8 @@ export class GroupKaizenReportService {
     return this.http.get<string[]>(this.baseUrl + 'groupKaizenReport/getSeason', {params: {factory_id: factory_id, upper_id: upper_id} });
   }
 
-  getKaizens(page?, itemsPerPage?, factory_id?: string, model_no?: string): Observable<PaginatedResult<any[]>> {
-    const paginatedResult: PaginatedResult<any[]> = new PaginatedResult<any[]>();
+  getKaizens(page?, itemsPerPage?, factory_id?: string, model_no?: string): Observable<PaginatedResult<any>> {
+    // const paginatedResult: PaginatedResult<any[]> = new PaginatedResult<any[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
@@ -102,16 +101,16 @@ export class GroupKaizenReportService {
       params = params.append('factory_id', factory_id);
       params = params.append('model_no', model_no);
     }
-    return this.http.get<any>(this.baseUrl + 'groupKaizenReport/getKaizens', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return paginatedResult;
-        }),
-      );
+    return this.http.get<PaginatedResult<any>>(this.baseUrl + 'groupKaizenReport/getKaizens', { params });
+      // .pipe(
+      //   map(response => {
+      //     paginatedResult.result = response.body;
+      //     if (response.headers.get('Pagination') != null) {
+      //       paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      //     }
+      //     return paginatedResult;
+      //   }),
+      // );
   }
 
   updateClickTimes(data: any) {
