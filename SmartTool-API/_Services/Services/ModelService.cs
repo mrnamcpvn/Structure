@@ -72,10 +72,7 @@ namespace SmartTool_API._Services.Services
             .Select(x => new {Id = x.Key.model_type_id, Name = x.Key.model_type_name}).ToListAsync();
         }
 
-        public Task<bool> Delete(object id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public Task<List<ModelDTO>> GetAllAsync()
         {
@@ -111,5 +108,16 @@ namespace SmartTool_API._Services.Services
              return model;
         }
 
+        public Task<bool> Delete(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Delete(ModelDTO model)
+        {
+            var models = _mapper.Map<Model>(model);
+            _repo.Remove(models);
+            return await _repo.SaveAll();
+        }
     }
 }

@@ -7,7 +7,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Repositories.Interfaces;
 using SmartTool_API._Services.Interfaces;
@@ -99,7 +98,7 @@ namespace SmartTool_API._Services.Services
             {
                 var modelOperation = _mapper.Map<Model_Operation>(model);
                 _repoModelOperation.Add(modelOperation);
-                return await _repoModelOperation.SaveAll();
+                    return await _repoModelOperation.SaveAll();
             }
             else return false;
         }

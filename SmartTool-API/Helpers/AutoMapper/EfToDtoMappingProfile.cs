@@ -13,13 +13,13 @@ namespace SmartTool_API.Helpers.AutoMapper
             CreateMap<Users, UserDTO>();
             CreateMap<Measurement_RFT, Measurement_RFTDTO>();
             CreateMap<Stage, StageDTO>();
-            CreateMap<Defect_Reason, DefectReasonDTO> ();
+            CreateMap<Defect_Reason, DefectReasonDTO>();
             CreateMap<Model_Operation, ModelOperationDTO>();
-            CreateMap<Kaizen,KaizenDTO>();
+            CreateMap<Kaizen, KaizenDTO>();
             CreateMap<Efficiency, ModelEfficiencyDTO>();
             CreateMap<VW_RFTReportDetail, VW_RFTReportDetailDTO>();
             CreateMap<VW_RFT_AVG, VW_RFT_AVGDTO>();
-             CreateMap<Kaizen_Benefits_Application_Form, Kaizen_Benefits_Application_FormDTO>();
+            CreateMap<Kaizen_Benefits_Application_Form, Kaizen_Benefits_Application_FormDTO>();
         }
     }
 }

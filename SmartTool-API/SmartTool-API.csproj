@@ -14,5 +14,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7"/>
     <PackageReference Include="LinqKit" Version="1.1.24"/>
+    <PackageReference Include="Aspose.Cells" Version="21.6.0"/>
   </ItemGroup>
 </Project>

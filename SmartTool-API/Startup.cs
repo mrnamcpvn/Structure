@@ -67,25 +67,37 @@ namespace SmartTool_API
                 });
 
             //Repository
+            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
+            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleUserRepository, RoleUserRepository>();
-            services.AddScoped<IModelRepository, ModelRepository>();
-            services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
-            services.AddScoped<IModelRepository, ModelRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IKaizenRepository, KaizenRepository>();
-            services.AddScoped<IModelOperationRepository, ModelOperationRepository>();
+            services.AddScoped<IFactoryRepository, FactoryRepository>();
             services.AddScoped<IDefectReasonRepository, DefectReasonRepository>();
+            services.AddScoped<IKaizenRepository, KaizenRepository>();
+            services.AddScoped<IEfficiencyRepository, EfficiencyRepository>();
             services.AddScoped<IMeasurement_RFTRepository,Measurement_RFTRepository>();
             services.AddScoped<IStageRepository,StageRepository>();
             services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+            services.AddScoped<IViewRFTReportDetailRepository, ViewRFTReportDetailRepository>();
+            services.AddScoped<IViewRFTAVGRepository, ViewRFTAVGRepository>();
+            services.AddScoped<IViewModelKaizenRepository, ViewModelKaizenRepository>();
+            services.AddScoped<IKaizenBenefitsApplicationFormRepository,KaizenBenefitsApplicationFormRepository>();
 
             //Services
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IModelService, ModelService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IModelOperationService, ModelOperationService>();
+            services.AddScoped<IDefectReasonService, DefectReasonService>();
+            services.AddScoped<IKaizenService,KaizenService>();
+            services.AddScoped<IKaizenReportService, KaizenReportService>();
             services.AddScoped<IRFTService, RFTService>();
+            services.AddScoped<IGroupKaizenReportService, GroupKaizenReportService>();
+            services.AddScoped<IModelEfficiencyService, ModelEfficiencyService>();
+            services.AddScoped<IRFTReportService, RFTReportService>();
+            
 
             services.AddSwaggerGen(c =>
             {
@@ -128,14 +140,11 @@ namespace SmartTool_API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTool_API v1"));
             }
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseHttpsRedirection();
             app.UseRouting();
-            // app.UseCors ("CorsPolicy");
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -150,11 +159,6 @@ namespace SmartTool_API
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTooling API V1");
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
             });
         }
     }

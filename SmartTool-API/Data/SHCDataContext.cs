@@ -3,27 +3,27 @@ using SmartTool_API.Models;
 
 namespace SmartTool_API.Data
 {
-    public partial  class SHCDataContext : DbContext
+    public partial class SHCDataContext : DbContext
     {
         public virtual DbSet<Defect_Reason> Defect_Reason { get; set; }
-public virtual DbSet<Efficiency> Efficiency { get; set; }
-public virtual DbSet<Factory> Factory { get; set; }
-public virtual DbSet<Kaizen> Kaizen { get; set; }
-public virtual DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form { get; set; }
-public virtual DbSet<Measurement_RFT> Measurement_RFT { get; set; }
-public virtual DbSet<Model> Model { get; set; }
-public virtual DbSet<Model_Operation> Model_Operation { get; set; }
-public virtual DbSet<Model_Type> Model_Type { get; set; }
-public virtual DbSet<Process_Type> Process_Type { get; set; }
-public virtual DbSet<RoleUser> RoleUser { get; set; }
-public virtual DbSet<Roles> Roles { get; set; }
-public virtual DbSet<Stage> Stage { get; set; }
-public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Efficiency> Efficiency { get; set; }
+        public virtual DbSet<Factory> Factory { get; set; }
+        public virtual DbSet<Kaizen> Kaizen { get; set; }
+        public virtual DbSet<Kaizen_Benefits_Application_Form> Kaizen_Benefits_Application_Form { get; set; }
+        public virtual DbSet<Measurement_RFT> Measurement_RFT { get; set; }
+        public virtual DbSet<Model> Model { get; set; }
+        public virtual DbSet<Model_Operation> Model_Operation { get; set; }
+        public virtual DbSet<Model_Type> Model_Type { get; set; }
+        public virtual DbSet<Process_Type> Process_Type { get; set; }
+        public virtual DbSet<RoleUser> RoleUser { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Stage> Stage { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
-public SHCDataContext(DbContextOptions<SHCDataContext> options) : base(options)
-{
- }
-  protected  override void OnModelCreating(ModelBuilder modelBuilder)
+        public SHCDataContext(DbContextOptions<SHCDataContext> options) : base(options)
+        {
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
@@ -90,5 +90,5 @@ public SHCDataContext(DbContextOptions<SHCDataContext> options) : base(options)
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-}
+    }
 }

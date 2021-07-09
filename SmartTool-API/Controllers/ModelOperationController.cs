@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SmartTool_API._Services.Interfaces;
@@ -17,16 +19,20 @@ namespace SmartTool_API.Controllers
     {
         private readonly IModelOperationService _modelOperationService;
         private readonly IRFTService _iRFTService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private string username;
         private string factory;
-        public ModelOperationController(IModelOperationService modelOperationService, IRFTService iRFTService,  IConfiguration configuration)
+        public ModelOperationController(IModelOperationService modelOperationService, IRFTService iRFTService,
+                                        IWebHostEnvironment webHostEnvironment,
+                                        IConfiguration configuration)
         {
-            _iRFTService = iRFTService;
             _modelOperationService = modelOperationService;
+            _iRFTService = iRFTService;
+            _webHostEnvironment = webHostEnvironment;
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-        private string GetUserClaim() {
+        private string GetUserClaim(){
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
@@ -37,6 +43,7 @@ namespace SmartTool_API.Controllers
             Response.AddPagination(lists.CurrentPage, lists.PageSize, lists.TotalCount, lists.TotalPages);
             return Ok(lists);
         }
+        
 
         [HttpGet("model-no")]
         public async Task<IActionResult> GetAllModel() => Ok(await _iRFTService.GetAllModel());
@@ -54,7 +61,7 @@ namespace SmartTool_API.Controllers
             modelOperationDto.create_by = GetUserClaim();
             modelOperationDto.create_time = DateTime.Now;
             modelOperationDto.factory_id = factory;
-            if (await _modelOperationService.Add(modelOperationDto))
+            if(await _modelOperationService.Add(modelOperationDto))
             {
                 return NoContent();
             }
@@ -65,7 +72,7 @@ namespace SmartTool_API.Controllers
         public async Task<IActionResult> GetModelOperation([FromBody] ModelOperationEditParam modelOperationEditParam)
         {
             var modelRepo = await _modelOperationService.GetModelOperation(modelOperationEditParam);
-            if (modelRepo != null)
+            if(modelRepo != null)
             {
                 return Ok(modelRepo);
             }
@@ -77,18 +84,17 @@ namespace SmartTool_API.Controllers
         {
             modelOperationDTO.update_by = GetUserClaim();
             modelOperationDTO.update_time = DateTime.Now;
-            if (await _modelOperationService.Update(modelOperationDTO))
+            if(await _modelOperationService.Update(modelOperationDTO))
                 return NoContent();
             return BadRequest($"Updating Model Operation failed on save");
         }
 
-
         [HttpPost("deleteModelOperation")]
         public async Task<IActionResult> DeleteModelOperation(ModelOperationDTO operationDTO)
         {
-            if (await _modelOperationService.Delete(operationDTO))
+            if(await _modelOperationService.Delete(operationDTO))
                 return NoContent();
-            return BadRequest($"The Model Operation is already in use, it cannot be deleted");
+            return BadRequest($"The Model Operation is Already in use, it cannot be deleted");
         }
     }
 }

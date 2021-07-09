@@ -14,7 +14,6 @@ using SmartTool_API.Helpers;
 
 namespace SmartTooling_API.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ModelController : ControllerBase
@@ -23,8 +22,8 @@ namespace SmartTooling_API.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        private string username ;
-        private string factory ;
+        private string username;
+        private string factory;
 
         public ModelController(IModelService modelService, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
@@ -33,7 +32,8 @@ namespace SmartTooling_API.Controllers
             factory = configuration.GetSection("AppSettings:Factory").Value;
         }
 
-         private string GetUserClaim() {
+        private string GetUserClaim()
+        {
             return username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
@@ -51,24 +51,26 @@ namespace SmartTooling_API.Controllers
             modelDto.update_by = GetUserClaim();
             modelDto.create_by = GetUserClaim();
             modelDto.factory_id = factory;
-            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
-            if(modelDto.model_picture == null || modelDto.model_picture == "") {
+            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
+            if (modelDto.model_picture == null || modelDto.model_picture == "")
+            {
                 var fileName = "no-image.jpg";
-                modelDto.model_picture = factory+"/Model/"+ fileName;
-            } 
-            else {
+                modelDto.model_picture = factory + "/Model/" + fileName;
+            }
+            else
+            {
                 var source = modelDto.model_picture;
                 string base64 = source.Substring(source.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] modelData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                var fileName = factory + "_" + modelDto.model_no + ".jpg";
                 string filePathImages = Path.Combine(folder, fileName);
                 System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = factory + "/Model/" + fileName;
             }
             if (await _modelService.Add(modelDto))
             {
@@ -89,29 +91,29 @@ namespace SmartTooling_API.Controllers
         public async Task<IActionResult> updateModel([FromBody] ModelDTO modelDto)
         {
             modelDto.update_by = GetUserClaim();
-            modelDto.update_time = DateTime.Now;    
-            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\"+factory+"\\Model\\";
-            if(modelDto.model_picture.Length > 100)
+            modelDto.update_time = DateTime.Now;
+            string folder = _webHostEnvironment.WebRootPath + "\\uploaded\\" + factory + "\\Model\\";
+            if (modelDto.model_picture.Length > 100)
             {
                 var source = modelDto.model_picture;
                 string base64 = source.Substring(source.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] modelData = Convert.FromBase64String(base64);
                 if (!Directory.Exists(folder))
-                    {
-                        Directory.CreateDirectory(folder);
-                    }
-                var fileName = factory + "_" + modelDto.model_no +".jpg";
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                var fileName = factory + "_" + modelDto.model_no + ".jpg";
                 string filePathImages = Path.Combine(folder, fileName);
-                 // kiểm tra file cũ có chưa xóa đi
+                // kiểm tra file cũ có chưa xóa đi
                 if (System.IO.File.Exists(filePathImages))
                 {
                     System.IO.File.Delete(filePathImages);
                 }
                 System.IO.File.WriteAllBytes(filePathImages, modelData);
-                modelDto.model_picture = factory+"/Model/"+ fileName;
+                modelDto.model_picture = factory + "/Model/" + fileName;
             }
-            
+
             if (await _modelService.Update(modelDto))
             {
                 return NoContent();
@@ -119,7 +121,7 @@ namespace SmartTooling_API.Controllers
             throw new Exception("Creating the Model failed on save");
         }
 
-         [HttpGet("edit/{modelNo}")]
+        [HttpGet("edit/{modelNo}")]
         public async Task<ActionResult> GetByFactoryAndModelNo(string modelNo)
         {
             var modelRepo = await _modelService.GetByFactoryAndModelNo(factory, modelNo);
@@ -128,6 +130,14 @@ namespace SmartTooling_API.Controllers
                 return Ok(modelRepo);
             }
             return NoContent();
+        }
+
+        [HttpPost("deleteModel")]
+        public async Task<IActionResult> DeleteModel(ModelDTO modelDTO)
+        {
+            if (await _modelService.Delete(modelDTO))
+                return NoContent();
+            return BadRequest($"The Model can not delete");
         }
     }
 }
